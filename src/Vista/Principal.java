@@ -1,6 +1,9 @@
 
 package Vista;
 
+import java.awt.Dimension;
+import static java.awt.Frame.MAXIMIZED_BOTH;
+
 /**
  *
  * @author SwichBlade15
@@ -21,25 +24,72 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDesktopPane1 = new javax.swing.JDesktopPane();
+        lblProceso = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        Clientes = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
+        mnuFacturas = new javax.swing.JMenu();
+        mnuClientes = new javax.swing.JMenu();
+        mnuReportes = new javax.swing.JMenu();
+        mnuHerramientas = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jMenu1.setText("Facturas");
-        jMenuBar1.add(jMenu1);
+        jDesktopPane1.setBackground(new java.awt.Color(224, 224, 224));
 
-        Clientes.setText("Clientes");
-        jMenuBar1.add(Clientes);
+        lblProceso.setBackground(new java.awt.Color(255, 255, 255));
+        lblProceso.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblProceso.setText("lblProceso");
 
-        jMenu2.setText("Reportes");
-        jMenuBar1.add(jMenu2);
+        jDesktopPane1.setLayer(lblProceso, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        jMenu3.setText("Herramientas");
-        jMenuBar1.add(jMenu3);
+        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
+        jDesktopPane1.setLayout(jDesktopPane1Layout);
+        jDesktopPane1Layout.setHorizontalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
+                .addContainerGap(810, Short.MAX_VALUE)
+                .addComponent(lblProceso, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jDesktopPane1Layout.setVerticalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addComponent(lblProceso, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(436, Short.MAX_VALUE))
+        );
+
+        mnuFacturas.setText("Facturas");
+        mnuFacturas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mnuFacturasMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(mnuFacturas);
+
+        mnuClientes.setText("Clientes");
+        mnuClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mnuClientesMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(mnuClientes);
+
+        mnuReportes.setText("Reportes");
+        mnuReportes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mnuReportesMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(mnuReportes);
+
+        mnuHerramientas.setText("Herramientas");
+        mnuHerramientas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mnuHerramientasMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(mnuHerramientas);
 
         setJMenuBar(jMenuBar1);
 
@@ -47,15 +97,99 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 896, Short.MAX_VALUE)
+            .addComponent(jDesktopPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 497, Short.MAX_VALUE)
+            .addComponent(jDesktopPane1)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void mnuFacturasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnuFacturasMouseClicked
+        Facturas form = new Facturas();
+        jDesktopPane1.add(form);
+        lblProceso.setText("Proceso: ON");
+
+        form.setClosable(true);
+        form.setIconifiable(true);
+        try {
+            Dimension desktopSize = jDesktopPane1.getSize();
+            Dimension FrameSize = form.getSize();
+            form.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
+            form.show();
+        } catch (Exception e) {
+        }
+
+        form.toFront();
+        form.setVisible(true);
+        this.setLocationRelativeTo(null);
+        this.setExtendedState(MAXIMIZED_BOTH);
+    }//GEN-LAST:event_mnuFacturasMouseClicked
+
+    private void mnuClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnuClientesMouseClicked
+        Clientes form = new Clientes();
+        jDesktopPane1.add(form);
+        lblProceso.setText("Proceso: ON");
+
+        form.setClosable(true);
+        form.setIconifiable(true);
+        try {
+            Dimension desktopSize = jDesktopPane1.getSize();
+            Dimension FrameSize = form.getSize();
+            form.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
+            form.show();
+        } catch (Exception e) {
+        }
+
+        form.toFront();
+        form.setVisible(true);
+        this.setLocationRelativeTo(null);
+        this.setExtendedState(MAXIMIZED_BOTH);
+    }//GEN-LAST:event_mnuClientesMouseClicked
+
+    private void mnuReportesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnuReportesMouseClicked
+        Reportes form = new Reportes();
+        jDesktopPane1.add(form);
+        lblProceso.setText("Proceso: ON");
+
+        form.setClosable(true);
+        form.setIconifiable(true);
+        try {
+            Dimension desktopSize = jDesktopPane1.getSize();
+            Dimension FrameSize = form.getSize();
+            form.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
+            form.show();
+        } catch (Exception e) {
+        }
+
+        form.toFront();
+        form.setVisible(true);
+        this.setLocationRelativeTo(null);
+        this.setExtendedState(MAXIMIZED_BOTH);
+    }//GEN-LAST:event_mnuReportesMouseClicked
+
+    private void mnuHerramientasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnuHerramientasMouseClicked
+        Herramientas form = new Herramientas();
+        jDesktopPane1.add(form);
+        lblProceso.setText("Proceso: ON");
+
+        form.setClosable(true);
+        form.setIconifiable(true);
+        try {
+            Dimension desktopSize = jDesktopPane1.getSize();
+            Dimension FrameSize = form.getSize();
+            form.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
+            form.show();
+        } catch (Exception e) {
+        }
+
+        form.toFront();
+        form.setVisible(true);
+        this.setLocationRelativeTo(null);
+        this.setExtendedState(MAXIMIZED_BOTH);
+    }//GEN-LAST:event_mnuHerramientasMouseClicked
 
     /**
      * @param args the command line arguments
@@ -93,10 +227,12 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu Clientes;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
+    private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JLabel lblProceso;
+    private javax.swing.JMenu mnuClientes;
+    private javax.swing.JMenu mnuFacturas;
+    private javax.swing.JMenu mnuHerramientas;
+    private javax.swing.JMenu mnuReportes;
     // End of variables declaration//GEN-END:variables
 }
