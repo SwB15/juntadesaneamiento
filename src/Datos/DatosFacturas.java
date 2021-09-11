@@ -9,6 +9,7 @@ import java.sql.Date;
  */
 public class DatosFacturas {
     private int id;
+    private String boleta;
     private String mes;
     private Date vencimiento;
     private int importe;
@@ -23,8 +24,9 @@ public class DatosFacturas {
     private int total;
     private int idclientes;
 
-    public DatosFacturas(int id, String mes, Date vencimiento, int importe, int atraso, int conexion, Date fechaInicio, Date fechaCierre, int estadoInicio, int estadoCierre, int consumoMinimo, int excedente, int total, int idclientes) {
+    public DatosFacturas(int id, String boleta, String mes, Date vencimiento, int importe, int atraso, int conexion, Date fechaInicio, Date fechaCierre, int estadoInicio, int estadoCierre, int consumoMinimo, int excedente, int total, int idclientes) {
         this.id = id;
+        this.boleta = boleta;
         this.mes = mes;
         this.vencimiento = vencimiento;
         this.importe = importe;
@@ -39,6 +41,7 @@ public class DatosFacturas {
         this.total = total;
         this.idclientes = idclientes;
     }
+
     
     public DatosFacturas() {
     }
@@ -49,6 +52,14 @@ public class DatosFacturas {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getBoleta() {
+        return boleta;
+    }
+
+    public void setBoleta(String boleta) {
+        this.boleta = boleta;
     }
 
     public String getMes() {
