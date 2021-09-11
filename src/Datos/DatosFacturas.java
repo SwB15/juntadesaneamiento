@@ -1,10 +1,159 @@
 
 package Datos;
 
+import java.sql.Date;
+
 /**
  *
  * @author SwichBlade15
  */
 public class DatosFacturas {
+    private int id;
+    private String mes;
+    private Date vencimiento;
+    private int importe;
+    private int atraso;
+    private int conexion;
+    private Date fechaInicio;
+    private Date fechaCierre;
+    private int estadoInicio;
+    private int estadoCierre;
+    private int consumoMinimo;
+    private int excedente;
+    private int total;
+    private int idclientes;
+
+    public DatosFacturas(int id, String mes, Date vencimiento, int importe, int atraso, int conexion, Date fechaInicio, Date fechaCierre, int estadoInicio, int estadoCierre, int consumoMinimo, int excedente, int total, int idclientes) {
+        this.id = id;
+        this.mes = mes;
+        this.vencimiento = vencimiento;
+        this.importe = importe;
+        this.atraso = atraso;
+        this.conexion = conexion;
+        this.fechaInicio = fechaInicio;
+        this.fechaCierre = fechaCierre;
+        this.estadoInicio = estadoInicio;
+        this.estadoCierre = estadoCierre;
+        this.consumoMinimo = consumoMinimo;
+        this.excedente = excedente;
+        this.total = total;
+        this.idclientes = idclientes;
+    }
+    
+    public DatosFacturas() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getMes() {
+        return mes;
+    }
+
+    public void setMes(String mes) {
+        this.mes = mes;
+    }
+
+    public Date getVencimiento() {
+        return vencimiento;
+    }
+
+    public void setVencimiento(Date vencimiento) {
+        this.vencimiento = vencimiento;
+    }
+
+    public int getImporte() {
+        return importe;
+    }
+
+    public void setImporte(int importe) {
+        this.importe = importe;
+    }
+
+    public int getAtraso() {
+        return atraso;
+    }
+
+    public void setAtraso(int atraso) {
+        this.atraso = atraso;
+    }
+
+    public int getConexion() {
+        return conexion;
+    }
+
+    public void setConexion(int conexion) {
+        this.conexion = conexion;
+    }
+
+    public Date getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public Date getFechaCierre() {
+        return fechaCierre;
+    }
+
+    public void setFechaCierre(Date fechaCierre) {
+        this.fechaCierre = fechaCierre;
+    }
+
+    public int getEstadoInicio() {
+        return estadoInicio;
+    }
+
+    public void setEstadoInicio(int estadoInicio) {
+        this.estadoInicio = estadoInicio;
+    }
+
+    public int getEstadoCierre() {
+        return estadoCierre;
+    }
+
+    public void setEstadoCierre(int estadoCierre) {
+        this.estadoCierre = estadoCierre;
+    }
+
+    public int getConsumoMinimo() {
+        return consumoMinimo;
+    }
+
+    public void setConsumoMinimo(int consumoMinimo) {
+        this.consumoMinimo = consumoMinimo;
+    }
+
+    public int getExcedente() {
+        return excedente;
+    }
+
+    public void setExcedente(int excedente) {
+        this.excedente = excedente;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public int getIdclientes() {
+        return idclientes;
+    }
+
+    public void setIdclientes(int idclientes) {
+        this.idclientes = idclientes;
+    }
+
     
 }

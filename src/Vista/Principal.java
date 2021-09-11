@@ -26,6 +26,7 @@ public class Principal extends javax.swing.JFrame {
 
         jDesktopPane1 = new javax.swing.JDesktopPane();
         lblProceso = new javax.swing.JLabel();
+        txtAceptarCancelar = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuFacturas = new javax.swing.JMenu();
         mnuClientes = new javax.swing.JMenu();
@@ -41,14 +42,17 @@ public class Principal extends javax.swing.JFrame {
         lblProceso.setText("lblProceso");
 
         jDesktopPane1.setLayer(lblProceso, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(txtAceptarCancelar, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
+            .addGroup(jDesktopPane1Layout.createSequentialGroup()
                 .addContainerGap(810, Short.MAX_VALUE)
-                .addComponent(lblProceso, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblProceso, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
+                    .addComponent(txtAceptarCancelar))
                 .addContainerGap())
         );
         jDesktopPane1Layout.setVerticalGroup(
@@ -56,7 +60,9 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
                 .addGap(38, 38, 38)
                 .addComponent(lblProceso, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(436, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtAceptarCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(410, Short.MAX_VALUE))
         );
 
         mnuFacturas.setText("Facturas");
@@ -234,5 +240,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu mnuFacturas;
     private javax.swing.JMenu mnuHerramientas;
     private javax.swing.JMenu mnuReportes;
+    public static javax.swing.JTextField txtAceptarCancelar;
     // End of variables declaration//GEN-END:variables
 }

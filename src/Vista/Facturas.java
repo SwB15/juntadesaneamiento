@@ -1,14 +1,47 @@
-
 package Vista;
+
+import Datos.DatosFacturas;
+import Funciones.FuncionesFacturas;
+import Vista.Notificaciones.Aceptar_Cancelar;
+import Vista.Notificaciones.Advertencia;
+import Vista.Notificaciones.Fallo;
+import Vista.Notificaciones.Realizado;
+import java.awt.Frame;
+import java.util.Date;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author SwichBlade15
  */
-public class Facturas extends javax.swing.JInternalFrame {
+public final class Facturas extends javax.swing.JInternalFrame {
+
+    DatosFacturas datos = new DatosFacturas();
+    FuncionesFacturas funcion = new FuncionesFacturas();
 
     public Facturas() {
         initComponents();
+        mostrar("");
+    }
+
+    public void mostrar(String buscar) {
+        try {
+            DefaultTableModel modelo;
+            modelo = funcion.mostrar(buscar);
+            tblFacturas.setModel(modelo);
+            ocultar_columnas();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    public void ocultar_columnas() {
+        tblFacturas.getColumnModel().getColumn(0).setMaxWidth(0);
+        tblFacturas.getColumnModel().getColumn(0).setMinWidth(0);
+        tblFacturas.getColumnModel().getColumn(0).setPreferredWidth(0);
     }
 
     /**
@@ -36,10 +69,10 @@ public class Facturas extends javax.swing.JInternalFrame {
         txtBoleta = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        txtMes = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        txtVencimiento = new javax.swing.JTextField();
+        dchVencimiento = new com.toedter.calendar.JDateChooser();
         jPanel4 = new javax.swing.JPanel();
         txtNumeroUsuario = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
@@ -52,9 +85,9 @@ public class Facturas extends javax.swing.JInternalFrame {
         jPanel7 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        txtInicioLectura = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        txtCierreLectura = new javax.swing.JTextField();
+        dchFechaInicio = new com.toedter.calendar.JDateChooser();
+        dchFechaCierre = new com.toedter.calendar.JDateChooser();
         jPanel8 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -78,18 +111,25 @@ public class Facturas extends javax.swing.JInternalFrame {
         jLabel27 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
+        txtImporteMedidor = new javax.swing.JTextField();
+        txtImporteMinimo = new javax.swing.JTextField();
+        txtImporteExcedentes = new javax.swing.JTextField();
+        txtImporteAtrasos = new javax.swing.JTextField();
+        txtImporteConexion = new javax.swing.JTextField();
+        txtImporteIva = new javax.swing.JTextField();
         txtImporteTotal = new javax.swing.JTextField();
-        txtImporteTotal1 = new javax.swing.JTextField();
-        txtImporteTotal2 = new javax.swing.JTextField();
-        txtImporteTotal3 = new javax.swing.JTextField();
-        txtImporteTotal4 = new javax.swing.JTextField();
-        txtImporteTotal5 = new javax.swing.JTextField();
-        txtImporteTotal6 = new javax.swing.JTextField();
+        txtIdfacturas = new javax.swing.JTextField();
+        txtIdclientes = new javax.swing.JTextField();
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 30)); // NOI18N
         jLabel1.setText("Facturas");
 
         txtBuscar.setText("Buscar");
+        txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscarKeyReleased(evt);
+            }
+        });
 
         tblFacturas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -105,10 +145,25 @@ public class Facturas extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(tblFacturas);
 
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         btnNuevo.setText("Nuevo");
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         rbtnClientes.setText("Clientes");
 
@@ -151,21 +206,21 @@ public class Facturas extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Mes:");
 
-        txtMes.setText("Septiembre");
+        jComboBox1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(txtMes, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
-                        .addComponent(jLabel3)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(42, 42, 42)
+                .addComponent(jLabel3)
+                .addContainerGap(40, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jComboBox1, 0, 0, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -173,20 +228,13 @@ public class Facturas extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel8.setText("Vencimiento:");
-
-        txtVencimiento.setText("22/17/2022");
-        txtVencimiento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtVencimientoActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -196,7 +244,7 @@ public class Facturas extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8)
-                    .addComponent(txtVencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dchVencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -204,9 +252,9 @@ public class Facturas extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtVencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(dchVencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -298,19 +346,7 @@ public class Facturas extends javax.swing.JInternalFrame {
 
         jLabel6.setText("Inicio");
 
-        txtInicioLectura.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtInicioLecturaActionPerformed(evt);
-            }
-        });
-
         jLabel7.setText("Cierre");
-
-        txtCierreLectura.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCierreLecturaActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -319,30 +355,32 @@ public class Facturas extends javax.swing.JInternalFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(txtInicioLectura, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtCierreLectura, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel19)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(42, 42, 42)
-                        .addComponent(jLabel7)))
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(dchFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(dchFechaCierre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel19)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtInicioLectura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCierreLectura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(dchFechaCierre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(jLabel19)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(dchFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -407,6 +445,9 @@ public class Facturas extends javax.swing.JInternalFrame {
 
         jLabel22.setText("Minimo");
 
+        txtConsumoMinimo.setEditable(false);
+        txtConsumoMinimo.setBackground(new java.awt.Color(255, 255, 255));
+        txtConsumoMinimo.setText("10");
         txtConsumoMinimo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtConsumoMinimoActionPerformed(evt);
@@ -487,52 +528,52 @@ public class Facturas extends javax.swing.JInternalFrame {
 
         jLabel29.setText("Total a pagar");
 
-        txtImporteTotal.setText("99.999.999");
+        txtImporteMedidor.setText("99");
+        txtImporteMedidor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtImporteMedidorActionPerformed(evt);
+            }
+        });
+
+        txtImporteMinimo.setText("99");
+        txtImporteMinimo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtImporteMinimoActionPerformed(evt);
+            }
+        });
+
+        txtImporteExcedentes.setText("99");
+        txtImporteExcedentes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtImporteExcedentesActionPerformed(evt);
+            }
+        });
+
+        txtImporteAtrasos.setText("99");
+        txtImporteAtrasos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtImporteAtrasosActionPerformed(evt);
+            }
+        });
+
+        txtImporteConexion.setText("99");
+        txtImporteConexion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtImporteConexionActionPerformed(evt);
+            }
+        });
+
+        txtImporteIva.setText("99");
+        txtImporteIva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtImporteIvaActionPerformed(evt);
+            }
+        });
+
+        txtImporteTotal.setText("99");
         txtImporteTotal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtImporteTotalActionPerformed(evt);
-            }
-        });
-
-        txtImporteTotal1.setText("99.999.999");
-        txtImporteTotal1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtImporteTotal1ActionPerformed(evt);
-            }
-        });
-
-        txtImporteTotal2.setText("99.999.999");
-        txtImporteTotal2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtImporteTotal2ActionPerformed(evt);
-            }
-        });
-
-        txtImporteTotal3.setText("99.999.999");
-        txtImporteTotal3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtImporteTotal3ActionPerformed(evt);
-            }
-        });
-
-        txtImporteTotal4.setText("99.999.999");
-        txtImporteTotal4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtImporteTotal4ActionPerformed(evt);
-            }
-        });
-
-        txtImporteTotal5.setText("99.999.999");
-        txtImporteTotal5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtImporteTotal5ActionPerformed(evt);
-            }
-        });
-
-        txtImporteTotal6.setText("99.999.999");
-        txtImporteTotal6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtImporteTotal6ActionPerformed(evt);
             }
         });
 
@@ -545,31 +586,31 @@ public class Facturas extends javax.swing.JInternalFrame {
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel23)
                     .addComponent(jLabel10)
-                    .addComponent(txtImporteTotal1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtImporteMinimo, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtImporteTotal2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtImporteExcedentes, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel24))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtImporteTotal3, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtImporteAtrasos, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel25))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtImporteTotal4, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtImporteConexion, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel26))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtImporteTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtImporteMedidor, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel27))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtImporteTotal5, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtImporteIva, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel28))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel29)
-                    .addComponent(txtImporteTotal6, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtImporteTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
@@ -588,15 +629,19 @@ public class Facturas extends javax.swing.JInternalFrame {
                     .addComponent(jLabel29))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtImporteTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtImporteTotal1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtImporteTotal2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtImporteTotal3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtImporteTotal4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtImporteTotal5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtImporteTotal6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtImporteMedidor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtImporteMinimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtImporteExcedentes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtImporteAtrasos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtImporteConexion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtImporteIva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtImporteTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        txtIdfacturas.setText("Idfacturas");
+
+        txtIdclientes.setText("IdClientes");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -623,11 +668,11 @@ public class Facturas extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
-                            .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -636,22 +681,25 @@ public class Facturas extends javax.swing.JInternalFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnImprimirFactura)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnGuardar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnNuevo)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnEliminar))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtBuscar, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(btnEliminar))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(rbtnBoletas)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rbtnClientes)))))
+                                .addComponent(txtIdfacturas, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtIdclientes, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtBuscar, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(rbtnBoletas)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(rbtnClientes)))))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -660,7 +708,10 @@ public class Facturas extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtIdfacturas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtIdclientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rbtnClientes)
@@ -683,17 +734,16 @@ public class Facturas extends javax.swing.JInternalFrame {
                             .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(btnImprimirFactura)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnImprimirFactura))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnGuardar)
                             .addComponent(btnEliminar)
-                            .addComponent(btnNuevo))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(btnNuevo))))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -707,18 +757,6 @@ public class Facturas extends javax.swing.JInternalFrame {
     private void txtInicioMedidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtInicioMedidorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtInicioMedidorActionPerformed
-
-    private void txtInicioLecturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtInicioLecturaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtInicioLecturaActionPerformed
-
-    private void txtCierreLecturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCierreLecturaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCierreLecturaActionPerformed
-
-    private void txtVencimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtVencimientoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtVencimientoActionPerformed
 
     private void txtCierreMedidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCierreMedidorActionPerformed
         // TODO add your handling code here:
@@ -740,34 +778,86 @@ public class Facturas extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNumeroUsuarioActionPerformed
 
+    private void txtImporteMedidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImporteMedidorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtImporteMedidorActionPerformed
+
+    private void txtImporteMinimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImporteMinimoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtImporteMinimoActionPerformed
+
+    private void txtImporteExcedentesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImporteExcedentesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtImporteExcedentesActionPerformed
+
+    private void txtImporteAtrasosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImporteAtrasosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtImporteAtrasosActionPerformed
+
+    private void txtImporteConexionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImporteConexionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtImporteConexionActionPerformed
+
+    private void txtImporteIvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImporteIvaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtImporteIvaActionPerformed
+
     private void txtImporteTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImporteTotalActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtImporteTotalActionPerformed
 
-    private void txtImporteTotal1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImporteTotal1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtImporteTotal1ActionPerformed
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        if (txtIdfacturas.getText().length() == 0) {
+            guardar();
+        } else {
+            editar();
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
-    private void txtImporteTotal2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImporteTotal2ActionPerformed
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtImporteTotal2ActionPerformed
+    }//GEN-LAST:event_btnNuevoActionPerformed
 
-    private void txtImporteTotal3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImporteTotal3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtImporteTotal3ActionPerformed
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        eliminar();
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
-    private void txtImporteTotal4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImporteTotal4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtImporteTotal4ActionPerformed
+    private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
+        mostrar(txtBuscar.getText());
+    }//GEN-LAST:event_txtBuscarKeyReleased
 
-    private void txtImporteTotal5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImporteTotal5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtImporteTotal5ActionPerformed
+    //Metodos para llamar a los JDialog de Advertencia, Fallo y Realizado
+    Frame f = JOptionPane.getFrameForComponent(this);
+    String encabezado;
+    String mensaje;
+    Icon icono;
 
-    private void txtImporteTotal6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImporteTotal6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtImporteTotal6ActionPerformed
+    public void advertencia() {
+        Advertencia dialog = new Advertencia(f, true);
+        Advertencia.lblEncabezado.setText(mensaje);
+        dialog.setVisible(true);
+    }
 
+    public void fallo() {
+        Fallo dialog = new Fallo(f, true);
+        Fallo.lblEncabezado.setText(mensaje);
+        dialog.setVisible(true);
+    }
+
+    public void realizado() {
+        Realizado dialog = new Realizado(f, true);
+        Realizado.lblEncabezado.setText(mensaje);
+        dialog.setVisible(true);
+    }
+    
+    public void aceptarCancelar() {
+        Aceptar_Cancelar dialog = new Aceptar_Cancelar(f, true);
+        icono = new ImageIcon(getClass().getResource("/Imagenes/FondoCerrarSesion.png"));
+        Aceptar_Cancelar.lblFondo.setIcon(icono);
+        Aceptar_Cancelar.lblEncabezado.setText(encabezado);
+        Aceptar_Cancelar.lblMensaje.setText(mensaje);
+        dialog.setVisible(true);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEliminar;
@@ -775,6 +865,10 @@ public class Facturas extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnImprimirFactura;
     private javax.swing.JButton btnNuevo;
     private javax.swing.ButtonGroup btngBuscar;
+    private com.toedter.calendar.JDateChooser dchFechaCierre;
+    private com.toedter.calendar.JDateChooser dchFechaInicio;
+    private com.toedter.calendar.JDateChooser dchVencimiento;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -816,24 +910,118 @@ public class Facturas extends javax.swing.JInternalFrame {
     private javax.swing.JTable tblFacturas;
     private javax.swing.JTextField txtBoleta;
     private javax.swing.JTextField txtBuscar;
-    private javax.swing.JTextField txtCierreLectura;
     private javax.swing.JTextField txtCierreMedidor;
     private javax.swing.JTextField txtClientes;
     private javax.swing.JTextField txtConsumoExcedente;
     private javax.swing.JTextField txtConsumoMinimo;
     private javax.swing.JTextField txtConsumoTotal;
     private javax.swing.JTextField txtDireccion;
+    private javax.swing.JTextField txtIdclientes;
+    private javax.swing.JTextField txtIdfacturas;
+    private javax.swing.JTextField txtImporteAtrasos;
+    private javax.swing.JTextField txtImporteConexion;
+    private javax.swing.JTextField txtImporteExcedentes;
+    private javax.swing.JTextField txtImporteIva;
+    private javax.swing.JTextField txtImporteMedidor;
+    private javax.swing.JTextField txtImporteMinimo;
     private javax.swing.JTextField txtImporteTotal;
-    private javax.swing.JTextField txtImporteTotal1;
-    private javax.swing.JTextField txtImporteTotal2;
-    private javax.swing.JTextField txtImporteTotal3;
-    private javax.swing.JTextField txtImporteTotal4;
-    private javax.swing.JTextField txtImporteTotal5;
-    private javax.swing.JTextField txtImporteTotal6;
-    private javax.swing.JTextField txtInicioLectura;
     private javax.swing.JTextField txtInicioMedidor;
-    private javax.swing.JTextField txtMes;
     private javax.swing.JTextField txtNumeroUsuario;
-    private javax.swing.JTextField txtVencimiento;
     // End of variables declaration//GEN-END:variables
+
+    public void guardar() {
+        Date vencimiento = dchVencimiento.getDate();
+        java.sql.Date date1 = new java.sql.Date(vencimiento.getTime());
+
+        Date inicio = dchFechaInicio.getDate();
+        java.sql.Date inicio1 = new java.sql.Date(inicio.getTime());
+
+        Date cierre = dchFechaCierre.getDate();
+        java.sql.Date cierre1 = new java.sql.Date(cierre.getTime());
+
+        datos.setMes(txtMes.getText());
+        datos.setVencimiento(date1);
+        datos.setAtraso(Integer.parseInt(txtImporteAtrasos.getText()));
+        datos.setConexion(Integer.parseInt(txtImporteConexion.getText()));
+        datos.setFechaInicio(inicio1);
+        datos.setFechaCierre(cierre1);
+        datos.setEstadoInicio(Integer.parseInt(txtInicioMedidor.getText()));
+        datos.setEstadoCierre(Integer.parseInt(txtCierreMedidor.getText()));
+        datos.setConsumoMinimo(Integer.parseInt(txtImporteMinimo.getText()));
+        datos.setExcedente(Integer.parseInt(txtImporteExcedentes.getText()));
+        datos.setTotal(Integer.parseInt(txtImporteTotal.getText()));
+
+        if (funcion.insertar(datos, funcion.buscarClientes(Integer.parseInt(txtIdclientes.getText())))) {
+            mensaje = "Ciudad guardada correctamente";
+            realizado();
+            mostrar("");
+//            inhabilitar();
+        } else {
+            mensaje = "Ciudad no guardada";
+            fallo();
+            mostrar("");
+        }
+    }
+
+    public void editar() {
+        Date vencimiento = dchVencimiento.getDate();
+        java.sql.Date date1 = new java.sql.Date(vencimiento.getTime());
+
+        Date inicio = dchFechaInicio.getDate();
+        java.sql.Date inicio1 = new java.sql.Date(inicio.getTime());
+
+        Date cierre = dchFechaCierre.getDate();
+        java.sql.Date cierre1 = new java.sql.Date(cierre.getTime());
+
+        datos.setMes(txtMes.getText());
+        datos.setVencimiento(date1);
+        datos.setAtraso(Integer.parseInt(txtImporteAtrasos.getText()));
+        datos.setConexion(Integer.parseInt(txtImporteConexion.getText()));
+        datos.setFechaInicio(inicio1);
+        datos.setFechaCierre(cierre1);
+        datos.setEstadoInicio(Integer.parseInt(txtInicioMedidor.getText()));
+        datos.setEstadoCierre(Integer.parseInt(txtCierreMedidor.getText()));
+        datos.setConsumoMinimo(Integer.parseInt(txtImporteMinimo.getText()));
+        datos.setExcedente(Integer.parseInt(txtImporteExcedentes.getText()));
+        datos.setTotal(Integer.parseInt(txtImporteTotal.getText()));
+        datos.setId(Integer.parseInt(txtIdclientes.getText()));
+
+        if (funcion.insertar(datos, funcion.buscarClientes(Integer.parseInt(txtIdclientes.getText())))) {
+            mensaje = "Ciudad guardada correctamente";
+            realizado();
+            mostrar("");
+//            inhabilitar();
+        } else {
+            mensaje = "Ciudad no guardada";
+            fallo();
+            mostrar("");
+        }
+    }
+
+    public void eliminar() {
+        if (txtIdfacturas.getText().length() == 0) {
+            mensaje = "Debes seleccionar primero una ciudad a eliminar.";
+            advertencia();
+        } else {
+            encabezado = "Eliminar permanentemente";
+            mensaje = "Esta seguro de eliminar este registro?";
+            String reply = Principal.txtAceptarCancelar.getText();
+            if (reply.equals("1")) {
+
+                datos.setId(Integer.parseInt(txtIdfacturas.getText()));
+
+                if (funcion.eliminar(datos)) {
+                    mensaje = "Ciudad eliminada correctamente";
+                    realizado();
+                    txtIdfacturas.setText("");
+                    mostrar("");
+//                    inhabilitar();
+                } else {
+                    mensaje = "Ciudad no eliminada";
+                    fallo();
+                    mostrar("");
+                }
+            }
+        }
+    }
 }
