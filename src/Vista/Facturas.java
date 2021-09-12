@@ -12,7 +12,11 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -28,6 +32,9 @@ public final class Facturas extends javax.swing.JInternalFrame {
     FuncionesFacturas funcion = new FuncionesFacturas();
     private final Conexion mysql = new Conexion();
     private final Connection cn = Conexion.getConnection();
+    SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM/dd");
+    Date d;
+    DefaultTableModel modelo, modelo2;
     Statement st;
     ResultSet rs;
     int codigo;
@@ -43,9 +50,17 @@ public final class Facturas extends javax.swing.JInternalFrame {
 
     public void mostrar(String buscar) {
         try {
-            DefaultTableModel modelo;
             modelo = funcion.mostrar(buscar);
             tblFacturas.setModel(modelo);
+            ocultar_columnas();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    public void registros(int buscar) {
+        try {
+            modelo2 = funcion.registros(buscar);
             ocultar_columnas();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
@@ -56,6 +71,14 @@ public final class Facturas extends javax.swing.JInternalFrame {
         tblFacturas.getColumnModel().getColumn(0).setMaxWidth(0);
         tblFacturas.getColumnModel().getColumn(0).setMinWidth(0);
         tblFacturas.getColumnModel().getColumn(0).setPreferredWidth(0);
+    }
+    
+    public void habilitar(){
+        
+    }
+    
+    public void inhabilitar(){
+        
     }
 
     public int numeroBoleta() {
@@ -93,16 +116,16 @@ public final class Facturas extends javax.swing.JInternalFrame {
         }
     }
 
-    private void consumo(){
-        int consumoTotal = Integer.parseInt(txtConsumoMinimo.getText())+Integer.parseInt(txtConsumoExcedente.getText());
+    private void consumo() {
+        int consumoTotal = Integer.parseInt(txtConsumoMinimo.getText()) + Integer.parseInt(txtConsumoExcedente.getText());
         txtConsumoTotal.setText(String.valueOf(consumoTotal));
     }
-    
+
     private void llamarCliente() {
         SeleccionarClientes dialog = new SeleccionarClientes(f, true);
         dialog.setVisible(true);
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -178,6 +201,12 @@ public final class Facturas extends javax.swing.JInternalFrame {
         jLabel29 = new javax.swing.JLabel();
         txtImporteTotal = new javax.swing.JTextField();
 
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
+
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 30)); // NOI18N
         jLabel1.setText("Facturas");
 
@@ -188,6 +217,11 @@ public final class Facturas extends javax.swing.JInternalFrame {
             }
         });
 
+        tblFacturas = new javax.swing.JTable(){
+            public boolean isCellEditable(int rowIndex, int colIndex) {
+                return false;
+            }
+        };
         tblFacturas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -199,6 +233,11 @@ public final class Facturas extends javax.swing.JInternalFrame {
 
             }
         ));
+        tblFacturas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblFacturasMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblFacturas);
 
         btnGuardar.setText("Guardar");
@@ -257,7 +296,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel11Layout.createSequentialGroup()
-                        .addComponent(txtNumeroUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtNumeroUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1))
                     .addGroup(jPanel11Layout.createSequentialGroup()
@@ -402,12 +441,14 @@ public final class Facturas extends javax.swing.JInternalFrame {
 
         txtInicioMedidor.setEditable(false);
         txtInicioMedidor.setBackground(new java.awt.Color(255, 255, 255));
+        txtInicioMedidor.setText("0");
         txtInicioMedidor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtInicioMedidorActionPerformed(evt);
             }
         });
 
+        txtCierreMedidor.setText("0");
         txtCierreMedidor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCierreMedidorActionPerformed(evt);
@@ -425,12 +466,11 @@ public final class Facturas extends javax.swing.JInternalFrame {
                         .addComponent(txtInicioMedidor, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtCierreMedidor, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel20)
-                        .addGroup(jPanel8Layout.createSequentialGroup()
-                            .addComponent(jLabel5)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel9))))
+                    .addComponent(jLabel20)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(56, 56, 56)
+                        .addComponent(jLabel9)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
@@ -715,39 +755,43 @@ public final class Facturas extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(13, 13, 13)
-                .addComponent(jLabel1))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(txtIdfacturas, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(txtIdclientes, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(666, 666, 666)
-                .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(861, 861, 861)
-                .addComponent(rbtnBoletas)
-                .addGap(0, 0, 0)
-                .addComponent(rbtnClientes))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(107, 107, 107)
-                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(btnImprimirFactura)
-                .addGap(641, 641, 641)
-                .addComponent(btnGuardar)
-                .addGap(10, 10, 10)
-                .addComponent(btnNuevo)
-                .addGap(10, 10, 10)
-                .addComponent(btnEliminar))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 975, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(107, 107, 107)
+                        .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(13, 13, 13)
+                            .addComponent(jLabel1))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(10, 10, 10)
+                            .addComponent(txtIdfacturas, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(txtIdclientes, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(666, 666, 666)
+                            .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(861, 861, 861)
+                            .addComponent(rbtnBoletas)
+                            .addGap(0, 0, 0)
+                            .addComponent(rbtnClientes))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(10, 10, 10)
+                            .addComponent(btnImprimirFactura)
+                            .addGap(641, 641, 641)
+                            .addComponent(btnGuardar)
+                            .addGap(10, 10, 10)
+                            .addComponent(btnNuevo)
+                            .addGap(10, 10, 10)
+                            .addComponent(btnEliminar))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(10, 10, 10)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 975, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(0, 10, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -777,7 +821,8 @@ public final class Facturas extends javax.swing.JInternalFrame {
                     .addComponent(btnNuevo)
                     .addComponent(btnEliminar))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -860,10 +905,10 @@ public final class Facturas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void txtConsumoExcedenteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtConsumoExcedenteFocusLost
-        if(txtConsumoExcedente.getText().equals("")){
+        if (txtConsumoExcedente.getText().equals("")) {
             txtConsumoExcedente.setText("0");
             consumo();
-        }else{
+        } else {
             consumo();
         }
     }//GEN-LAST:event_txtConsumoExcedenteFocusLost
@@ -875,6 +920,93 @@ public final class Facturas extends javax.swing.JInternalFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         llamarCliente();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void tblFacturasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFacturasMouseClicked
+        int seleccionar = tblFacturas.rowAtPoint(evt.getPoint());
+
+        if (evt.getClickCount() == 2) {
+            registros(Integer.parseInt(tblFacturas.getValueAt(seleccionar, 0).toString()));
+            txtIdfacturas.setText(modelo2.getValueAt(0, 0).toString());
+            txtBoleta.setText(String.valueOf(modelo2.getValueAt(0, 1)));
+            cmbMes.setSelectedItem(String.valueOf(modelo2.getValueAt(0, 2)));
+
+        //Convertir java.sql.date a java.util.date y mostrar en pantalla la fecha de Vencimiento
+            SimpleDateFormat vencimiento = new SimpleDateFormat("yyyy-MM-dd");
+            //Formato inicial. 
+            try {
+                String fechaInicio = String.valueOf(modelo2.getValueAt(0, 3));
+                d = vencimiento.parse(fechaInicio);
+            } catch (ParseException e) {
+
+            }
+
+            //Aplica formato requerido.
+            try {
+                vencimiento.applyPattern("dd/MM/yyyy");
+                String nuevoFormato = vencimiento.format(d);
+                Date fecha = vencimiento.parse(nuevoFormato);
+                dchVencimiento.setDate(fecha);
+            } catch (ParseException ex) {
+                Logger.getLogger(Facturas.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            txtImporteAtrasos.setText(modelo2.getValueAt(0, 4).toString());
+            txtImporteConexion.setText(modelo2.getValueAt(0, 5).toString());
+
+        //Convertir java.sql.date a java.util.date y mostrar en pantalla la Fecha Inicio
+            SimpleDateFormat inicio = new SimpleDateFormat("yyyy-MM-dd");
+            //Formato inicial. 
+            try {
+                String fechaInicio = String.valueOf(modelo2.getValueAt(0, 6));
+                d = inicio.parse(fechaInicio);
+            } catch (ParseException e) {
+
+            }
+
+            //Aplica formato requerido.
+            try {
+                inicio.applyPattern("dd/MM/yyyy");
+                String nuevoFormato = inicio.format(d);
+                Date fecha = inicio.parse(nuevoFormato);
+                dchFechaInicio.setDate(fecha);
+            } catch (ParseException ex) {
+                Logger.getLogger(Facturas.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        //Convertir java.sql.date a java.util.date y mostrar en pantalla la Fecha Cierre
+            SimpleDateFormat cierre = new SimpleDateFormat("yyyy-MM-dd");
+            //Formato inicial. 
+            try {
+                String fechaInicio = String.valueOf(modelo2.getValueAt(0, 7));
+                d = cierre.parse(fechaInicio);
+            } catch (ParseException e) {
+
+            }
+
+            //Aplica formato requerido.
+            try {
+                cierre.applyPattern("dd/MM/yyyy");
+                String nuevoFormato = cierre.format(d);
+                Date fecha = cierre.parse(nuevoFormato);
+                dchFechaCierre.setDate(fecha);
+            } catch (ParseException ex) {
+                Logger.getLogger(Facturas.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            txtInicioMedidor.setText(modelo2.getValueAt(0, 8).toString());
+            txtCierreMedidor.setText(modelo2.getValueAt(0, 9).toString());
+            txtConsumoMinimo.setText(modelo2.getValueAt(0, 10).toString());
+            txtConsumoExcedente.setText(modelo2.getValueAt(0, 11).toString());
+            txtConsumoTotal.setText(modelo2.getValueAt(0, 12).toString());
+            txtIdclientes.setText(modelo2.getValueAt(0, 14).toString());
+        }
+    }//GEN-LAST:event_tblFacturasMouseClicked
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        if(evt.getClickCount()==2){
+            inhabilitar();
+        }
+    }//GEN-LAST:event_formMouseClicked
 
     //Metodos para llamar a los JDialog de Advertencia, Fallo y Realizado
     Frame f = JOptionPane.getFrameForComponent(this);
@@ -959,12 +1091,12 @@ public final class Facturas extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtBoleta;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCierreMedidor;
-    private javax.swing.JTextField txtClientes;
+    public static javax.swing.JTextField txtClientes;
     private javax.swing.JTextField txtConsumoExcedente;
     private javax.swing.JTextField txtConsumoMinimo;
     private javax.swing.JTextField txtConsumoTotal;
-    private javax.swing.JTextField txtDireccion;
-    private javax.swing.JTextField txtIdclientes;
+    public static javax.swing.JTextField txtDireccion;
+    public static javax.swing.JTextField txtIdclientes;
     private javax.swing.JTextField txtIdfacturas;
     private javax.swing.JTextField txtImporteAtrasos;
     private javax.swing.JTextField txtImporteConexion;
@@ -974,12 +1106,19 @@ public final class Facturas extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtImporteMinimo;
     private javax.swing.JTextField txtImporteTotal;
     private javax.swing.JTextField txtInicioMedidor;
-    private javax.swing.JTextField txtNumeroUsuario;
+    public static javax.swing.JTextField txtNumeroUsuario;
     // End of variables declaration//GEN-END:variables
+java.sql.Date date1;
 
     public void guardar() {
-        Date vencimiento = dchVencimiento.getDate();
-        java.sql.Date date1 = new java.sql.Date(vencimiento.getTime());
+        SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
+        Date vencimiento;
+        try {
+            vencimiento = formateador.parse(dchVencimiento.getDate().toString());
+            date1 = new java.sql.Date(vencimiento.getTime());
+        } catch (ParseException ex) {
+            Logger.getLogger(Facturas.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         Date inicio = dchFechaInicio.getDate();
         java.sql.Date inicio1 = new java.sql.Date(inicio.getTime());
@@ -1017,7 +1156,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
 
     public void editar() {
         Date vencimiento = dchVencimiento.getDate();
-        java.sql.Date date1 = new java.sql.Date(vencimiento.getTime());
+        java.sql.Date vencimiento1 = new java.sql.Date(vencimiento.getTime());
 
         Date inicio = dchFechaInicio.getDate();
         java.sql.Date inicio1 = new java.sql.Date(inicio.getTime());
@@ -1030,7 +1169,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
 
         datos.setBoleta(txtBoleta.getText());
         datos.setMes(mes2);
-        datos.setVencimiento(date1);
+        datos.setVencimiento(vencimiento1);
         datos.setAtraso(Integer.parseInt(txtImporteAtrasos.getText()));
         datos.setConexion(Integer.parseInt(txtImporteConexion.getText()));
         datos.setFechaInicio(inicio1);
@@ -1040,9 +1179,9 @@ public final class Facturas extends javax.swing.JInternalFrame {
         datos.setConsumoMinimo(Integer.parseInt(txtImporteMinimo.getText()));
         datos.setExcedente(Integer.parseInt(txtImporteExcedentes.getText()));
         datos.setTotal(Integer.parseInt(txtImporteTotal.getText()));
-        datos.setId(Integer.parseInt(txtIdclientes.getText()));
+        datos.setId(Integer.parseInt(txtIdfacturas.getText()));
 
-        if (funcion.insertar(datos, funcion.buscarClientes(Integer.parseInt(txtIdclientes.getText())))) {
+        if (funcion.editar(datos, Integer.parseInt(txtIdclientes.getText()))) {
             mensaje = "Ciudad guardada correctamente";
             realizado();
             mostrar("");
@@ -1061,6 +1200,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
         } else {
             encabezado = "Eliminar permanentemente";
             mensaje = "Esta seguro de eliminar este registro?";
+            aceptarCancelar();
             String reply = Principal.txtAceptarCancelar.getText();
             if (reply.equals("1")) {
 

@@ -26,7 +26,7 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
         try {
             DefaultTableModel modelo;
             modelo = funcion.mostrar(buscar);
-            tblClientes.setModel(modelo);
+            tblSeleccionarClientes.setModel(modelo);
             ocultar_columnas();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
@@ -34,9 +34,9 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
     }
 
     public void ocultar_columnas() {
-        tblClientes.getColumnModel().getColumn(0).setMaxWidth(0);
-        tblClientes.getColumnModel().getColumn(0).setMinWidth(0);
-        tblClientes.getColumnModel().getColumn(0).setPreferredWidth(0);
+        tblSeleccionarClientes.getColumnModel().getColumn(0).setMaxWidth(0);
+        tblSeleccionarClientes.getColumnModel().getColumn(0).setMinWidth(0);
+        tblSeleccionarClientes.getColumnModel().getColumn(0).setPreferredWidth(0);
     }
 
     /**
@@ -52,7 +52,7 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
         rbtnUsuario = new javax.swing.JRadioButton();
         rbtnNombre = new javax.swing.JRadioButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblClientes = new javax.swing.JTable();
+        tblSeleccionarClientes = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -61,7 +61,12 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
 
         rbtnNombre.setText("Nombre");
 
-        tblClientes.setModel(new javax.swing.table.DefaultTableModel(
+        tblSeleccionarClientes = new javax.swing.JTable(){
+            public boolean isCellEditable(int rowIndex, int colIndex) {
+                return false;
+            }
+        };
+        tblSeleccionarClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -72,7 +77,12 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
 
             }
         ));
-        jScrollPane1.setViewportView(tblClientes);
+        tblSeleccionarClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSeleccionarClientesMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblSeleccionarClientes);
 
         jButton1.setText("X");
 
@@ -80,20 +90,22 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(79, 79, 79)
-                            .addComponent(txtClientes, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(rbtnUsuario)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(rbtnNombre)))
-                    .addComponent(jButton1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(rbtnUsuario)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(rbtnNombre))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -106,13 +118,25 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rbtnUsuario)
                     .addComponent(rbtnNombre))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tblSeleccionarClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSeleccionarClientesMouseClicked
+        int seleccionar = tblSeleccionarClientes.rowAtPoint(evt.getPoint());
+        if(evt.getClickCount()==2){
+            Facturas.txtIdclientes.setText(String.valueOf(tblSeleccionarClientes.getValueAt(seleccionar, 0)));
+            Facturas.txtNumeroUsuario.setText(String.valueOf(tblSeleccionarClientes.getValueAt(seleccionar, 1)));
+            Facturas.txtClientes.setText(String.valueOf(tblSeleccionarClientes.getValueAt(seleccionar, 2)));
+            Facturas.txtDireccion.setText(String.valueOf(tblSeleccionarClientes.getValueAt(seleccionar, 3)));
+            
+            dispose();
+        }
+    }//GEN-LAST:event_tblSeleccionarClientesMouseClicked
 
     /**
      * @param args the command line arguments
@@ -161,7 +185,7 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JRadioButton rbtnNombre;
     private javax.swing.JRadioButton rbtnUsuario;
-    private javax.swing.JTable tblClientes;
+    private javax.swing.JTable tblSeleccionarClientes;
     private javax.swing.JTextField txtClientes;
     // End of variables declaration//GEN-END:variables
 }

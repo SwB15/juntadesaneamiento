@@ -12,7 +12,6 @@ public class DatosFacturas {
     private String boleta;
     private String mes;
     private Date vencimiento;
-    private int importe;
     private int atraso;
     private int conexion;
     private Date fechaInicio;
@@ -24,12 +23,11 @@ public class DatosFacturas {
     private int total;
     private int idclientes;
 
-    public DatosFacturas(int id, String boleta, String mes, Date vencimiento, int importe, int atraso, int conexion, Date fechaInicio, Date fechaCierre, int estadoInicio, int estadoCierre, int consumoMinimo, int excedente, int total, int idclientes) {
+    public DatosFacturas(int id, String boleta, String mes, Date vencimiento, int atraso, int conexion, Date fechaInicio, Date fechaCierre, int estadoInicio, int estadoCierre, int consumoMinimo, int excedente, int total, int idclientes) {
         this.id = id;
         this.boleta = boleta;
         this.mes = mes;
         this.vencimiento = vencimiento;
-        this.importe = importe;
         this.atraso = atraso;
         this.conexion = conexion;
         this.fechaInicio = fechaInicio;
@@ -76,14 +74,6 @@ public class DatosFacturas {
 
     public void setVencimiento(Date vencimiento) {
         this.vencimiento = vencimiento;
-    }
-
-    public int getImporte() {
-        return importe;
-    }
-
-    public void setImporte(int importe) {
-        this.importe = importe;
     }
 
     public int getAtraso() {

@@ -21,12 +21,12 @@ public class FuncionesClientes {
 
     public DefaultTableModel mostrar(String buscar) {
         DefaultTableModel modelo;
-        String[] titulos = {"Codigo", "N° Usuario", "Usuario"};
-        String[] registros = new String[3];
+        String[] titulos = {"Codigo", "N° Usuario", "Usuario", "Direccion"};
+        String[] registros = new String[4];
         totalRegistros = 0;
         modelo = new DefaultTableModel(null, titulos);
 
-        sSQL = "SELECT id, usuarionumero, nombre, apellido FROM clientes WHERE id LIKE '%" + buscar + "%' ORDER BY id DESC";
+        sSQL = "SELECT id, usuarionumero, nombre, apellido, direccion FROM clientes WHERE id LIKE '%" + buscar + "%' ORDER BY id DESC";
 
         try {
             Statement st = cn.createStatement();
@@ -36,6 +36,7 @@ public class FuncionesClientes {
                 registros[0] = rs.getString("id");
                 registros[1] = rs.getString("usuarionumero");
                 registros[2] = rs.getString("nombre") + " " + rs.getString("apellido");
+                registros[3] = rs.getString("direccion");
 
                 totalRegistros = totalRegistros + 1;
                 modelo.addRow(registros);
