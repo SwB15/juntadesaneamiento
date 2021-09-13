@@ -170,8 +170,6 @@ public final class Facturas extends javax.swing.JInternalFrame {
         btnGuardar = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
-        rbtnClientes = new javax.swing.JRadioButton();
-        rbtnBoletas = new javax.swing.JRadioButton();
         btnImprimirFactura = new javax.swing.JButton();
         txtIdfacturas = new javax.swing.JTextField();
         txtIdclientes = new javax.swing.JTextField();
@@ -227,6 +225,8 @@ public final class Facturas extends javax.swing.JInternalFrame {
         txtImporteIva = new javax.swing.JTextField();
         jLabel29 = new javax.swing.JLabel();
         txtImporteTotal = new javax.swing.JTextField();
+        lblCerrar = new javax.swing.JLabel();
+        lblFondoBuscador = new javax.swing.JLabel();
         lblFondo = new javax.swing.JLabel();
 
         setBorder(null);
@@ -244,13 +244,16 @@ public final class Facturas extends javax.swing.JInternalFrame {
         jLabel1.setText("Facturas");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 180, -1));
 
+        txtBuscar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtBuscar.setForeground(new java.awt.Color(0, 102, 255));
         txtBuscar.setText("Buscar");
+        txtBuscar.setBorder(null);
         txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtBuscarKeyReleased(evt);
             }
         });
-        getContentPane().add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(861, 68, 124, -1));
+        getContentPane().add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(838, 74, 139, 17));
 
         tblFacturas = new javax.swing.JTable(){
             public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -300,14 +303,6 @@ public final class Facturas extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 430, -1, -1));
-
-        btngBuscar.add(rbtnClientes);
-        rbtnClientes.setText("Clientes");
-        getContentPane().add(rbtnClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(922, 95, -1, -1));
-
-        btngBuscar.add(rbtnBoletas);
-        rbtnBoletas.setText("Boletas");
-        getContentPane().add(rbtnBoletas, new org.netbeans.lib.awtextra.AbsoluteConstraints(861, 95, -1, -1));
 
         btnImprimirFactura.setText("Imprimir Factura");
         getContentPane().add(btnImprimirFactura, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 420, -1, -1));
@@ -803,6 +798,17 @@ public final class Facturas extends javax.swing.JInternalFrame {
 
         getContentPane().add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 140, -1, -1));
 
+        lblCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Cerrar32.png"))); // NOI18N
+        lblCerrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCerrarMouseClicked(evt);
+            }
+        });
+        getContentPane().add(lblCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 14, -1, -1));
+
+        lblFondoBuscador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoBuscador.png"))); // NOI18N
+        getContentPane().add(lblFondoBuscador, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 70, -1, -1));
+
         lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoFacturas.png"))); // NOI18N
         getContentPane().add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1020, 610));
 
@@ -989,6 +995,11 @@ public final class Facturas extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_formMouseClicked
 
+    private void lblCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCerrarMouseClicked
+        Principal.lblProceso.setText("Proceso: OFF");
+        this.dispose();
+    }//GEN-LAST:event_lblCerrarMouseClicked
+
     //Metodos para llamar a los JDialog de Advertencia, Fallo y Realizado
     Frame f = JOptionPane.getFrameForComponent(this);
     String encabezado;
@@ -1066,9 +1077,9 @@ public final class Facturas extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblCerrar;
     private javax.swing.JLabel lblFondo;
-    public static javax.swing.JRadioButton rbtnBoletas;
-    public static javax.swing.JRadioButton rbtnClientes;
+    private javax.swing.JLabel lblFondoBuscador;
     private javax.swing.JTable tblFacturas;
     private javax.swing.JTextField txtBoleta;
     private javax.swing.JTextField txtBuscar;

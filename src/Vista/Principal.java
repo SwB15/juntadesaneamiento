@@ -314,7 +314,7 @@ public final class Principal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JLabel lblProceso;
+    public static javax.swing.JLabel lblProceso;
     private javax.swing.JMenu mnuClientes;
     private javax.swing.JMenu mnuFacturas;
     private javax.swing.JMenu mnuHerramientas;
