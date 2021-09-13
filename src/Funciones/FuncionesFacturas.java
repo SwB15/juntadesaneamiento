@@ -1,8 +1,8 @@
-
 package Funciones;
 
 import Controlador.Conexion;
 import Datos.DatosFacturas;
+import Vista.Facturas;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,11 +16,14 @@ import javax.swing.table.DefaultTableModel;
  * @author SwichBlade15
  */
 public class FuncionesFacturas {
+
     private final Conexion mysql = new Conexion();
     private final Connection cn = Conexion.getConnection();
     Statement st;
+    ResultSet rs;
     private String sSQL = "";
     public Integer totalRegistros;
+    String[] reg = new String[2];
 
     //Aqui se cargan los datos a ser utilizados dentro del sistema
     public DefaultTableModel registros(int buscar) {
@@ -33,7 +36,7 @@ public class FuncionesFacturas {
         try {
             PreparedStatement ps = cn.prepareStatement("SELECT id, boleta, mes, vencimiento, atraso, conexion, fechainicio, fechacierre, estadoinicio, estadocierre, consumominimo, excedente, total, (SELECT nombre FROM clientes WHERE id = idclientes) AS nombre, (SELECT apellido FROM clientes WHERE id = idclientes) AS apellido, (SELECT id FROM clientes WHERE id = idclientes) AS idClientes FROM facturas WHERE id = ? ORDER BY id DESC");
             ps.setInt(1, buscar);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
 
             while (rs.next()) {
                 registros[0] = rs.getString("id");
@@ -49,9 +52,9 @@ public class FuncionesFacturas {
                 registros[10] = rs.getString("consumominimo");
                 registros[11] = rs.getString("excedente");
                 registros[12] = rs.getString("total");
-                registros[13] = rs.getString("nombre")+" "+rs.getString("apellido");
+                registros[13] = rs.getString("nombre") + " " + rs.getString("apellido");
                 registros[14] = rs.getString("idClientes");
-                
+
                 totalRegistros = totalRegistros + 1;
                 modelo.addRow(registros);
             }
@@ -61,19 +64,21 @@ public class FuncionesFacturas {
             return null;
         }
     }
-    
-    public DefaultTableModel mostrar(String buscar) {
+
+    public DefaultTableModel mostrarBusqueda(String boleta, String cliente) {
         DefaultTableModel modelo;
         String[] titulos = {"Codigo", "Boleta", "Mes", "Vencimiento", "Fecha Cierre", "Estado Cierre", "Total", "Usuario"};
         String[] registros = new String[8];
         totalRegistros = 0;
         modelo = new DefaultTableModel(null, titulos);
 
-        sSQL = "SELECT id, boleta, mes, vencimiento, fechacierre, estadocierre, total, (SELECT nombre FROM clientes WHERE id = idclientes) AS nombre, (SELECT apellido FROM clientes WHERE id = idclientes) AS apellido  FROM facturas WHERE id LIKE '%" + buscar + "%' ORDER BY id DESC";
+        if (Facturas.rbtnBoletas.isSelected()) {
+            sSQL = "SELECT id, boleta, mes, vencimiento, fechacierre, estadocierre, total, (SELECT nombre FROM clientes WHERE id = idclientes) AS nombre, (SELECT apellido FROM clientes WHERE id = idclientes) AS apellido FROM facturas WHERE boleta LIKE '%" + boleta + "%' OR idclientes LIKE '%" + reg[0] + "%' ORDER BY id DESC";
+        }
 
         try {
-            Statement st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sSQL);
+            st = cn.createStatement();
+            rs = st.executeQuery(sSQL);
 
             while (rs.next()) {
                 registros[0] = rs.getString("id");
@@ -83,8 +88,68 @@ public class FuncionesFacturas {
                 registros[4] = rs.getString("fechacierre");
                 registros[5] = rs.getString("estadocierre");
                 registros[6] = rs.getString("total");
-                registros[7] = rs.getString("nombre")+" "+rs.getString("apellido");
-                
+                registros[7] = rs.getString("nombre") + " " + rs.getString("apellido");
+
+                totalRegistros = totalRegistros + 1;
+                modelo.addRow(registros);
+            }
+            return modelo;
+        } catch (SQLException e) {
+            JOptionPane.showConfirmDialog(null, e);
+            return null;
+        }
+    }
+
+    public void clientes(String cliente) {
+        DefaultTableModel modelo;
+        String[] titulos = {"Codigo", "Usuario"};
+        
+        totalRegistros = 0;
+        modelo = new DefaultTableModel(null, titulos);
+
+        sSQL = "SELECT id, nombre, apellido FROM clientes WHERE nombre LIKE '%" + cliente + "%' OR apellido LIKE '%" + cliente + "%' ORDER BY id DESC";
+
+        try {
+            st = cn.createStatement();
+            rs = st.executeQuery(sSQL);
+
+            while (rs.next()) {
+                reg[0] = rs.getString("id");
+                reg[1] = rs.getString("nombre") + " " + rs.getString("apellido");
+                System.out.println("while "+reg[0]);
+
+                totalRegistros = totalRegistros + 1;
+                modelo.addRow(reg);
+            }
+            System.out.println("despues del while "+reg[0]);
+        } catch (SQLException e) {
+            JOptionPane.showConfirmDialog(null, e);
+        }
+    }
+
+    public DefaultTableModel mostrar(String buscar) {
+        DefaultTableModel modelo;
+        String[] titulos = {"Codigo", "Boleta", "Mes", "Vencimiento", "Fecha Cierre", "Estado Cierre", "Total", "Usuario"};
+        String[] registros = new String[8];
+        totalRegistros = 0;
+        modelo = new DefaultTableModel(null, titulos);
+
+        sSQL = "SELECT id, boleta, mes, vencimiento, fechacierre, estadocierre, total, (SELECT nombre FROM clientes WHERE id = idclientes) AS nombre, (SELECT apellido FROM clientes WHERE id = idclientes) AS apellido FROM facturas WHERE id LIKE '%" + buscar + "%' ORDER BY id DESC";
+
+        try {
+            st = cn.createStatement();
+            rs = st.executeQuery(sSQL);
+
+            while (rs.next()) {
+                registros[0] = rs.getString("id");
+                registros[1] = rs.getString("boleta");
+                registros[2] = rs.getString("mes");
+                registros[3] = rs.getString("vencimiento");
+                registros[4] = rs.getString("fechacierre");
+                registros[5] = rs.getString("estadocierre");
+                registros[6] = rs.getString("total");
+                registros[7] = rs.getString("nombre") + " " + rs.getString("apellido");
+
                 totalRegistros = totalRegistros + 1;
                 modelo.addRow(registros);
             }
@@ -97,7 +162,7 @@ public class FuncionesFacturas {
 
     public boolean insertar(DatosFacturas datos, int idclientes) {
         sSQL = "INSERT INTO facturas(boleta, mes, vencimiento, atraso, conexion, fechainicio, fechacierre, estadoinicio, estadocierre, consumominimo, excedente, total, idclientes) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        
+
         try {
             PreparedStatement pst = cn.prepareStatement(sSQL);
             pst.setString(1, datos.getBoleta());
@@ -113,7 +178,7 @@ public class FuncionesFacturas {
             pst.setInt(11, datos.getExcedente());
             pst.setInt(12, datos.getTotal());
             pst.setInt(13, idclientes);
-            
+
             int N = pst.executeUpdate();
             return N != 0;
         } catch (SQLException e) {
@@ -164,9 +229,9 @@ public class FuncionesFacturas {
             return false;
         }
     }
-    
-    public int buscarClientes(int idclientes){
-        sSQL = "SELECT id FROM clientes WHERE clientes.id = '"+idclientes+"'";
+
+    public int buscarClientes(int idclientes) {
+        sSQL = "SELECT id FROM clientes WHERE clientes.id = '" + idclientes + "'";
         int codigo = 0;
         try {
             st = cn.createStatement();

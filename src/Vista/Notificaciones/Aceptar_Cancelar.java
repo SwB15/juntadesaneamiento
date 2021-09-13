@@ -2,14 +2,8 @@ package Vista.Notificaciones;
 
 import Vista.Principal;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
-import static java.awt.event.KeyEvent.VK_ENTER;
 import javax.swing.AbstractAction;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 /**
  *
@@ -117,11 +111,6 @@ public final class Aceptar_Cancelar extends javax.swing.JDialog {
                 btnAceptarActionPerformed(evt);
             }
         });
-        btnAceptar.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                btnAceptarKeyPressed(evt);
-            }
-        });
         getContentPane().add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 110, 110, 30));
 
         lblMensaje.setFont(new java.awt.Font("Arial", 1, 17)); // NOI18N
@@ -149,10 +138,6 @@ public final class Aceptar_Cancelar extends javax.swing.JDialog {
         Principal.txtAceptarCancelar.setText("1");
         dispose();
     }//GEN-LAST:event_btnAceptarActionPerformed
-
-    private void btnAceptarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnAceptarKeyPressed
-
-    }//GEN-LAST:event_btnAceptarKeyPressed
 
     /**
      * @param args the command line arguments

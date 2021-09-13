@@ -1,18 +1,58 @@
 
 package Vista;
 
+import Vista.Notificaciones.Aceptar_Cancelar;
+import Vista.Notificaciones.Advertencia;
+import Vista.Notificaciones.Fallo;
+import Vista.Notificaciones.Realizado;
 import java.awt.Dimension;
+import java.awt.Frame;
 import static java.awt.Frame.MAXIMIZED_BOTH;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author SwichBlade15
  */
-public class Principal extends javax.swing.JFrame {
+public final class Principal extends javax.swing.JFrame {
 
     public Principal() {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
+        this.setIconImage(new ImageIcon(getClass().getResource("/Imagenes/Gota.png")).getImage());
+        cerrar();
+    }
+    
+    public void cerrar() {
+        try {
+            this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    encabezado = "Salir";
+                    mensaje = "Está seguro que desea salir del Sistema?";
+                    aceptarCancelar();
+                    confirmarSalida();
+                }
+            });
+            this.setVisible(true);
+        } catch (Exception e) {
+        }
+    }
+
+    public void confirmarSalida() {
+        String valor = txtAceptarCancelar.getText();
+        if (valor.equals("1")) {
+            txtAceptarCancelar.setText("");
+            System.exit(0);
+        }
     }
 
     /**
@@ -35,7 +75,14 @@ public class Principal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jDesktopPane1.setBackground(new java.awt.Color(224, 224, 224));
+        ImageIcon icon = new ImageIcon(getClass().getResource("/Imagenes/Principal.png"));
+        Image image = icon.getImage();
+        jDesktopPane1 = new javax.swing.JDesktopPane(){
+            public void paintComponent(Graphics g){
+                g.drawImage(image,0,0,getWidth(),getHeight(),this);
+            }
+        };
+        jDesktopPane1.setBackground(new java.awt.Color(204, 204, 204));
 
         lblProceso.setBackground(new java.awt.Color(255, 255, 255));
         lblProceso.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -62,10 +109,17 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(lblProceso, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtAceptarCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(410, Short.MAX_VALUE))
+                .addContainerGap(397, Short.MAX_VALUE))
         );
 
+        jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
+        jMenuBar1.setForeground(new java.awt.Color(255, 255, 255));
+
+        mnuFacturas.setBackground(new java.awt.Color(255, 255, 255));
+        mnuFacturas.setForeground(new java.awt.Color(0, 102, 255));
+        mnuFacturas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/factura32.png"))); // NOI18N
         mnuFacturas.setText("Facturas");
+        mnuFacturas.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         mnuFacturas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 mnuFacturasMouseClicked(evt);
@@ -73,7 +127,11 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenuBar1.add(mnuFacturas);
 
+        mnuClientes.setBackground(new java.awt.Color(255, 255, 255));
+        mnuClientes.setForeground(new java.awt.Color(0, 102, 255));
+        mnuClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Usuario32.png"))); // NOI18N
         mnuClientes.setText("Clientes");
+        mnuClientes.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         mnuClientes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 mnuClientesMouseClicked(evt);
@@ -81,7 +139,11 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenuBar1.add(mnuClientes);
 
+        mnuReportes.setBackground(new java.awt.Color(255, 255, 255));
+        mnuReportes.setForeground(new java.awt.Color(0, 102, 255));
+        mnuReportes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/reporte32.png"))); // NOI18N
         mnuReportes.setText("Reportes");
+        mnuReportes.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         mnuReportes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 mnuReportesMouseClicked(evt);
@@ -89,7 +151,11 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenuBar1.add(mnuReportes);
 
+        mnuHerramientas.setBackground(new java.awt.Color(255, 255, 255));
+        mnuHerramientas.setForeground(new java.awt.Color(0, 102, 255));
+        mnuHerramientas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Herramientas32.png"))); // NOI18N
         mnuHerramientas.setText("Herramientas");
+        mnuHerramientas.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         mnuHerramientas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 mnuHerramientasMouseClicked(evt);
@@ -197,33 +263,46 @@ public class Principal extends javax.swing.JFrame {
         this.setExtendedState(MAXIMIZED_BOTH);
     }//GEN-LAST:event_mnuHerramientasMouseClicked
 
+    //Metodos para llamar al JDialog Aceptar_Cancelar
+    //Se le añade un Fondo diferente al de Eliminar (Se diferencian en el sombreado)
+    Frame f = JOptionPane.getFrameForComponent(this);
+    String encabezado;
+    String mensaje;
+    Icon icono;
+
+    public void advertencia() {
+        Advertencia dialog = new Advertencia(f, true);
+        Advertencia.lblEncabezado.setText(mensaje);
+        Advertencia.lblAdvertencia.setText(encabezado);
+        dialog.setVisible(true);
+    }
+
+    public void fallo() {
+        Fallo dialog = new Fallo(f, true);
+        Fallo.lblEncabezado.setText(mensaje);
+        dialog.setVisible(true);
+    }
+
+    public void realizado() {
+        Realizado dialog = new Realizado(f, true);
+        Realizado.lblEncabezado.setText(mensaje);
+        Realizado.lblRealizado.setText(encabezado);
+        dialog.setVisible(true);
+    }
+
+    public void aceptarCancelar() {
+        Aceptar_Cancelar dialog = new Aceptar_Cancelar(f, true);
+        icono = new ImageIcon(getClass().getResource("/Imagenes/FondoCerrarSesion.png"));
+        Aceptar_Cancelar.lblFondo.setIcon(icono);
+        Aceptar_Cancelar.lblEncabezado.setText(encabezado);
+        Aceptar_Cancelar.lblMensaje.setText(mensaje);
+        dialog.setVisible(true);
+    }
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -242,4 +321,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu mnuReportes;
     public static javax.swing.JTextField txtAceptarCancelar;
     // End of variables declaration//GEN-END:variables
+
+    private void setIconImage(ImageIcon imageIcon) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

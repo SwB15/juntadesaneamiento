@@ -5,8 +5,9 @@
         <group>
             <file>file:/C:/Users/User/Documents/NetBeansProjects/JuntaDeSaneamiento/src/Funciones/FuncionesFacturas.java</file>
             <file>file:/C:/Users/User/Documents/NetBeansProjects/JuntaDeSaneamiento/src/Vista/Facturas.java</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/JuntaDeSaneamiento/src/Datos/DatosFacturas.java</file>
+            <file>file:/C:/Users/User/Documents/NetBeansProjects/JuntaDeSaneamiento/src/Vista/Notificaciones/Aceptar_Cancelar.java</file>
             <file>file:/C:/Users/User/Documents/NetBeansProjects/JuntaDeSaneamiento/src/Vista/Principal.java</file>
+            <file>file:/C:/Users/User/Documents/NetBeansProjects/JuntaDeSaneamiento/src/Controlador/Conexion.java</file>
         </group>
     </open-files>
 </project-private>
