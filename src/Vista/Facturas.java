@@ -52,6 +52,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
         mostrar("");
         numeroBoleta();
         boleta();
+        botonesTransparentes();
         txtBoleta.setText(boleta);
     }
 
@@ -133,16 +134,6 @@ public final class Facturas extends javax.swing.JInternalFrame {
         dialog.setVisible(true);
     }
     
-    private void buscar(){
-        if(rbtnBoletas.isSelected()){
-            mostrarBusqueda(txtBuscar.getText(), "");
-        }
-        
-        if(rbtnClientes.isSelected()){
-            funcion.clientes(txtBuscar.getText());
-        }
-    }
-    
     public void mostrarBusqueda(String boleta, String idclientes) {
         try {
             modelo = funcion.mostrarBusqueda(boleta, idclientes);
@@ -151,6 +142,24 @@ public final class Facturas extends javax.swing.JInternalFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
+    }
+    
+    public void botonesTransparentes() {
+        btnEliminar.setOpaque(false);
+        btnEliminar.setContentAreaFilled(false);
+        btnEliminar.setBorderPainted(false);
+
+        btnGuardar.setOpaque(false);
+        btnGuardar.setContentAreaFilled(false);
+        btnGuardar.setBorderPainted(false);
+
+        btnNuevo.setOpaque(false);
+        btnNuevo.setContentAreaFilled(false);
+        btnNuevo.setBorderPainted(false);
+        
+        btnImprimir.setOpaque(false);
+        btnImprimir.setContentAreaFilled(false);
+        btnImprimir.setBorderPainted(false);
     }
 
     /**
@@ -170,7 +179,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
         btnGuardar = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
-        btnImprimirFactura = new javax.swing.JButton();
+        btnImprimir = new javax.swing.JButton();
         txtIdfacturas = new javax.swing.JTextField();
         txtIdclientes = new javax.swing.JTextField();
         jPanel11 = new javax.swing.JPanel();
@@ -278,37 +287,38 @@ public final class Facturas extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(tblFacturas);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 470, 975, 125));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 475, 975, 120));
 
-        btnGuardar.setText("Guardar");
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Guardar32.png"))); // NOI18N
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 430, -1, -1));
+        getContentPane().add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 420, 40, -1));
 
-        btnNuevo.setText("Nuevo");
+        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Nuevo32.png"))); // NOI18N
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNuevoActionPerformed(evt);
             }
         });
-        getContentPane().add(btnNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 430, -1, -1));
+        getContentPane().add(btnNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 420, 40, -1));
 
-        btnEliminar.setText("Eliminar");
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Eliminar32.png"))); // NOI18N
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 430, -1, -1));
+        getContentPane().add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 420, 40, -1));
 
-        btnImprimirFactura.setText("Imprimir Factura");
-        getContentPane().add(btnImprimirFactura, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 420, -1, -1));
+        btnImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Imprimir.png"))); // NOI18N
+        getContentPane().add(btnImprimir, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 420, 40, -1));
         getContentPane().add(txtIdfacturas, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 68, 88, -1));
         getContentPane().add(txtIdclientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(116, 68, 79, -1));
 
+        jPanel11.setBackground(new java.awt.Color(255, 255, 255));
         jPanel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel17.setText("Usuario N°");
@@ -373,6 +383,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
 
         getContentPane().add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, -1, -1));
 
+        jPanel12.setBackground(new java.awt.Color(255, 255, 255));
         jPanel12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel4.setText("Boleta N°:");
@@ -433,8 +444,11 @@ public final class Facturas extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, -1, -1));
+        getContentPane().add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
 
+        jPanel13.setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel19.setText("Fecha Lectura");
@@ -477,6 +491,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
         jPanel8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel20.setText("Estado del medidor");
@@ -535,6 +550,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
         jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel21.setText("Consumo en MRS");
@@ -616,6 +632,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel14.setBackground(new java.awt.Color(255, 255, 255));
         jPanel14.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel10.setText("Importes");
@@ -796,7 +813,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        getContentPane().add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 140, -1, -1));
+        getContentPane().add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 120, -1, -1));
 
         lblCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Cerrar32.png"))); // NOI18N
         lblCerrar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -888,7 +905,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
-        buscar();
+        mostrar("");
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void txtConsumoExcedenteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtConsumoExcedenteFocusLost
@@ -1036,7 +1053,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JButton btnImprimirFactura;
+    private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnNuevo;
     private javax.swing.ButtonGroup btngBuscar;
     private javax.swing.JComboBox<String> cmbMes;

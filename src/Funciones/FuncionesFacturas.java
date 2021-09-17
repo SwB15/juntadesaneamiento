@@ -71,11 +71,7 @@ public class FuncionesFacturas {
         String[] registros = new String[8];
         totalRegistros = 0;
         modelo = new DefaultTableModel(null, titulos);
-
-        if (Facturas.rbtnBoletas.isSelected()) {
-            sSQL = "SELECT id, boleta, mes, vencimiento, fechacierre, estadocierre, total, (SELECT nombre FROM clientes WHERE id = idclientes) AS nombre, (SELECT apellido FROM clientes WHERE id = idclientes) AS apellido FROM facturas WHERE boleta LIKE '%" + boleta + "%' OR idclientes LIKE '%" + reg[0] + "%' ORDER BY id DESC";
-        }
-
+        
         try {
             st = cn.createStatement();
             rs = st.executeQuery(sSQL);
