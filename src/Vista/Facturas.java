@@ -48,7 +48,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
         this.setBackground(new Color(0, 0, 0, 0));
         this.setIconifiable(false);
         this.setBorder(null);
-        
+
         mostrar("");
         numeroBoleta();
         boleta();
@@ -80,13 +80,13 @@ public final class Facturas extends javax.swing.JInternalFrame {
         tblFacturas.getColumnModel().getColumn(0).setMinWidth(0);
         tblFacturas.getColumnModel().getColumn(0).setPreferredWidth(0);
     }
-    
-    public void habilitar(){
-        
+
+    public void habilitar() {
+
     }
-    
-    public void inhabilitar(){
-        
+
+    public void inhabilitar() {
+
     }
 
     public int numeroBoleta() {
@@ -133,17 +133,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
         SeleccionarClientes dialog = new SeleccionarClientes(f, true);
         dialog.setVisible(true);
     }
-    
-    public void mostrarBusqueda(String boleta, String idclientes) {
-        try {
-            modelo = funcion.mostrarBusqueda(boleta, idclientes);
-            tblFacturas.setModel(modelo);
-            ocultar_columnas();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
-    }
-    
+
     public void botonesTransparentes() {
         btnEliminar.setOpaque(false);
         btnEliminar.setContentAreaFilled(false);
@@ -156,7 +146,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
         btnNuevo.setOpaque(false);
         btnNuevo.setContentAreaFilled(false);
         btnNuevo.setBorderPainted(false);
-        
+
         btnImprimir.setOpaque(false);
         btnImprimir.setContentAreaFilled(false);
         btnImprimir.setBorderPainted(false);
@@ -171,7 +161,6 @@ public final class Facturas extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btngBuscar = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -197,13 +186,15 @@ public final class Facturas extends javax.swing.JInternalFrame {
         cmbMes = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         dchVencimiento = new com.toedter.calendar.JDateChooser();
-        jPanel13 = new javax.swing.JPanel();
+        lblCerrar = new javax.swing.JLabel();
+        lblFondoBuscador = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         dchFechaInicio = new com.toedter.calendar.JDateChooser();
         dchFechaCierre = new com.toedter.calendar.JDateChooser();
+        lblFondoInterno2 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -234,8 +225,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
         txtImporteIva = new javax.swing.JTextField();
         jLabel29 = new javax.swing.JLabel();
         txtImporteTotal = new javax.swing.JTextField();
-        lblCerrar = new javax.swing.JLabel();
-        lblFondoBuscador = new javax.swing.JLabel();
+        lblFondoInterno1 = new javax.swing.JLabel();
         lblFondo = new javax.swing.JLabel();
 
         setBorder(null);
@@ -287,7 +277,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(tblFacturas);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 475, 975, 120));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 465, 975, 130));
 
         btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Guardar32.png"))); // NOI18N
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -295,7 +285,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
                 btnGuardarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 420, 40, -1));
+        getContentPane().add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 410, 40, -1));
 
         btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Nuevo32.png"))); // NOI18N
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
@@ -303,7 +293,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
                 btnNuevoActionPerformed(evt);
             }
         });
-        getContentPane().add(btnNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 420, 40, -1));
+        getContentPane().add(btnNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 410, 40, -1));
 
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Eliminar32.png"))); // NOI18N
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -311,9 +301,9 @@ public final class Facturas extends javax.swing.JInternalFrame {
                 btnEliminarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 420, 40, -1));
+        getContentPane().add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 410, 40, -1));
 
-        btnImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Imprimir.png"))); // NOI18N
+        btnImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Imprimir32.png"))); // NOI18N
         getContentPane().add(btnImprimir, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 420, 40, -1));
         getContentPane().add(txtIdfacturas, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 68, 88, -1));
         getContentPane().add(txtIdclientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(116, 68, 79, -1));
@@ -446,50 +436,41 @@ public final class Facturas extends javax.swing.JInternalFrame {
 
         getContentPane().add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
 
-        jPanel13.setBackground(new java.awt.Color(255, 255, 255));
+        lblCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Cerrar32.png"))); // NOI18N
+        lblCerrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCerrarMouseClicked(evt);
+            }
+        });
+        getContentPane().add(lblCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 14, -1, -1));
+
+        lblFondoBuscador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoBuscador.png"))); // NOI18N
+        getContentPane().add(lblFondoBuscador, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 70, -1, -1));
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel19.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel19.setText("Fecha Lectura");
+        jPanel7.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 12, 240, -1));
 
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Inicio");
+        jPanel7.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 100, -1));
 
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Cierre");
+        jPanel7.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 40, 100, -1));
+        jPanel7.add(dchFechaInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 100, -1));
+        jPanel7.add(dchFechaCierre, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 60, 100, -1));
 
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dchFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel19)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dchFechaCierre, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
-                .addContainerGap())
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(dchFechaCierre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jLabel19)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(dchFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        lblFondoInterno2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoInterno2.png"))); // NOI18N
+        jPanel7.add(lblFondoInterno2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 100));
+
+        getContentPane().add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 100, 290, 110));
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
         jPanel8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -549,6 +530,8 @@ public final class Facturas extends javax.swing.JInternalFrame {
                     .addComponent(txtCierreMedidor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        getContentPane().add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 210, 259, -1));
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
         jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -632,12 +615,19 @@ public final class Facturas extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        getContentPane().add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 310, -1, -1));
+
         jPanel14.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel14.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setText("Importes");
+        jPanel14.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 12, 170, -1));
 
+        jLabel23.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel23.setText("Minimo");
+        jPanel14.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 32, -1, -1));
 
         txtImporteMinimo.setEditable(false);
         txtImporteMinimo.setBackground(new java.awt.Color(255, 255, 255));
@@ -647,8 +637,11 @@ public final class Facturas extends javax.swing.JInternalFrame {
                 txtImporteMinimoActionPerformed(evt);
             }
         });
+        jPanel14.add(txtImporteMinimo, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 52, 75, -1));
 
+        jLabel24.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel24.setText("Excedentes");
+        jPanel14.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(104, 32, -1, -1));
 
         txtImporteExcedentes.setEditable(false);
         txtImporteExcedentes.setBackground(new java.awt.Color(255, 255, 255));
@@ -658,8 +651,11 @@ public final class Facturas extends javax.swing.JInternalFrame {
                 txtImporteExcedentesActionPerformed(evt);
             }
         });
+        jPanel14.add(txtImporteExcedentes, new org.netbeans.lib.awtextra.AbsoluteConstraints(104, 52, 75, -1));
 
+        jLabel25.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel25.setText("Atrasos");
+        jPanel14.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 78, -1, -1));
 
         txtImporteAtrasos.setEditable(false);
         txtImporteAtrasos.setBackground(new java.awt.Color(255, 255, 255));
@@ -669,8 +665,11 @@ public final class Facturas extends javax.swing.JInternalFrame {
                 txtImporteAtrasosActionPerformed(evt);
             }
         });
+        jPanel14.add(txtImporteAtrasos, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 98, 75, -1));
 
+        jLabel26.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel26.setText("Conexion");
+        jPanel14.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(104, 78, -1, -1));
 
         txtImporteConexion.setEditable(false);
         txtImporteConexion.setBackground(new java.awt.Color(255, 255, 255));
@@ -680,8 +679,11 @@ public final class Facturas extends javax.swing.JInternalFrame {
                 txtImporteConexionActionPerformed(evt);
             }
         });
+        jPanel14.add(txtImporteConexion, new org.netbeans.lib.awtextra.AbsoluteConstraints(104, 98, 75, -1));
 
+        jLabel27.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel27.setText("Medidor");
+        jPanel14.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 124, -1, -1));
 
         txtImporteMedidor.setEditable(false);
         txtImporteMedidor.setBackground(new java.awt.Color(255, 255, 255));
@@ -691,8 +693,11 @@ public final class Facturas extends javax.swing.JInternalFrame {
                 txtImporteMedidorActionPerformed(evt);
             }
         });
+        jPanel14.add(txtImporteMedidor, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 144, 75, -1));
 
+        jLabel28.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel28.setText("Iva");
+        jPanel14.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(104, 124, -1, -1));
 
         txtImporteIva.setEditable(false);
         txtImporteIva.setBackground(new java.awt.Color(255, 255, 255));
@@ -702,8 +707,11 @@ public final class Facturas extends javax.swing.JInternalFrame {
                 txtImporteIvaActionPerformed(evt);
             }
         });
+        jPanel14.add(txtImporteIva, new org.netbeans.lib.awtextra.AbsoluteConstraints(104, 144, 75, -1));
 
+        jLabel29.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel29.setText("Total a pagar");
+        jPanel14.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 170, -1, -1));
 
         txtImporteTotal.setEditable(false);
         txtImporteTotal.setBackground(new java.awt.Color(255, 255, 255));
@@ -713,118 +721,12 @@ public final class Facturas extends javax.swing.JInternalFrame {
                 txtImporteTotalActionPerformed(evt);
             }
         });
+        jPanel14.add(txtImporteTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 190, 75, -1));
 
-        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
-        jPanel14.setLayout(jPanel14Layout);
-        jPanel14Layout.setHorizontalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10)
-                    .addGroup(jPanel14Layout.createSequentialGroup()
-                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel23)
-                            .addComponent(txtImporteMinimo, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtImporteExcedentes, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel24)))
-                    .addGroup(jPanel14Layout.createSequentialGroup()
-                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtImporteAtrasos, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel25))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtImporteConexion, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel26)))
-                    .addGroup(jPanel14Layout.createSequentialGroup()
-                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtImporteMedidor, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel27))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtImporteIva, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel28)))
-                    .addComponent(jLabel29)
-                    .addComponent(txtImporteTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel14Layout.setVerticalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel14Layout.createSequentialGroup()
-                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel14Layout.createSequentialGroup()
-                                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel23)
-                                    .addComponent(jLabel24))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txtImporteMinimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtImporteExcedentes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel25)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtImporteAtrasos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel14Layout.createSequentialGroup()
-                                .addComponent(jLabel26)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtImporteConexion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel27)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtImporteMedidor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel14Layout.createSequentialGroup()
-                        .addComponent(jLabel28)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtImporteIva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel29)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtImporteTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        lblFondoInterno1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoInterno1.png"))); // NOI18N
+        jPanel14.add(lblFondoInterno1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, -1));
 
-        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
-        jPanel13.setLayout(jPanel13Layout);
-        jPanel13Layout.setHorizontalGroup(
-            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel13Layout.createSequentialGroup()
-                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
-                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel13Layout.setVerticalGroup(
-            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        getContentPane().add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 120, -1, -1));
-
-        lblCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Cerrar32.png"))); // NOI18N
-        lblCerrar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblCerrarMouseClicked(evt);
-            }
-        });
-        getContentPane().add(lblCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 14, -1, -1));
-
-        lblFondoBuscador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoBuscador.png"))); // NOI18N
-        getContentPane().add(lblFondoBuscador, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 70, -1, -1));
+        getContentPane().add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 120, 200, 270));
 
         lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoFacturas.png"))); // NOI18N
         getContentPane().add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1020, 610));
@@ -928,86 +830,84 @@ public final class Facturas extends javax.swing.JInternalFrame {
     private void tblFacturasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFacturasMouseClicked
         int seleccionar = tblFacturas.rowAtPoint(evt.getPoint());
 
-        if (evt.getClickCount() == 2) {
-            registros(Integer.parseInt(tblFacturas.getValueAt(seleccionar, 0).toString()));
-            txtIdfacturas.setText(modelo2.getValueAt(0, 0).toString());
-            txtBoleta.setText(String.valueOf(modelo2.getValueAt(0, 1)));
-            cmbMes.setSelectedItem(String.valueOf(modelo2.getValueAt(0, 2)));
+        registros(Integer.parseInt(tblFacturas.getValueAt(seleccionar, 0).toString()));
+        txtIdfacturas.setText(modelo2.getValueAt(0, 0).toString());
+        txtBoleta.setText(String.valueOf(modelo2.getValueAt(0, 1)));
+        cmbMes.setSelectedItem(String.valueOf(modelo2.getValueAt(0, 2)));
 
         //Convertir java.sql.date a java.util.date y mostrar en pantalla la fecha de Vencimiento
-            SimpleDateFormat vencimiento = new SimpleDateFormat("yyyy-MM-dd");
-            //Formato inicial. 
-            try {
-                String fechaInicio = String.valueOf(modelo2.getValueAt(0, 3));
-                d = vencimiento.parse(fechaInicio);
-            } catch (ParseException e) {
+        SimpleDateFormat vencimiento = new SimpleDateFormat("yyyy-MM-dd");
+        //Formato inicial. 
+        try {
+            String fechaInicio = String.valueOf(modelo2.getValueAt(0, 3));
+            d = vencimiento.parse(fechaInicio);
+        } catch (ParseException e) {
 
-            }
+        }
 
-            //Aplica formato requerido.
-            try {
-                vencimiento.applyPattern("dd/MM/yyyy");
-                String nuevoFormato = vencimiento.format(d);
-                Date fecha = vencimiento.parse(nuevoFormato);
-                dchVencimiento.setDate(fecha);
-            } catch (ParseException ex) {
-                Logger.getLogger(Facturas.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        //Aplica formato requerido.
+        try {
+            vencimiento.applyPattern("dd/MM/yyyy");
+            String nuevoFormato = vencimiento.format(d);
+            Date fecha = vencimiento.parse(nuevoFormato);
+            dchVencimiento.setDate(fecha);
+        } catch (ParseException ex) {
+            Logger.getLogger(Facturas.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-            txtImporteAtrasos.setText(modelo2.getValueAt(0, 4).toString());
-            txtImporteConexion.setText(modelo2.getValueAt(0, 5).toString());
+        txtImporteAtrasos.setText(modelo2.getValueAt(0, 4).toString());
+        txtImporteConexion.setText(modelo2.getValueAt(0, 5).toString());
 
         //Convertir java.sql.date a java.util.date y mostrar en pantalla la Fecha Inicio
-            SimpleDateFormat inicio = new SimpleDateFormat("yyyy-MM-dd");
-            //Formato inicial. 
-            try {
-                String fechaInicio = String.valueOf(modelo2.getValueAt(0, 6));
-                d = inicio.parse(fechaInicio);
-            } catch (ParseException e) {
+        SimpleDateFormat inicio = new SimpleDateFormat("yyyy-MM-dd");
+        //Formato inicial. 
+        try {
+            String fechaInicio = String.valueOf(modelo2.getValueAt(0, 6));
+            d = inicio.parse(fechaInicio);
+        } catch (ParseException e) {
 
-            }
+        }
 
-            //Aplica formato requerido.
-            try {
-                inicio.applyPattern("dd/MM/yyyy");
-                String nuevoFormato = inicio.format(d);
-                Date fecha = inicio.parse(nuevoFormato);
-                dchFechaInicio.setDate(fecha);
-            } catch (ParseException ex) {
-                Logger.getLogger(Facturas.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        //Aplica formato requerido.
+        try {
+            inicio.applyPattern("dd/MM/yyyy");
+            String nuevoFormato = inicio.format(d);
+            Date fecha = inicio.parse(nuevoFormato);
+            dchFechaInicio.setDate(fecha);
+        } catch (ParseException ex) {
+            Logger.getLogger(Facturas.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         //Convertir java.sql.date a java.util.date y mostrar en pantalla la Fecha Cierre
-            SimpleDateFormat cierre = new SimpleDateFormat("yyyy-MM-dd");
-            //Formato inicial. 
-            try {
-                String fechaInicio = String.valueOf(modelo2.getValueAt(0, 7));
-                d = cierre.parse(fechaInicio);
-            } catch (ParseException e) {
+        SimpleDateFormat cierre = new SimpleDateFormat("yyyy-MM-dd");
+        //Formato inicial. 
+        try {
+            String fechaInicio = String.valueOf(modelo2.getValueAt(0, 7));
+            d = cierre.parse(fechaInicio);
+        } catch (ParseException e) {
 
-            }
-
-            //Aplica formato requerido.
-            try {
-                cierre.applyPattern("dd/MM/yyyy");
-                String nuevoFormato = cierre.format(d);
-                Date fecha = cierre.parse(nuevoFormato);
-                dchFechaCierre.setDate(fecha);
-            } catch (ParseException ex) {
-                Logger.getLogger(Facturas.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            txtInicioMedidor.setText(modelo2.getValueAt(0, 8).toString());
-            txtCierreMedidor.setText(modelo2.getValueAt(0, 9).toString());
-            txtConsumoMinimo.setText(modelo2.getValueAt(0, 10).toString());
-            txtConsumoExcedente.setText(modelo2.getValueAt(0, 11).toString());
-            txtConsumoTotal.setText(modelo2.getValueAt(0, 12).toString());
-            txtIdclientes.setText(modelo2.getValueAt(0, 14).toString());
         }
+
+        //Aplica formato requerido.
+        try {
+            cierre.applyPattern("dd/MM/yyyy");
+            String nuevoFormato = cierre.format(d);
+            Date fecha = cierre.parse(nuevoFormato);
+            dchFechaCierre.setDate(fecha);
+        } catch (ParseException ex) {
+            Logger.getLogger(Facturas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        txtInicioMedidor.setText(modelo2.getValueAt(0, 8).toString());
+        txtCierreMedidor.setText(modelo2.getValueAt(0, 9).toString());
+        txtConsumoMinimo.setText(modelo2.getValueAt(0, 10).toString());
+        txtConsumoExcedente.setText(modelo2.getValueAt(0, 11).toString());
+        txtConsumoTotal.setText(modelo2.getValueAt(0, 12).toString());
+        txtIdclientes.setText(modelo2.getValueAt(0, 14).toString());
     }//GEN-LAST:event_tblFacturasMouseClicked
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-        if(evt.getClickCount()==2){
+        if (evt.getClickCount() == 2) {
             inhabilitar();
         }
     }//GEN-LAST:event_formMouseClicked
@@ -1055,7 +955,6 @@ public final class Facturas extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnNuevo;
-    private javax.swing.ButtonGroup btngBuscar;
     private javax.swing.JComboBox<String> cmbMes;
     private com.toedter.calendar.JDateChooser dchFechaCierre;
     private com.toedter.calendar.JDateChooser dchFechaInicio;
@@ -1088,7 +987,6 @@ public final class Facturas extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
@@ -1097,6 +995,8 @@ public final class Facturas extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblCerrar;
     private javax.swing.JLabel lblFondo;
     private javax.swing.JLabel lblFondoBuscador;
+    private javax.swing.JLabel lblFondoInterno1;
+    private javax.swing.JLabel lblFondoInterno2;
     private javax.swing.JTable tblFacturas;
     private javax.swing.JTextField txtBoleta;
     private javax.swing.JTextField txtBuscar;

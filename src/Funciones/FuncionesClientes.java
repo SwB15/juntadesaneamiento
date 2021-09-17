@@ -26,7 +26,7 @@ public class FuncionesClientes {
         totalRegistros = 0;
         modelo = new DefaultTableModel(null, titulos);
 
-        sSQL = "SELECT id, usuarionumero, nombre, apellido, direccion FROM clientes WHERE id LIKE '%" + buscar + "%' ORDER BY id DESC";
+        sSQL = "SELECT id, numerocliente, nombre, apellido, direccion FROM clientes WHERE id LIKE '%" + buscar + "%' ORDER BY id DESC";
 
         try {
             Statement st = cn.createStatement();
@@ -34,7 +34,7 @@ public class FuncionesClientes {
 
             while (rs.next()) {
                 registros[0] = rs.getString("id");
-                registros[1] = rs.getString("usuarionumero");
+                registros[1] = rs.getString("numerocliente");
                 registros[2] = rs.getString("nombre") + " " + rs.getString("apellido");
                 registros[3] = rs.getString("direccion");
 

@@ -65,36 +65,6 @@ public class FuncionesFacturas {
         }
     }
 
-    public DefaultTableModel mostrarBusqueda(String boleta, String cliente) {
-        DefaultTableModel modelo;
-        String[] titulos = {"Codigo", "Boleta", "Mes", "Vencimiento", "Fecha Cierre", "Estado Cierre", "Total", "Usuario"};
-        String[] registros = new String[8];
-        totalRegistros = 0;
-        modelo = new DefaultTableModel(null, titulos);
-        
-        try {
-            st = cn.createStatement();
-            rs = st.executeQuery(sSQL);
-
-            while (rs.next()) {
-                registros[0] = rs.getString("id");
-                registros[1] = rs.getString("boleta");
-                registros[2] = rs.getString("mes");
-                registros[3] = rs.getString("vencimiento");
-                registros[4] = rs.getString("fechacierre");
-                registros[5] = rs.getString("estadocierre");
-                registros[6] = rs.getString("total");
-                registros[7] = rs.getString("nombre") + " " + rs.getString("apellido");
-
-                totalRegistros = totalRegistros + 1;
-                modelo.addRow(registros);
-            }
-            return modelo;
-        } catch (SQLException e) {
-            JOptionPane.showConfirmDialog(null, e);
-            return null;
-        }
-    }
 
     public void clientes(String cliente) {
         DefaultTableModel modelo;
