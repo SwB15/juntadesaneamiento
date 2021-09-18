@@ -28,6 +28,8 @@ public final class Principal extends javax.swing.JFrame {
         this.setExtendedState(MAXIMIZED_BOTH);
         this.setIconImage(new ImageIcon(getClass().getResource("/Imagenes/Gota.png")).getImage());
         cerrar();
+        txtAceptarCancelar.setVisible(false);
+        lblProceso.setVisible(false);
     }
     
     public void cerrar() {
