@@ -1,14 +1,109 @@
-
 package Vista;
+
+import Controlador.Conexion;
+import Datos.DatosClientes;
+import Funciones.FuncionesClientes;
+import Vista.Notificaciones.Aceptar_Cancelar;
+import Vista.Notificaciones.Advertencia;
+import Vista.Notificaciones.Fallo;
+import Vista.Notificaciones.Realizado;
+import java.awt.Frame;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author SwichBlade15
  */
-public class Clientes extends javax.swing.JInternalFrame {
+public final class Clientes extends javax.swing.JInternalFrame {
+
+    DatosClientes datos = new DatosClientes();
+    FuncionesClientes funcion = new FuncionesClientes();
+    private final Conexion mysql = new Conexion();
+    private final Connection cn = Conexion.getConnection();
+    SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM/dd");
+    Date d;
+    DefaultTableModel modelo, modelo2;
+    Statement st;
+    ResultSet rs;
+    int codigo;
+    String sSQL, boleta;
 
     public Clientes() {
         initComponents();
+        mostrar("");
+        botonesTransparentes();
+        txtidcliente.setText(boleta);
+        txtidcliente.setVisible(false);
+    }
+
+    public void mostrar(String buscar) {
+        try {
+            modelo = funcion.mostrar(buscar);
+            tblClientes.setModel(modelo);
+            ocultar_columnas();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    public void registros(int buscar) {
+        try {
+            modelo2 = funcion.registros(buscar);
+            ocultar_columnas();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    public void ocultar_columnas() {
+        tblClientes.getColumnModel().getColumn(0).setMaxWidth(0);
+        tblClientes.getColumnModel().getColumn(0).setMinWidth(0);
+        tblClientes.getColumnModel().getColumn(0).setPreferredWidth(0);
+    }
+
+    public void habilitar() {
+
+    }
+
+    public void inhabilitar() {
+        txtNumeroUsuario1.setText("");
+        txtNombre.setText("");
+        txtApellido1.setText("");
+        txtDireccion.setText("");
+        txtMedidor.setText("");
+    }
+
+    /* public void mostrarBusqueda(String boleta, String idclientes) {
+        try {
+            modelo = funcion.mostrarBusqueda(boleta, idclientes);
+            tblClientes.setModel(modelo);
+            ocultar_columnas();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }*/
+
+    public void botonesTransparentes() {
+        btnEliminar.setOpaque(false);
+        btnEliminar.setContentAreaFilled(false);
+        btnEliminar.setBorderPainted(false);
+
+        btnGuardar.setOpaque(false);
+        btnGuardar.setContentAreaFilled(false);
+        btnGuardar.setBorderPainted(false);
+
+        btnNuevo.setOpaque(false);
+        btnNuevo.setContentAreaFilled(false);
+        btnNuevo.setBorderPainted(false);
+
     }
 
     /**
@@ -23,11 +118,16 @@ public class Clientes extends javax.swing.JInternalFrame {
         txtBuscar = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        txtNumeroUsuario1 = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        txtApellido = new javax.swing.JTextField();
-        txtNumeroUsuario = new javax.swing.JTextField();
+        txtidcliente = new javax.swing.JTextField();
+        txtApellido1 = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        txtDireccion = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        txtMedidor = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblClientes = new javax.swing.JTable();
         btnEliminar = new javax.swing.JButton();
@@ -44,6 +144,11 @@ public class Clientes extends javax.swing.JInternalFrame {
         txtBuscar.setForeground(new java.awt.Color(0, 102, 255));
         txtBuscar.setText("Buscar");
         txtBuscar.setBorder(null);
+        txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscarKeyReleased(evt);
+            }
+        });
         getContentPane().add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(547, 75, 139, -1));
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 30)); // NOI18N
@@ -54,25 +159,41 @@ public class Clientes extends javax.swing.JInternalFrame {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel2.setText("Nombre:");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 140, -1, -1));
-        getContentPane().add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 140, 213, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, -1, -1));
+
+        txtNumeroUsuario1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNumeroUsuario1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txtNumeroUsuario1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 110, 213, -1));
+        getContentPane().add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 140, 213, -1));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel3.setText("Apellido:");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, -1, -1));
-        getContentPane().add(txtApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 170, 213, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, -1, -1));
+        getContentPane().add(txtidcliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 70, 40, 20));
+        getContentPane().add(txtApellido1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 170, 213, -1));
 
-        txtNumeroUsuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNumeroUsuarioActionPerformed(evt);
-            }
-        });
-        getContentPane().add(txtNumeroUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, 213, -1));
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel5.setText("Direccion:");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 120, -1, -1));
+        getContentPane().add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 120, 213, -1));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel4.setText("Nro. Usuario:");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, -1, -1));
 
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel6.setText("Medidor:");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 150, -1, -1));
+        getContentPane().add(txtMedidor, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 150, 213, -1));
+
+        tblClientes = new javax.swing.JTable(){
+            public boolean isCellEditable (int rowIndex, int colIndex){
+                return false;
+            }
+        };
         tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -84,18 +205,33 @@ public class Clientes extends javax.swing.JInternalFrame {
 
             }
         ));
+        tblClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblClientesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblClientes);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 247, 680, 250));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 297, 680, 200));
 
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Eliminar32.png"))); // NOI18N
-        getContentPane().add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 190, 40, -1));
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 230, 40, -1));
 
         btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Guardar32.png"))); // NOI18N
-        getContentPane().add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 190, 40, -1));
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 230, 40, -1));
 
         btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Nuevo32.png"))); // NOI18N
-        getContentPane().add(btnNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 190, 40, -1));
+        getContentPane().add(btnNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 230, 40, -1));
 
         lblCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Cerrar32.png"))); // NOI18N
         lblCerrar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -114,14 +250,77 @@ public class Clientes extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtNumeroUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumeroUsuarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNumeroUsuarioActionPerformed
-
     private void lblCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCerrarMouseClicked
         Principal.lblProceso.setText("Proceso: OFF");
         this.dispose();
     }//GEN-LAST:event_lblCerrarMouseClicked
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        if (txtidcliente.getText().length() == 0) {
+            guardar();
+        } else {
+            editar();
+        }
+        
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void txtNumeroUsuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumeroUsuario1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNumeroUsuario1ActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        eliminar();
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void tblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesMouseClicked
+         int seleccionar = tblClientes.rowAtPoint(evt.getPoint());
+
+      
+          
+            txtidcliente.setText(tblClientes.getValueAt(seleccionar, 0).toString());
+            txtNumeroUsuario1.setText(tblClientes.getValueAt(seleccionar, 1).toString());
+            txtNombre.setText(tblClientes.getValueAt(seleccionar, 2).toString());
+            txtApellido1.setText(tblClientes.getValueAt(seleccionar, 3).toString());
+            txtDireccion.setText(tblClientes.getValueAt(seleccionar, 4).toString());
+            txtMedidor.setText(tblClientes.getValueAt(seleccionar, 5).toString());
+            
+           
+    }//GEN-LAST:event_tblClientesMouseClicked
+
+    private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
+      mostrar(txtBuscar.getText());
+    }//GEN-LAST:event_txtBuscarKeyReleased
+    Frame f = JOptionPane.getFrameForComponent(this);
+    String encabezado;
+    String mensaje;
+    Icon icono;
+
+    public void advertencia() {
+        Advertencia dialog = new Advertencia(f, true);
+        Advertencia.lblEncabezado.setText(mensaje);
+        dialog.setVisible(true);
+    }
+
+    public void fallo() {
+        Fallo dialog = new Fallo(f, true);
+        Fallo.lblEncabezado.setText(mensaje);
+        dialog.setVisible(true);
+    }
+
+    public void realizado() {
+        Realizado dialog = new Realizado(f, true);
+        Realizado.lblEncabezado.setText(mensaje);
+        dialog.setVisible(true);
+    }
+
+    public void aceptarCancelar() {
+        Aceptar_Cancelar dialog = new Aceptar_Cancelar(f, true);
+        icono = new ImageIcon(getClass().getResource("/Imagenes/FondoCerrarSesion.png"));
+        Aceptar_Cancelar.lblFondo.setIcon(icono);
+        Aceptar_Cancelar.lblEncabezado.setText(encabezado);
+        Aceptar_Cancelar.lblMensaje.setText(mensaje);
+        dialog.setVisible(true);
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -132,14 +331,86 @@ public class Clientes extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCerrar;
     private javax.swing.JLabel lblFondo;
     private javax.swing.JLabel lblFondoBuscar;
     private javax.swing.JTable tblClientes;
-    private javax.swing.JTextField txtApellido;
+    private javax.swing.JTextField txtApellido1;
     private javax.swing.JTextField txtBuscar;
+    private javax.swing.JTextField txtDireccion;
+    private javax.swing.JTextField txtMedidor;
     private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtNumeroUsuario;
+    private javax.swing.JTextField txtNumeroUsuario1;
+    private javax.swing.JTextField txtidcliente;
     // End of variables declaration//GEN-END:variables
+   public void guardar() {
+        datos.setnumerocliente(Integer.parseInt(txtNumeroUsuario1.getText()));
+        datos.setNombre(txtNombre.getText());
+        datos.setApellido(txtApellido1.getText());
+        datos.setDireccion(txtDireccion.getText());
+        datos.setMedidor(Integer.parseInt(txtMedidor.getText()));
+        if (funcion.insertar(datos)) {
+            mensaje = "Cliente guardado correctamente";
+            realizado();
+            mostrar("");
+            inhabilitar();
+        } else {
+            mensaje = "ERROR AL GUARDAR";
+            fallo();
+            mostrar("");
+        }
+    }
+
+    public void editar() {
+        datos.setnumerocliente(Integer.parseInt(txtNumeroUsuario1.getText()));
+        datos.setNombre(txtNombre.getText());
+        datos.setApellido(txtApellido1.getText());
+        datos.setDireccion(txtDireccion.getText());
+
+        datos.setMedidor(Integer.parseInt(txtMedidor.getText()));
+        datos.setId(Integer.parseInt(txtidcliente.getText()));
+
+         if (funcion.editar(datos)) {
+            mensaje = "Cliente guardado correctamente";
+            realizado();
+            mostrar("");
+          inhabilitar();
+        } else {
+            mensaje = "ERROR AL GUARDAR";
+            fallo();
+            mostrar("");
+        }
+    }
+
+    public void eliminar() {
+        if (txtidcliente.getText().length() == 0) {
+            mensaje = "Debes seleccionar primero un cliente a eliminar.";
+            advertencia();
+        } else {
+            encabezado = "Eliminar permanentemente";
+            mensaje = "Esta seguro de eliminar este registro?";
+            aceptarCancelar();
+            String reply = Principal.txtAceptarCancelar.getText();
+            if (reply.equals("1")) {
+
+                datos.setId(Integer.parseInt(txtidcliente.getText()));
+
+                if (funcion.eliminar(datos)) {
+                    mensaje = "Cliente eliminado correctamente";
+                    realizado();
+                    txtidcliente.setText("");
+                    mostrar("");
+                 inhabilitar();
+                } else {
+                    mensaje = "ERROR AL ELIMINAR";
+                    fallo();
+                    mostrar("");
+                }
+            }
+        }
+    }
+
 }
