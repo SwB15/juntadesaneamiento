@@ -302,6 +302,14 @@ public final class Facturas extends javax.swing.JInternalFrame {
         txtBuscar.setForeground(new java.awt.Color(0, 102, 255));
         txtBuscar.setText("Buscar");
         txtBuscar.setBorder(null);
+        txtBuscar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtBuscarFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtBuscarFocusLost(evt);
+            }
+        });
         txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtBuscarKeyReleased(evt);
@@ -406,7 +414,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
         lblFondoInterno4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoInterno3.png"))); // NOI18N
         jPanel11.add(lblFondoInterno4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, -1));
 
-        getContentPane().add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, 250, 180));
+        getContentPane().add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 220, 250, 180));
 
         jPanel12.setBackground(new java.awt.Color(255, 255, 255));
         jPanel12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -921,6 +929,16 @@ public final class Facturas extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_txtCierreMedidorFocusLost
 
+    private void txtBuscarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarFocusGained
+        txtBuscar.setText("");
+    }//GEN-LAST:event_txtBuscarFocusGained
+
+    private void txtBuscarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarFocusLost
+        if(txtBuscar.getText().length()==0){
+            txtBuscar.setText("Buscar");
+        }
+    }//GEN-LAST:event_txtBuscarFocusLost
+
     //Metodos para llamar a los JDialog de Advertencia, Fallo y Realizado
     Frame f = JOptionPane.getFrameForComponent(this);
     String encabezado;
@@ -960,10 +978,10 @@ public final class Facturas extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnSeleccionarClientes;
-    private javax.swing.JComboBox<String> cmbMes;
+    public static javax.swing.JComboBox<String> cmbMes;
     private com.toedter.calendar.JDateChooser dchFechaCierre;
-    private com.toedter.calendar.JDateChooser dchFechaInicio;
-    private com.toedter.calendar.JDateChooser dchVencimiento;
+    public static com.toedter.calendar.JDateChooser dchFechaInicio;
+    public static com.toedter.calendar.JDateChooser dchVencimiento;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1023,7 +1041,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtImporteMedidor;
     private javax.swing.JTextField txtImporteMinimo;
     private javax.swing.JTextField txtImporteTotal;
-    private javax.swing.JTextField txtInicioMedidor;
+    public static javax.swing.JTextField txtInicioMedidor;
     public static javax.swing.JTextField txtNumeroUsuario;
     // End of variables declaration//GEN-END:variables
 

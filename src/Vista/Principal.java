@@ -16,6 +16,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 /**
  *
@@ -117,7 +118,6 @@ public final class Principal extends javax.swing.JFrame {
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
         jMenuBar1.setForeground(new java.awt.Color(255, 255, 255));
 
-        mnuFacturas.setBackground(new java.awt.Color(255, 255, 255));
         mnuFacturas.setForeground(new java.awt.Color(0, 102, 255));
         mnuFacturas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/factura32.png"))); // NOI18N
         mnuFacturas.setText("Facturas");
@@ -129,7 +129,6 @@ public final class Principal extends javax.swing.JFrame {
         });
         jMenuBar1.add(mnuFacturas);
 
-        mnuClientes.setBackground(new java.awt.Color(255, 255, 255));
         mnuClientes.setForeground(new java.awt.Color(0, 102, 255));
         mnuClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Usuario32.png"))); // NOI18N
         mnuClientes.setText("Clientes");
@@ -141,7 +140,6 @@ public final class Principal extends javax.swing.JFrame {
         });
         jMenuBar1.add(mnuClientes);
 
-        mnuReportes.setBackground(new java.awt.Color(255, 255, 255));
         mnuReportes.setForeground(new java.awt.Color(0, 102, 255));
         mnuReportes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/reporte32.png"))); // NOI18N
         mnuReportes.setText("Reportes");
@@ -153,7 +151,6 @@ public final class Principal extends javax.swing.JFrame {
         });
         jMenuBar1.add(mnuReportes);
 
-        mnuHerramientas.setBackground(new java.awt.Color(255, 255, 255));
         mnuHerramientas.setForeground(new java.awt.Color(0, 102, 255));
         mnuHerramientas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Herramientas32.png"))); // NOI18N
         mnuHerramientas.setText("Herramientas");
@@ -306,10 +303,8 @@ public final class Principal extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Principal().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Principal().setVisible(true);
         });
     }
 
@@ -324,7 +319,4 @@ public final class Principal extends javax.swing.JFrame {
     public static javax.swing.JTextField txtAceptarCancelar;
     // End of variables declaration//GEN-END:variables
 
-    private void setIconImage(ImageIcon imageIcon) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

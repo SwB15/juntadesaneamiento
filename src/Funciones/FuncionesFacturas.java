@@ -3,11 +3,23 @@ package Funciones;
 import Controlador.Conexion;
 import Datos.DatosFacturas;
 import Vista.Facturas;
+import static Vista.Facturas.dchVencimiento;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.Year;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -19,22 +31,25 @@ public class FuncionesFacturas {
 
     private final Conexion mysql = new Conexion();
     private final Connection cn = Conexion.getConnection();
+    public DefaultTableModel modelo, modelo2;
     Statement st;
     ResultSet rs;
+    PreparedStatement ps;
     private String sSQL = "";
     public Integer totalRegistros;
     String[] reg = new String[2];
+    public int codigo;
+    String fechaActual;
 
     //Aqui se cargan los datos a ser utilizados dentro del sistema
     public DefaultTableModel registros(int buscar) {
-        DefaultTableModel modelo;
         String[] titulos = {"Codigo", "Boleta", "Mes", "Vencimiento", "Atraso", "Conexion", "F. Inicio", "F. Cierre", "E. Inicio", "E. Cierre", "Cons. Minimo", "Excedente", "Total", "Cliente", "idClientes"};
         String[] registros = new String[15];
         totalRegistros = 0;
         modelo = new DefaultTableModel(null, titulos);
 
         try {
-            PreparedStatement ps = cn.prepareStatement("SELECT id, boleta, mes, vencimiento, atraso, conexion, fechainicio, fechacierre, estadoinicio, estadocierre, consumominimo, excedente, total, (SELECT nombre FROM clientes WHERE id = idclientes) AS nombre, (SELECT apellido FROM clientes WHERE id = idclientes) AS apellido, (SELECT id FROM clientes WHERE id = idclientes) AS idClientes FROM facturas WHERE id = ? ORDER BY id DESC");
+            ps = cn.prepareStatement("SELECT id, boleta, mes, vencimiento, atraso, conexion, fechainicio, fechacierre, estadoinicio, estadocierre, consumominimo, excedente, total, (SELECT nombre FROM clientes WHERE id = idclientes) AS nombre, (SELECT apellido FROM clientes WHERE id = idclientes) AS apellido, (SELECT id FROM clientes WHERE id = idclientes) AS idClientes FROM facturas WHERE id = ? ORDER BY id DESC");
             ps.setInt(1, buscar);
             rs = ps.executeQuery();
 
@@ -65,11 +80,129 @@ public class FuncionesFacturas {
         }
     }
 
+    //Al seleccionar un cliente para realizar una nueva factura, se obtiene el id de la ultima factura realizada al cliente
+    public int datosClientes(int idClientes) {
+        sSQL = "SELECT MAX(id)AS idfacturas FROM facturas WHERE idClientes = ?";
+
+        try {
+            ps = cn.prepareStatement(sSQL);
+            ps.setInt(1, idClientes);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                codigo = rs.getInt("idfacturas");
+            }
+            return codigo;
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+            return 0;
+        }
+    }
+
+    //Obtenido el id de la factura anterior, se proceden a cargar los datos del mes anterior del cliente
+    public void llenarDatos(int buscar) {
+        sSQL = "SELECT * FROM facturas WHERE id = ?";
+
+        String[] titulos = {"Codigo", "Boleta", "Mes", "Vencimiento", "Atraso", "Conexion", "F. Inicio", "F. Cierre", "E. Inicio", "E. Cierre", "Cons. Minimo", "Excedente", "Total", "Cliente", "idClientes"};
+        String[] registros = new String[14];
+        totalRegistros = 0;
+        modelo2 = new DefaultTableModel(null, titulos);
+
+        try {
+            ps = cn.prepareStatement(sSQL);
+            ps.setInt(1, buscar);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                registros[0] = rs.getString("id");
+                registros[1] = rs.getString("boleta");
+                registros[2] = rs.getString("mes");
+                registros[3] = rs.getString("vencimiento");
+                registros[4] = rs.getString("atraso");
+                registros[5] = rs.getString("conexion");
+                registros[6] = rs.getString("fechainicio");
+                registros[7] = rs.getString("fechacierre");
+                registros[8] = rs.getString("estadoinicio");
+                registros[9] = rs.getString("estadocierre");
+                registros[10] = rs.getString("consumominimo");
+                registros[11] = rs.getString("excedente");
+                registros[12] = rs.getString("total");
+                registros[13] = rs.getString("idClientes");
+
+                totalRegistros = totalRegistros + 1;
+                modelo2.addRow(registros);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showConfirmDialog(null, e);
+        }
+    }
+
+    //Rellena el combobox de Mes en facturas
+    public void meses() {
+        switch (modelo2.getValueAt(0, 2).toString()) {
+            case "Enero":
+                Facturas.cmbMes.setSelectedItem("Febrero");
+                break;
+            case "Febrero":
+                Facturas.cmbMes.setSelectedItem("Marzo");
+                break;
+            case "Marzo":
+                Facturas.cmbMes.setSelectedItem("Abril");
+                break;
+            case "Abril":
+                Facturas.cmbMes.setSelectedItem("Mayo");
+                break;
+            case "Mayo":
+                Facturas.cmbMes.setSelectedItem("Junio");
+                break;
+            case "Junio":
+                Facturas.cmbMes.setSelectedItem("Julio");
+                break;
+            case "Julio":
+                Facturas.cmbMes.setSelectedItem("Agosto");
+                break;
+            case "Agosto":
+                Facturas.cmbMes.setSelectedItem("Septiembre");
+                break;
+            case "Septiembre":
+                Facturas.cmbMes.setSelectedItem("Octubre");
+                break;
+            case "Octubre":
+                Facturas.cmbMes.setSelectedItem("Noviembre");
+                break;
+            case "Noviembre":
+                Facturas.cmbMes.setSelectedItem("Diciembre");
+                break;
+            case "Diciembre":
+                Facturas.cmbMes.setSelectedItem("Enero");
+                break;
+            default:
+                break;
+        }
+    }
+
+    //Obtiene la fecha actual y establece la fecha de vencimiento de la nueva factura
+    public void vencimiento() {
+
+        java.util.Date fech = new Date();
+        int dia = 13;
+        int mes = fech.getMonth()+2;
+        int ano = YearMonth.now().getYear();
+       
+        String formattedString = dia+"/"+mes+"/"+ano;
+        System.out.println(formattedString);
+
+        //Aplica formato requerido.
+        try {
+            SimpleDateFormat vencimiento = new SimpleDateFormat("dd/MM/yyyy");
+            Date fecha = vencimiento.parse(formattedString);
+            dchVencimiento.setDate(fecha);
+        } catch (ParseException ex) {
+            Logger.getLogger(Facturas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public void clientes(String cliente) {
-        DefaultTableModel modelo;
         String[] titulos = {"Codigo", "Usuario"};
-        
+
         totalRegistros = 0;
         modelo = new DefaultTableModel(null, titulos);
 
@@ -82,12 +215,12 @@ public class FuncionesFacturas {
             while (rs.next()) {
                 reg[0] = rs.getString("id");
                 reg[1] = rs.getString("nombre") + " " + rs.getString("apellido");
-                System.out.println("while "+reg[0]);
+                System.out.println("while " + reg[0]);
 
                 totalRegistros = totalRegistros + 1;
                 modelo.addRow(reg);
             }
-            System.out.println("despues del while "+reg[0]);
+            System.out.println("despues del while " + reg[0]);
         } catch (SQLException e) {
             JOptionPane.showConfirmDialog(null, e);
         }

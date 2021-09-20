@@ -1,8 +1,19 @@
-
 package Vista;
 
+import Controlador.Conexion;
 import Datos.DatosClientes;
 import Funciones.FuncionesClientes;
+import Funciones.FuncionesFacturas;
+import static Vista.Facturas.dchFechaInicio;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -11,9 +22,22 @@ import javax.swing.table.DefaultTableModel;
  * @author SwichBlade15
  */
 public final class SeleccionarClientes extends javax.swing.JDialog {
-    
+
     FuncionesClientes funcion = new FuncionesClientes();
+    FuncionesFacturas funcionfacturas = new FuncionesFacturas();
     DatosClientes datos = new DatosClientes();
+    private final Conexion mysql = new Conexion();
+    private final Connection cn = Conexion.getConnection();
+    private String sSQL = "";
+    int totalRegistros = 0;
+    public DefaultTableModel modelo;
+    Date d;
+    ResultSet rs;
+    Statement st;
+    PreparedStatement ps;
+    String[] reg = new String[6];
+    String where, buscarString;
+    int buscarInt;
 
     public SeleccionarClientes(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -21,11 +45,11 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
         this.setLocationRelativeTo(null);
         mostrar("");
     }
-    
+
     public void mostrar(String buscar) {
         try {
-            DefaultTableModel modelo;
-            modelo = funcion.mostrar(buscar);
+            funcion.seleccionarClientes(buscar);
+            modelo = funcion.modelo;
             tblSeleccionarClientes.setModel(modelo);
             ocultar_columnas();
         } catch (Exception e) {
@@ -48,6 +72,7 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        rbtngSeleccionar = new javax.swing.ButtonGroup();
         txtClientes = new javax.swing.JTextField();
         rbtnUsuario = new javax.swing.JRadioButton();
         rbtnNombre = new javax.swing.JRadioButton();
@@ -57,8 +82,10 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        rbtngSeleccionar.add(rbtnUsuario);
         rbtnUsuario.setText("N° Usuario");
 
+        rbtngSeleccionar.add(rbtnNombre);
         rbtnNombre.setText("Nombre");
 
         tblSeleccionarClientes = new javax.swing.JTable(){
@@ -128,12 +155,40 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
 
     private void tblSeleccionarClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSeleccionarClientesMouseClicked
         int seleccionar = tblSeleccionarClientes.rowAtPoint(evt.getPoint());
-        if(evt.getClickCount()==2){
+        if (evt.getClickCount() == 2) {
             Facturas.txtIdclientes.setText(String.valueOf(tblSeleccionarClientes.getValueAt(seleccionar, 0)));
             Facturas.txtNumeroUsuario.setText(String.valueOf(tblSeleccionarClientes.getValueAt(seleccionar, 1)));
-            Facturas.txtClientes.setText(String.valueOf(tblSeleccionarClientes.getValueAt(seleccionar, 2)));
-            Facturas.txtDireccion.setText(String.valueOf(tblSeleccionarClientes.getValueAt(seleccionar, 3)));
+            Facturas.txtClientes.setText(String.valueOf(tblSeleccionarClientes.getValueAt(seleccionar, 2) + " " + tblSeleccionarClientes.getValueAt(seleccionar, 3)));
+            Facturas.txtDireccion.setText(String.valueOf(tblSeleccionarClientes.getValueAt(seleccionar, 4)));
+            Facturas.txtInicioMedidor.setText(String.valueOf(tblSeleccionarClientes.getValueAt(seleccionar, 5)));
+
+            funcionfacturas.datosClientes(Integer.parseInt(tblSeleccionarClientes.getValueAt(seleccionar, 0).toString()));
+            funcionfacturas.llenarDatos(funcionfacturas.codigo);
             
+            //Convertir java.sql.date a java.util.date y mostrar en pantalla la Fecha Inicio
+            SimpleDateFormat inicio = new SimpleDateFormat("yyyy-MM-dd");
+            //Formato inicial. 
+            try {
+                String fechaInicio = String.valueOf(funcionfacturas.modelo2.getValueAt(0, 6));
+                d = inicio.parse(fechaInicio);
+            } catch (ParseException e) {
+
+            }
+
+            //Aplica formato requerido.
+            try {
+                inicio.applyPattern("dd/MM/yyyy");
+                String nuevoFormato = inicio.format(d);
+                Date fecha = inicio.parse(nuevoFormato);
+                dchFechaInicio.setDate(fecha);
+            } catch (ParseException ex) {
+                Logger.getLogger(Facturas.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            funcionfacturas.meses();
+            funcionfacturas.vencimiento();
+           
+
             dispose();
         }
     }//GEN-LAST:event_tblSeleccionarClientesMouseClicked
@@ -183,8 +238,9 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JRadioButton rbtnNombre;
-    private javax.swing.JRadioButton rbtnUsuario;
+    public static javax.swing.JRadioButton rbtnNombre;
+    public static javax.swing.JRadioButton rbtnUsuario;
+    private javax.swing.ButtonGroup rbtngSeleccionar;
     private javax.swing.JTable tblSeleccionarClientes;
     private javax.swing.JTextField txtClientes;
     // End of variables declaration//GEN-END:variables
