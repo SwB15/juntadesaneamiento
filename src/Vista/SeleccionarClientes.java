@@ -187,6 +187,7 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
             
             funcionfacturas.meses();
             funcionfacturas.vencimiento();
+            Facturas.txtCierreMedidor.setEditable(true);
            
 
             dispose();

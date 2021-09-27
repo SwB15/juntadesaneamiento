@@ -9,14 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.Year;
 import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,13 +26,14 @@ public class FuncionesFacturas {
 
     private final Conexion mysql = new Conexion();
     private final Connection cn = Conexion.getConnection();
-    public DefaultTableModel modelo, modelo2;
+    public DefaultTableModel modelo, modelo2, modelo3;
     Statement st;
     ResultSet rs;
     PreparedStatement ps;
     private String sSQL = "";
     public Integer totalRegistros;
     String[] reg = new String[2];
+    String[] regclientes = new String[6];
     public int codigo;
     String fechaActual;
 
@@ -52,7 +48,6 @@ public class FuncionesFacturas {
             ps = cn.prepareStatement("SELECT id, boleta, mes, vencimiento, atraso, conexion, fechainicio, fechacierre, estadoinicio, estadocierre, consumominimo, excedente, total, (SELECT nombre FROM clientes WHERE id = idclientes) AS nombre, (SELECT apellido FROM clientes WHERE id = idclientes) AS apellido, (SELECT id FROM clientes WHERE id = idclientes) AS idClientes FROM facturas WHERE id = ? ORDER BY id DESC");
             ps.setInt(1, buscar);
             rs = ps.executeQuery();
-
             while (rs.next()) {
                 registros[0] = rs.getString("id");
                 registros[1] = rs.getString("boleta");
@@ -202,7 +197,6 @@ public class FuncionesFacturas {
 
     public void clientes(String cliente) {
         String[] titulos = {"Codigo", "Usuario"};
-
         totalRegistros = 0;
         modelo = new DefaultTableModel(null, titulos);
 
@@ -225,15 +219,45 @@ public class FuncionesFacturas {
             JOptionPane.showConfirmDialog(null, e);
         }
     }
+    
+    //Inserta el cliente de la factura seleccionada mediante la tabla de facturas
+    public DefaultTableModel clientesFactura(int idcliente) {
+        String[] titulos = {"Codigo", "Numero", "Nombre", "Apellido", "Direccion", "Medidor"};
+        totalRegistros = 0;
+        modelo3 = new DefaultTableModel(null, titulos);
+
+        sSQL = "SELECT id, numerocliente, nombre, apellido, direccion, medidor FROM clientes WHERE id = ? ORDER BY id DESC";
+
+        try {
+            ps = cn.prepareStatement(sSQL);
+            ps.setInt(1, idcliente);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                regclientes[0] = rs.getString("id");
+                regclientes[1] = rs.getString("numerocliente");
+                regclientes[2] = rs.getString("nombre");
+                regclientes[3] = rs.getString("apellido");
+                regclientes[4] = rs.getString("direccion");
+                regclientes[5] = rs.getString("medidor");
+                
+                totalRegistros = totalRegistros + 1;
+                modelo3.addRow(regclientes);
+            }
+            return modelo3;
+        } catch (SQLException e) {
+            JOptionPane.showConfirmDialog(null, e);
+            return null;
+        }
+    }
 
     public DefaultTableModel mostrar(String buscar) {
-        DefaultTableModel modelo;
         String[] titulos = {"Codigo", "Boleta", "Mes", "Vencimiento", "Fecha Cierre", "Estado Cierre", "Total", "Usuario"};
         String[] registros = new String[8];
         totalRegistros = 0;
         modelo = new DefaultTableModel(null, titulos);
 
-        sSQL = "SELECT id, boleta, mes, vencimiento, fechacierre, estadocierre, total, (SELECT nombre FROM clientes WHERE id = idclientes) AS nombre, (SELECT apellido FROM clientes WHERE id = idclientes) AS apellido FROM facturas WHERE id LIKE '%" + buscar + "%' ORDER BY id DESC";
+        sSQL = "SELECT id, boleta, mes, vencimiento, fechacierre, estadocierre, total, (SELECT nombre FROM clientes WHERE id = idclientes) AS nombre, (SELECT apellido FROM clientes WHERE id = idclientes) AS apellido FROM facturas WHERE boleta LIKE '%" + buscar + "%' ORDER BY id DESC";
 
         try {
             st = cn.createStatement();
