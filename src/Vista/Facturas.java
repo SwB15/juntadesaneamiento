@@ -23,6 +23,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -46,11 +47,12 @@ public final class Facturas extends javax.swing.JInternalFrame {
     SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM/dd");
     Date d;
     DefaultTableModel modelo, modelo2, modelo3;
+    DecimalFormat formateador14 = new DecimalFormat("#,###.###");
     PreparedStatement ps;
     Statement st;
     ResultSet rs;
     int codigo, medidor, estadocierre;
-    String sSQL, boleta, ruta, caracteres;
+    String sSQL, boleta, ruta, caracteres, cadena;
 
     public Facturas() {
         initComponents();
@@ -65,8 +67,8 @@ public final class Facturas extends javax.swing.JInternalFrame {
         boleta();
         botonesTransparentes();
         txtBoleta.setText(boleta);
-//        txtIdfacturas.setVisible(false);
-//        txtIdclientes.setVisible(false);
+        txtIdfacturas.setVisible(false);
+        txtIdclientes.setVisible(false);
     }
 
     //Obtiene los datos básicos y los muentra en la tabla tblFacturas
@@ -93,7 +95,6 @@ public final class Facturas extends javax.swing.JInternalFrame {
     public void clientes(int buscar) {
         try {
             modelo3 = funcion.clientesFactura(buscar);
-            tblClientes.setModel(modelo3);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
@@ -114,6 +115,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
         txtDireccion.setText("");
         txtConsumoExcedente.setText("0");
         txtConsumoTotal.setText("0");
+        txtConsumoMinimo.setText("10");
         txtImporteExcedentes.setText("0");
         txtImporteAtrasos.setText("0");
         txtImporteConexion.setText("0");
@@ -130,10 +132,13 @@ public final class Facturas extends javax.swing.JInternalFrame {
         dchVencimiento.setEnabled(true);
         dchFechaInicio.setEnabled(true);
         dchFechaCierre.setEnabled(true);
+        txtImporteAtrasos.setEditable(true);
+        txtImporteConexion.setEditable(true);
 
         btnGuardar.setEnabled(true);
         btnEliminar.setEnabled(true);
         btnNuevo.setEnabled(false);
+        btnImprimir.setEnabled(true);
         btnSeleccionarClientes.setEnabled(true);
     }
 
@@ -145,6 +150,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
         txtNumeroUsuario.setText("");
         txtClientes.setText("");
         txtDireccion.setText("");
+        txtConsumoMinimo.setText("10");
         txtConsumoExcedente.setText("0");
         txtConsumoTotal.setText("0");
         txtImporteExcedentes.setText("0");
@@ -155,6 +161,8 @@ public final class Facturas extends javax.swing.JInternalFrame {
         txtImporteTotal.setText("0");
 
         txtCierreMedidor.setEditable(false);
+        txtImporteAtrasos.setEditable(false);
+        txtImporteConexion.setEditable(false);
 
         cmbMes.setSelectedIndex(0);
         dchVencimiento.setCalendar(null);
@@ -169,6 +177,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
         btnGuardar.setEnabled(false);
         btnEliminar.setEnabled(false);
         btnNuevo.setEnabled(true);
+        btnImprimir.setEnabled(false);
         btnSeleccionarClientes.setEnabled(false);
     }
 
@@ -251,14 +260,32 @@ public final class Facturas extends javax.swing.JInternalFrame {
         if (!txtConsumoExcedente.getText().equals("0")) {
             int excedente = Integer.parseInt(txtConsumoExcedente.getText()) * 1000;
             txtImporteExcedentes.setText(String.valueOf(excedente));
+
+            //Agrega puntos decimales
+            if (txtImporteExcedentes.getText().length() > 3) {
+                cadena = txtImporteExcedentes.getText().replace(".", "");
+                txtImporteExcedentes.setText(formateador14.format(Integer.parseInt(cadena)));
+            }
         } else {
             txtImporteExcedentes.setText("0");
         }
-
-        int suma = Integer.parseInt(txtImporteMinimo.getText()) + Integer.parseInt(txtImporteExcedentes.getText());
+        int suma = Integer.parseInt(txtImporteMinimo.getText().replace(".", "")) + Integer.parseInt(txtImporteExcedentes.getText().replace(".", ""));
         int iva = suma / 10;
+
         txtImporteIva.setText(String.valueOf(iva));
         txtImporteTotal.setText(String.valueOf(suma + iva));
+
+        //Agrega puntos decimales al txtImporteIva
+        if (txtImporteIva.getText().length() > 3) {
+            cadena = txtImporteIva.getText().replace(".", "");
+            txtImporteIva.setText(formateador14.format(Integer.parseInt(cadena)));
+        }
+
+        //Agrega puntos decimales al txtImporteTotal
+        if (txtImporteTotal.getText().length() > 3) {
+            cadena = txtImporteTotal.getText().replace(".", "");
+            txtImporteTotal.setText(formateador14.format(Integer.parseInt(cadena)));
+        }
     }
 
     public boolean generarFactura() {
@@ -375,6 +402,21 @@ public final class Facturas extends javax.swing.JInternalFrame {
             txtImporteIva.setText("0");
             txtImporteTotal.setText("0");
             txtConsumoTotal.setText("0");
+        } else {
+
+        }
+    }
+
+    //Metodo para crear y visualizar la factura
+    private void imprimir() {
+        if (txtIdfacturas.getText().length() == 0) {
+            mensaje = "Seleccione primero una boleta";
+            advertencia();
+        } else {
+            //Funcion para generar una factura
+            ruta = "C:\\Users\\User\\Desktop";
+            generarFactura();
+            visualizar(txtBoleta.getText());
         }
     }
 
@@ -456,8 +498,6 @@ public final class Facturas extends javax.swing.JInternalFrame {
         jLabel29 = new javax.swing.JLabel();
         txtImporteTotal = new javax.swing.JTextField();
         lblFondoInterno1 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tblClientes = new javax.swing.JTable();
         lblFondo = new javax.swing.JLabel();
 
         setBorder(null);
@@ -520,7 +560,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(tblFacturas);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 465, 975, 50));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 465, 975, 130));
 
         btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Guardar32.png"))); // NOI18N
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -805,7 +845,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
 
         txtImporteMinimo.setEditable(false);
         txtImporteMinimo.setBackground(new java.awt.Color(255, 255, 255));
-        txtImporteMinimo.setText("10000");
+        txtImporteMinimo.setText("10.000");
         txtImporteMinimo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtImporteMinimoActionPerformed(evt);
@@ -819,7 +859,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
 
         txtImporteExcedentes.setEditable(false);
         txtImporteExcedentes.setBackground(new java.awt.Color(255, 255, 255));
-        txtImporteExcedentes.setText("99");
+        txtImporteExcedentes.setText("0");
         txtImporteExcedentes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtImporteExcedentesActionPerformed(evt);
@@ -831,12 +871,26 @@ public final class Facturas extends javax.swing.JInternalFrame {
         jLabel25.setText("Atrasos");
         jPanel14.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
 
-        txtImporteAtrasos.setEditable(false);
-        txtImporteAtrasos.setBackground(new java.awt.Color(255, 255, 255));
-        txtImporteAtrasos.setText("99");
+        txtImporteAtrasos.setText("0");
+        txtImporteAtrasos.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtImporteAtrasosFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtImporteAtrasosFocusLost(evt);
+            }
+        });
         txtImporteAtrasos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtImporteAtrasosActionPerformed(evt);
+            }
+        });
+        txtImporteAtrasos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtImporteAtrasosKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtImporteAtrasosKeyTyped(evt);
             }
         });
         jPanel14.add(txtImporteAtrasos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 75, -1));
@@ -845,12 +899,19 @@ public final class Facturas extends javax.swing.JInternalFrame {
         jLabel26.setText("Conexion");
         jPanel14.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 100, -1, -1));
 
-        txtImporteConexion.setEditable(false);
         txtImporteConexion.setBackground(new java.awt.Color(255, 255, 255));
-        txtImporteConexion.setText("99");
+        txtImporteConexion.setText("0");
         txtImporteConexion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtImporteConexionActionPerformed(evt);
+            }
+        });
+        txtImporteConexion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtImporteConexionKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtImporteConexionKeyTyped(evt);
             }
         });
         jPanel14.add(txtImporteConexion, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 120, 75, -1));
@@ -861,7 +922,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
 
         txtImporteMedidor.setEditable(false);
         txtImporteMedidor.setBackground(new java.awt.Color(255, 255, 255));
-        txtImporteMedidor.setText("99");
+        txtImporteMedidor.setText("0");
         txtImporteMedidor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtImporteMedidorActionPerformed(evt);
@@ -875,7 +936,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
 
         txtImporteIva.setEditable(false);
         txtImporteIva.setBackground(new java.awt.Color(255, 255, 255));
-        txtImporteIva.setText("99");
+        txtImporteIva.setText("0");
         txtImporteIva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtImporteIvaActionPerformed(evt);
@@ -893,7 +954,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
         txtImporteTotal.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtImporteTotal.setForeground(new java.awt.Color(0, 102, 0));
         txtImporteTotal.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtImporteTotal.setText("99");
+        txtImporteTotal.setText("0");
         txtImporteTotal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtImporteTotalActionPerformed(evt);
@@ -905,21 +966,6 @@ public final class Facturas extends javax.swing.JInternalFrame {
         jPanel14.add(lblFondoInterno1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, -1));
 
         getContentPane().add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 120, 200, 270));
-
-        tblClientes.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane2.setViewportView(tblClientes);
-
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 530, 970, 70));
 
         lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoFacturas.png"))); // NOI18N
         lblFondo.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1000,6 +1046,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         habilitar();
+        btnSeleccionarClientes.doClick();
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -1133,17 +1180,18 @@ public final class Facturas extends javax.swing.JInternalFrame {
         } else {
             consumo();
             calculo();
-            caracteres();
         }
     }//GEN-LAST:event_txtCierreMedidorFocusLost
 
     private void txtBuscarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarFocusGained
-        txtBuscar.setText("");
+        if(txtBuscar.getText().equals("Buscar")){
+            txtBuscar.setText("");
+        }
     }//GEN-LAST:event_txtBuscarFocusGained
 
     private void txtBuscarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarFocusLost
         if (txtBuscar.getText().length() == 0) {
-            txtBuscar.setText("Buscar");
+            txtBuscar.setText("Buscar Facturas...");
         }
     }//GEN-LAST:event_txtBuscarFocusLost
 
@@ -1158,15 +1206,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtBuscarKeyTyped
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
-        if (txtIdfacturas.getText().length() == 0) {
-            mensaje = "Seleccione primero una boleta";
-            advertencia();
-        } else {
-            //Funcion para generar una factura
-            ruta = "C:\\Users\\User\\Desktop";
-            generarFactura();
-            visualizar(txtBoleta.getText());
-        }
+        imprimir();
     }//GEN-LAST:event_btnImprimirActionPerformed
 
     private void txtCierreMedidorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCierreMedidorKeyTyped
@@ -1192,6 +1232,67 @@ public final class Facturas extends javax.swing.JInternalFrame {
             advertencia();
         }
     }//GEN-LAST:event_txtCierreMedidorKeyTyped
+
+    private void txtImporteAtrasosFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtImporteAtrasosFocusGained
+        if (txtImporteAtrasos.getText().length() == 0) {
+            txtImporteAtrasos.setText("");
+        }
+    }//GEN-LAST:event_txtImporteAtrasosFocusGained
+
+    private void txtImporteAtrasosFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtImporteAtrasosFocusLost
+        if (txtCierreMedidor.getText().length() == 0) {
+            txtCierreMedidor.setText("0");
+        }
+    }//GEN-LAST:event_txtImporteAtrasosFocusLost
+
+    private void txtImporteAtrasosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtImporteAtrasosKeyTyped
+        char validar = evt.getKeyChar();
+        if (Character.isLetter(validar)) {
+            getToolkit().beep();
+            evt.consume();
+            mensaje = "Ingrese solo números";
+            advertencia();
+        }
+
+        int numerocaracteres = 10;
+        if (txtImporteAtrasos.getText().length() > numerocaracteres) {
+            evt.consume();
+            mensaje = "No ingrese tantos números";
+            caracteres = "Superado";
+            advertencia();
+        }
+    }//GEN-LAST:event_txtImporteAtrasosKeyTyped
+
+    private void txtImporteAtrasosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtImporteAtrasosKeyReleased
+        if (txtImporteAtrasos.getText().length() > 3) {
+            cadena = txtImporteAtrasos.getText().replace(".", "");
+            txtImporteAtrasos.setText(formateador14.format(Integer.parseInt(cadena)));
+        }
+    }//GEN-LAST:event_txtImporteAtrasosKeyReleased
+
+    private void txtImporteConexionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtImporteConexionKeyReleased
+        if (txtImporteConexion.getText().length() > 3) {
+            cadena = txtImporteConexion.getText().replace(".", "");
+            txtImporteConexion.setText(formateador14.format(Integer.parseInt(cadena)));
+        }
+    }//GEN-LAST:event_txtImporteConexionKeyReleased
+
+    private void txtImporteConexionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtImporteConexionKeyTyped
+        char validar = evt.getKeyChar();
+        if (Character.isLetter(validar)) {
+            getToolkit().beep();
+            evt.consume();
+            mensaje = "Ingrese solo números";
+            advertencia();
+        }
+
+        int numerocaracteres = 10;
+        if (txtImporteConexion.getText().length() > numerocaracteres) {
+            evt.consume();
+            mensaje = "No ingrese tantos números";
+            advertencia();
+        }
+    }//GEN-LAST:event_txtImporteConexionKeyTyped
 
     //Metodos para llamar a los JDialog de Advertencia, Fallo y Realizado
     Frame f = JOptionPane.getFrameForComponent(this);
@@ -1274,7 +1375,6 @@ public final class Facturas extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblCerrar;
     private javax.swing.JLabel lblFondo;
     private javax.swing.JLabel lblFondoBuscador;
@@ -1282,7 +1382,6 @@ public final class Facturas extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblFondoInterno2;
     private javax.swing.JLabel lblFondoInterno3;
     private javax.swing.JLabel lblFondoInterno4;
-    private javax.swing.JTable tblClientes;
     private javax.swing.JTable tblFacturas;
     private javax.swing.JTextField txtBoleta;
     private javax.swing.JTextField txtBuscar;
@@ -1335,10 +1434,19 @@ public final class Facturas extends javax.swing.JInternalFrame {
             if (estadoMedidor(Integer.parseInt(txtCierreMedidor.getText()), Integer.parseInt(txtIdclientes.getText()))) {
                 mensaje = "Factura guardada correctamente";
                 realizado();
-                //Funcion para generar una factura
-                ruta = "C:\\Users\\User\\Desktop\\";
-                generarFactura();
-                visualizar(txtBoleta.getText());
+
+                //Ventana emergente preguntando para imprimir o no la factura
+                encabezado = "Imprimir factura";
+                mensaje = "Desea imprimir esta factura?";
+                aceptarCancelar();
+                String reply = Principal.txtAceptarCancelar.getText();
+                
+                if (reply.equals("1")) {
+                    //Funcion para generar una factura
+                    ruta = "C:\\Users\\User\\Desktop\\";
+                    generarFactura();
+                    visualizar(txtBoleta.getText());
+                }
                 mostrar("");
 //            inhabilitar();
             }

@@ -5,6 +5,12 @@ import Datos.DatosClientes;
 import Funciones.FuncionesClientes;
 import Funciones.FuncionesFacturas;
 import static Vista.Facturas.dchFechaInicio;
+import Vista.Notificaciones.Aceptar_Cancelar;
+import Vista.Notificaciones.Advertencia;
+import Vista.Notificaciones.Fallo;
+import Vista.Notificaciones.Realizado;
+import java.awt.Color;
+import java.awt.Frame;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +20,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -28,7 +36,7 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
     DatosClientes datos = new DatosClientes();
     private final Conexion mysql = new Conexion();
     private final Connection cn = Conexion.getConnection();
-    private String sSQL = "";
+    private final String sSQL = "";
     int totalRegistros = 0;
     public DefaultTableModel modelo;
     Date d;
@@ -42,7 +50,11 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
     public SeleccionarClientes(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.getRootPane().setOpaque(false);
+        this.getContentPane().setBackground(new Color(0, 0, 0, 0));
+        this.setBackground(new Color(0, 0, 0, 0));
         this.setLocationRelativeTo(null);
+        
         mostrar("");
     }
 
@@ -73,20 +85,30 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
     private void initComponents() {
 
         rbtngSeleccionar = new javax.swing.ButtonGroup();
-        txtClientes = new javax.swing.JTextField();
         rbtnUsuario = new javax.swing.JRadioButton();
         rbtnNombre = new javax.swing.JRadioButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSeleccionarClientes = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        lblCerrar = new javax.swing.JLabel();
+        txtBuscar = new javax.swing.JTextField();
+        lblFondoBuscar = new javax.swing.JLabel();
+        lblFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        rbtnUsuario.setBackground(new java.awt.Color(255, 255, 255));
         rbtngSeleccionar.add(rbtnUsuario);
+        rbtnUsuario.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         rbtnUsuario.setText("N° Usuario");
+        getContentPane().add(rbtnUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 100, -1, -1));
 
+        rbtnNombre.setBackground(new java.awt.Color(255, 255, 255));
         rbtngSeleccionar.add(rbtnNombre);
+        rbtnNombre.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         rbtnNombre.setText("Nombre");
+        getContentPane().add(rbtnNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 100, -1, -1));
 
         tblSeleccionarClientes = new javax.swing.JTable(){
             public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -111,44 +133,49 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(tblSeleccionarClientes);
 
-        jButton1.setText("X");
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 140, 430, 260));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(rbtnUsuario)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rbtnNombre))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton1)
-                .addGap(18, 18, 18)
-                .addComponent(txtClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rbtnUsuario)
-                    .addComponent(rbtnNombre))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        lblCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Cerrar32.png"))); // NOI18N
+        lblCerrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCerrarMouseClicked(evt);
+            }
+        });
+        getContentPane().add(lblCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(56, 56, -1, -1));
+
+        txtBuscar.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        txtBuscar.setForeground(new java.awt.Color(0, 102, 255));
+        txtBuscar.setText("Buscar Usuario...");
+        txtBuscar.setBorder(null);
+        txtBuscar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtBuscarFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtBuscarFocusLost(evt);
+            }
+        });
+        txtBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBuscarActionPerformed(evt);
+            }
+        });
+        txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtBuscarKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBuscarKeyTyped(evt);
+            }
+        });
+        getContentPane().add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(345, 76, 140, 18));
+
+        lblFondoBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoBuscador.png"))); // NOI18N
+        getContentPane().add(lblFondoBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 70, 170, 30));
+
+        lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoSeleccionarProductos.png"))); // NOI18N
+        lblFondo.setOpaque(true);
+        getContentPane().add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -194,6 +221,82 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_tblSeleccionarClientesMouseClicked
 
+    private void lblCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCerrarMouseClicked
+        Principal.lblProceso.setText("Proceso: OFF");
+        this.dispose();
+    }//GEN-LAST:event_lblCerrarMouseClicked
+
+    private void txtBuscarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarFocusGained
+        if(txtBuscar.getText().equals("Buscar Usuario...")){
+            txtBuscar.setText("");
+        }
+    }//GEN-LAST:event_txtBuscarFocusGained
+
+    private void txtBuscarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarFocusLost
+        if (txtBuscar.getText().length() == 0) {
+            txtBuscar.setText("Buscar Usuario...");
+        }
+    }//GEN-LAST:event_txtBuscarFocusLost
+
+    private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
+        txtBuscar.transferFocus();
+    }//GEN-LAST:event_txtBuscarActionPerformed
+
+    private void txtBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyPressed
+        
+    }//GEN-LAST:event_txtBuscarKeyPressed
+
+    private void txtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyTyped
+        char c = evt.getKeyChar();
+        if (Character.isLowerCase(c)) {
+            evt.setKeyChar(Character.toUpperCase(c));
+        }
+
+        if(!rbtnUsuario.isSelected() && !rbtnNombre.isSelected()){
+            mensaje = "Seleccione primero lo que quiere buscar";
+            advertencia();
+        }
+        
+        int numerocaracteres = 29;
+        if (txtBuscar.getText().length() > numerocaracteres) {
+            evt.consume();
+            mensaje = "Solo se permiten 30 caracteres";
+            advertencia();
+        }
+    }//GEN-LAST:event_txtBuscarKeyTyped
+
+    Frame f = JOptionPane.getFrameForComponent(this);
+    String encabezado;
+    String mensaje;
+    Icon icono;
+
+    public void advertencia() {
+        Advertencia dialog = new Advertencia(f, true);
+        Advertencia.lblEncabezado.setText(mensaje);
+        dialog.setVisible(true);
+    }
+
+    public void fallo() {
+        Fallo dialog = new Fallo(f, true);
+        Fallo.lblEncabezado.setText(mensaje);
+        dialog.setVisible(true);
+    }
+
+    public void realizado() {
+        Realizado dialog = new Realizado(f, true);
+        Realizado.lblEncabezado.setText(mensaje);
+        dialog.setVisible(true);
+    }
+
+    public void aceptarCancelar() {
+        Aceptar_Cancelar dialog = new Aceptar_Cancelar(f, true);
+        icono = new ImageIcon(getClass().getResource("/Imagenes/FondoCerrarSesion.png"));
+        Aceptar_Cancelar.lblFondo.setIcon(icono);
+        Aceptar_Cancelar.lblEncabezado.setText(encabezado);
+        Aceptar_Cancelar.lblMensaje.setText(mensaje);
+        dialog.setVisible(true);
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -237,12 +340,14 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblCerrar;
+    private javax.swing.JLabel lblFondo;
+    private javax.swing.JLabel lblFondoBuscar;
     public static javax.swing.JRadioButton rbtnNombre;
     public static javax.swing.JRadioButton rbtnUsuario;
     private javax.swing.ButtonGroup rbtngSeleccionar;
     private javax.swing.JTable tblSeleccionarClientes;
-    private javax.swing.JTextField txtClientes;
+    private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 }
