@@ -67,8 +67,8 @@ public final class Facturas extends javax.swing.JInternalFrame {
         boleta();
         botonesTransparentes();
         txtBoleta.setText(boleta);
-        txtIdfacturas.setVisible(false);
-        txtIdclientes.setVisible(false);
+//        txtIdfacturas.setVisible(false);
+//        txtIdclientes.setVisible(false);
     }
 
     //Obtiene los datos básicos y los muentra en la tabla tblFacturas
@@ -289,6 +289,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
     }
 
     public boolean generarFactura() {
+        System.out.println("Entro generarFactura()");
         // Crear el documento con un tamaño personalizado de hojas para la impresion de las facturas
         // 1mm = 28.3f
         Rectangle rectangle = new Rectangle(656.56f, 393.37f);
@@ -296,7 +297,8 @@ public final class Facturas extends javax.swing.JInternalFrame {
         document.setMargins(53.77f, 53.77f, 53.77f, 56.6f); //(izq, der, arriba, abajo)
 
         try {
-            FileOutputStream ficheroPdf = new FileOutputStream(ruta + "Venta " + txtBoleta.getText() + ".pdf");
+            FileOutputStream ficheroPdf = new FileOutputStream(ruta + "Factura " + txtBoleta.getText() + ".pdf");
+            System.out.println("Fichero: " + ficheroPdf.toString());
             PdfWriter writer = PdfWriter.getInstance(document, ficheroPdf);
             document.open();
             Font fuente = new Font();
@@ -320,6 +322,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
             DateFormat dateFormat3 = new SimpleDateFormat("dd/MM/yyyy");
             String fechacierre1 = dateFormat3.format(fechacierre);
 
+            System.out.println("Terminó conversion de fechas");
             //Añadir los datos al documento
             document.add(new Paragraph(txtDireccion.getText() + "      " + txtBoleta.getText() + "      " + cmbMes.getSelectedItem() + "      " + vencimiento1, fuente));
             document.add(new Paragraph(cmbMes.getSelectedItem().toString() + "          " + txtDireccion.getText(), fuente));
@@ -329,6 +332,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
             document.add(new Paragraph(vencimiento1, fuente));
             document.add(new Paragraph(txtClientes.getText(), fuente));
             document.close();
+            System.out.println("Añadió los datos al documento");
 
             return true;
         } catch (DocumentException | HeadlessException | FileNotFoundException e) {
@@ -340,8 +344,10 @@ public final class Facturas extends javax.swing.JInternalFrame {
     }
 
     public void visualizar(String buscar) {
+        System.out.println("Entro visualizar");
         try {
-            File path = new File(ruta + "Venta " + buscar + ".pdf");
+            File path = new File(ruta + "Factura " + buscar + ".pdf");
+            System.out.println("Pasó file: " + path);
             Desktop.getDesktop().open(path);
         } catch (IOException ex) {
             Logger.getLogger(Facturas.class.getName()).log(Level.SEVERE, null, ex);
@@ -377,7 +383,6 @@ public final class Facturas extends javax.swing.JInternalFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
-        System.out.println("Boleta anterior: " + estadocierre);
 
         sSQL = "UPDATE clientes SET medidor = ? WHERE id = ?";
         try {
@@ -409,10 +414,12 @@ public final class Facturas extends javax.swing.JInternalFrame {
 
     //Metodo para crear y visualizar la factura
     private void imprimir() {
+        System.out.println("Entro imprimir");
         if (txtIdfacturas.getText().length() == 0) {
             mensaje = "Seleccione primero una boleta";
             advertencia();
         } else {
+            System.out.println("Paso bien al else");
             //Funcion para generar una factura
             ruta = "C:\\Users\\User\\Desktop";
             generarFactura();
@@ -1046,7 +1053,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         habilitar();
-        btnSeleccionarClientes.doClick();
+        llamarCliente();
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -1067,7 +1074,6 @@ public final class Facturas extends javax.swing.JInternalFrame {
         registros(Integer.parseInt(tblFacturas.getValueAt(seleccionar, 0).toString()));
         habilitar();
         txtIdfacturas.setText(String.valueOf(modelo2.getValueAt(0, 0)));
-        System.out.println("Idfacturas" + String.valueOf(modelo2.getValueAt(0, 0)));
         txtBoleta.setText(String.valueOf(modelo2.getValueAt(0, 1)));
         cmbMes.setSelectedItem(String.valueOf(modelo2.getValueAt(0, 2)));
 
@@ -1184,7 +1190,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtCierreMedidorFocusLost
 
     private void txtBuscarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarFocusGained
-        if(txtBuscar.getText().equals("Buscar")){
+        if (txtBuscar.getText().equals("Buscar")) {
             txtBuscar.setText("");
         }
     }//GEN-LAST:event_txtBuscarFocusGained
@@ -1328,7 +1334,10 @@ public final class Facturas extends javax.swing.JInternalFrame {
     }
 
     private void validarCampos() {
-
+        if (dchFechaCierre.getDate() == null) {
+            mensaje = "Ingrese una fecha de cierre";
+            advertencia();
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1405,6 +1414,8 @@ public final class Facturas extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     public void guardar() {
+        validarCampos();
+
         Date vencimiento = dchVencimiento.getDate();
         java.sql.Date vencimiento1 = new java.sql.Date(vencimiento.getTime());
 
@@ -1420,15 +1431,15 @@ public final class Facturas extends javax.swing.JInternalFrame {
         datos.setBoleta(txtBoleta.getText());
         datos.setMes(mes2);
         datos.setVencimiento(vencimiento1);
-        datos.setAtraso(Integer.parseInt(txtImporteAtrasos.getText()));
-        datos.setConexion(Integer.parseInt(txtImporteConexion.getText()));
+        datos.setAtraso(Integer.parseInt(txtImporteAtrasos.getText().replace(".", "")));
+        datos.setConexion(Integer.parseInt(txtImporteConexion.getText().replace(".", "")));
         datos.setFechaInicio(inicio1);
         datos.setFechaCierre(cierre1);
         datos.setEstadoInicio(Integer.parseInt(txtInicioMedidor.getText()));
         datos.setEstadoCierre(Integer.parseInt(txtCierreMedidor.getText()));
-        datos.setConsumoMinimo(Integer.parseInt(txtImporteMinimo.getText()));
-        datos.setExcedente(Integer.parseInt(txtImporteExcedentes.getText()));
-        datos.setTotal(Integer.parseInt(txtImporteTotal.getText()));
+        datos.setConsumoMinimo(Integer.parseInt(txtImporteMinimo.getText().replace(".", "")));
+        datos.setExcedente(Integer.parseInt(txtImporteExcedentes.getText().replace(".", "")));
+        datos.setTotal(Integer.parseInt(txtImporteTotal.getText().replace(".", "")));
 
         if (funcion.insertar(datos, funcion.buscarClientes(Integer.parseInt(txtIdclientes.getText())))) {
             if (estadoMedidor(Integer.parseInt(txtCierreMedidor.getText()), Integer.parseInt(txtIdclientes.getText()))) {
@@ -1440,15 +1451,16 @@ public final class Facturas extends javax.swing.JInternalFrame {
                 mensaje = "Desea imprimir esta factura?";
                 aceptarCancelar();
                 String reply = Principal.txtAceptarCancelar.getText();
-                
+
                 if (reply.equals("1")) {
+                    System.out.println("Entro if = 1");
                     //Funcion para generar una factura
                     ruta = "C:\\Users\\User\\Desktop\\";
                     generarFactura();
                     visualizar(txtBoleta.getText());
                 }
                 mostrar("");
-//            inhabilitar();
+                inhabilitar();
             }
         } else {
             mensaje = "Factura no guardada";

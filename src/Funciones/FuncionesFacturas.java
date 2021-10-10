@@ -97,7 +97,7 @@ public class FuncionesFacturas {
     public void llenarDatos(int buscar) {
         sSQL = "SELECT * FROM facturas WHERE id = ?";
 
-        String[] titulos = {"Codigo", "Boleta", "Mes", "Vencimiento", "Atraso", "Conexion", "F. Inicio", "F. Cierre", "E. Inicio", "E. Cierre", "Cons. Minimo", "Excedente", "Total", "Cliente", "idClientes"};
+        String[] titulos = {"Codigo", "Boleta", "Mes", "Vencimiento", "Atraso", "Conexion", "F. Inicio", "F. Cierre", "E. Inicio", "E. Cierre", "Cons. Minimo", "Excedente", "Total", "idClientes"};
         String[] registros = new String[14];
         totalRegistros = 0;
         modelo2 = new DefaultTableModel(null, titulos);

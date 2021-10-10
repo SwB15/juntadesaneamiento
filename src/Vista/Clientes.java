@@ -47,8 +47,8 @@ public final class Clientes extends javax.swing.JInternalFrame {
 
         mostrar("");
         botonesTransparentes();
-        txtidcliente.setText(boleta);
-        txtidcliente.setVisible(false);
+        txtIdclientes.setText(boleta);
+        txtIdclientes.setVisible(false);
     }
 
     public void mostrar(String buscar) {
@@ -77,23 +77,37 @@ public final class Clientes extends javax.swing.JInternalFrame {
     }
 
     public void habilitar() {
+        txtIdclientes.setText("");
         txtNumeroUsuario.setText("");
         txtNombre.setText("");
         txtApellido.setText("");
         txtDireccion.setText("");
         txtMedidor.setText("");
-
+        
+        txtNumeroUsuario.setEditable(true);
+        txtNombre.setEditable(true);
+        txtApellido.setEditable(true);
+        txtDireccion.setEditable(true);
+        txtMedidor.setEditable(true);
+        
         btnGuardar.setEnabled(true);
         btnNuevo.setEnabled(false);
         btnEliminar.setEnabled(true);
     }
 
     public void inhabilitar() {
+        txtIdclientes.setText("");
         txtNumeroUsuario.setText("");
         txtNombre.setText("");
         txtApellido.setText("");
         txtDireccion.setText("");
         txtMedidor.setText("");
+        
+        txtNumeroUsuario.setEditable(false);
+        txtNombre.setEditable(false);
+        txtApellido.setEditable(false);
+        txtDireccion.setEditable(false);
+        txtMedidor.setEditable(false);
 
         btnGuardar.setEnabled(false);
         btnNuevo.setEnabled(true);
@@ -130,7 +144,7 @@ public final class Clientes extends javax.swing.JInternalFrame {
         txtNumeroUsuario = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        txtidcliente = new javax.swing.JTextField();
+        txtIdclientes = new javax.swing.JTextField();
         txtApellido = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txtDireccion = new javax.swing.JTextField();
@@ -201,7 +215,7 @@ public final class Clientes extends javax.swing.JInternalFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel3.setText("Apellido:");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, -1, -1));
-        getContentPane().add(txtidcliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 70, 40, 20));
+        getContentPane().add(txtIdclientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 70, 40, 20));
 
         txtApellido.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -278,6 +292,11 @@ public final class Clientes extends javax.swing.JInternalFrame {
         getContentPane().add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 210, 40, -1));
 
         btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Nuevo32.png"))); // NOI18N
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 210, 40, -1));
 
         lblCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Cerrar32.png"))); // NOI18N
@@ -308,7 +327,7 @@ public final class Clientes extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblCerrarMouseClicked
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        if (txtidcliente.getText().length() == 0) {
+        if (txtIdclientes.getText().length() == 0) {
             guardar();
         } else {
             editar();
@@ -325,16 +344,16 @@ public final class Clientes extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void tblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesMouseClicked
+        habilitar();
+        
         int seleccionar = tblClientes.rowAtPoint(evt.getPoint());
 
-        txtidcliente.setText(tblClientes.getValueAt(seleccionar, 0).toString());
+        txtIdclientes.setText(tblClientes.getValueAt(seleccionar, 0).toString());
         txtNumeroUsuario.setText(tblClientes.getValueAt(seleccionar, 1).toString());
         txtNombre.setText(tblClientes.getValueAt(seleccionar, 2).toString());
         txtApellido.setText(tblClientes.getValueAt(seleccionar, 3).toString());
         txtDireccion.setText(tblClientes.getValueAt(seleccionar, 4).toString());
         txtMedidor.setText(tblClientes.getValueAt(seleccionar, 5).toString());
-
-
     }//GEN-LAST:event_tblClientesMouseClicked
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
@@ -442,7 +461,7 @@ public final class Clientes extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblFondoMouseClicked
 
     private void txtBuscarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarFocusGained
-        if(txtBuscar.getText().equals("Buscar")){
+        if(txtBuscar.getText().equals("Buscar Usuarios...")){
             txtBuscar.setText("");
         }
     }//GEN-LAST:event_txtBuscarFocusGained
@@ -452,6 +471,10 @@ public final class Clientes extends javax.swing.JInternalFrame {
             txtBuscar.setText("Buscar Usuario...");
         }
     }//GEN-LAST:event_txtBuscarFocusLost
+
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        habilitar();
+    }//GEN-LAST:event_btnNuevoActionPerformed
     Frame f = JOptionPane.getFrameForComponent(this);
     String encabezado;
     String mensaje;
@@ -539,10 +562,10 @@ public final class Clientes extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtDireccion;
+    private javax.swing.JTextField txtIdclientes;
     private javax.swing.JTextField txtMedidor;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtNumeroUsuario;
-    private javax.swing.JTextField txtidcliente;
     // End of variables declaration//GEN-END:variables
    public void guardar() {
         validarCampos();
@@ -572,7 +595,7 @@ public final class Clientes extends javax.swing.JInternalFrame {
         datos.setApellido(txtApellido.getText());
         datos.setDireccion(txtDireccion.getText());
         datos.setMedidor(Integer.parseInt(txtMedidor.getText()));
-        datos.setId(Integer.parseInt(txtidcliente.getText()));
+        datos.setId(Integer.parseInt(txtIdclientes.getText()));
 
         if (funcion.editar(datos)) {
             mensaje = "Cliente editado correctamente";
@@ -587,7 +610,7 @@ public final class Clientes extends javax.swing.JInternalFrame {
     }
 
     public void eliminar() {
-        if (txtidcliente.getText().length() == 0) {
+        if (txtIdclientes.getText().length() == 0) {
             mensaje = "Debes seleccionar primero un cliente a eliminar.";
             advertencia();
         } else {
@@ -597,12 +620,12 @@ public final class Clientes extends javax.swing.JInternalFrame {
             String reply = Principal.txtAceptarCancelar.getText();
             if (reply.equals("1")) {
 
-                datos.setId(Integer.parseInt(txtidcliente.getText()));
+                datos.setId(Integer.parseInt(txtIdclientes.getText()));
 
                 if (funcion.eliminar(datos)) {
                     mensaje = "Cliente eliminado correctamente";
                     realizado();
-                    txtidcliente.setText("");
+                    txtIdclientes.setText("");
                     mostrar("");
                     inhabilitar();
                 } else {

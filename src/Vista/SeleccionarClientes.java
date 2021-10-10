@@ -1,3 +1,4 @@
+
 package Vista;
 
 import Controlador.Conexion;
@@ -38,15 +39,15 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
     private final Connection cn = Conexion.getConnection();
     private final String sSQL = "";
     int totalRegistros = 0;
-    public DefaultTableModel modelo;
+    public DefaultTableModel modelo, modelo2;
     Date d;
     ResultSet rs;
     Statement st;
     PreparedStatement ps;
     String[] reg = new String[6];
-    String where, buscarString;
+    String where, buscarString, fechaInicio;
     int buscarInt;
-
+    
     public SeleccionarClientes(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -54,15 +55,25 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
         this.getContentPane().setBackground(new Color(0, 0, 0, 0));
         this.setBackground(new Color(0, 0, 0, 0));
         this.setLocationRelativeTo(null);
-        
+
         mostrar("");
     }
-
+    
     public void mostrar(String buscar) {
         try {
             funcion.seleccionarClientes(buscar);
             modelo = funcion.modelo;
             tblSeleccionarClientes.setModel(modelo);
+            ocultar_columnas();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    public void mostrar2(String buscar) {
+        try {
+            funcionfacturas.llenarDatos(funcionfacturas.codigo);
+            modelo2 = funcionfacturas.modelo2;
             ocultar_columnas();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
@@ -84,56 +95,18 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        rbtngSeleccionar = new javax.swing.ButtonGroup();
+        lblCerrar = new javax.swing.JLabel();
+        txtBuscar = new javax.swing.JTextField();
+        lblFondoBuscar = new javax.swing.JLabel();
         rbtnUsuario = new javax.swing.JRadioButton();
         rbtnNombre = new javax.swing.JRadioButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSeleccionarClientes = new javax.swing.JTable();
-        lblCerrar = new javax.swing.JLabel();
-        txtBuscar = new javax.swing.JTextField();
-        lblFondoBuscar = new javax.swing.JLabel();
         lblFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        rbtnUsuario.setBackground(new java.awt.Color(255, 255, 255));
-        rbtngSeleccionar.add(rbtnUsuario);
-        rbtnUsuario.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        rbtnUsuario.setText("N° Usuario");
-        getContentPane().add(rbtnUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 100, -1, -1));
-
-        rbtnNombre.setBackground(new java.awt.Color(255, 255, 255));
-        rbtngSeleccionar.add(rbtnNombre);
-        rbtnNombre.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        rbtnNombre.setText("Nombre");
-        getContentPane().add(rbtnNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 100, -1, -1));
-
-        tblSeleccionarClientes = new javax.swing.JTable(){
-            public boolean isCellEditable(int rowIndex, int colIndex) {
-                return false;
-            }
-        };
-        tblSeleccionarClientes.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        tblSeleccionarClientes.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblSeleccionarClientesMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(tblSeleccionarClientes);
-
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 140, 430, 260));
 
         lblCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Cerrar32.png"))); // NOI18N
         lblCerrar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -173,6 +146,41 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
         lblFondoBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoBuscador.png"))); // NOI18N
         getContentPane().add(lblFondoBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 70, 170, 30));
 
+        rbtnUsuario.setBackground(new java.awt.Color(255, 255, 255));
+        rbtnUsuario.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        rbtnUsuario.setText("N° Usuario");
+        getContentPane().add(rbtnUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 100, -1, -1));
+
+        rbtnNombre.setBackground(new java.awt.Color(255, 255, 255));
+        rbtnNombre.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        rbtnNombre.setText("Nombre");
+        getContentPane().add(rbtnNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 100, -1, -1));
+
+        tblSeleccionarClientes = new javax.swing.JTable(){
+            public boolean isCellEditable(int rowIndex, int colIndex) {
+                return false;
+            }
+        };
+        tblSeleccionarClientes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        tblSeleccionarClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSeleccionarClientesMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblSeleccionarClientes);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 140, 430, 260));
+
         lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoSeleccionarProductos.png"))); // NOI18N
         lblFondo.setOpaque(true);
         getContentPane().add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -180,54 +188,13 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tblSeleccionarClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSeleccionarClientesMouseClicked
-        int seleccionar = tblSeleccionarClientes.rowAtPoint(evt.getPoint());
-        if (evt.getClickCount() == 2) {
-            Facturas.txtIdclientes.setText(String.valueOf(tblSeleccionarClientes.getValueAt(seleccionar, 0)));
-            Facturas.txtNumeroUsuario.setText(String.valueOf(tblSeleccionarClientes.getValueAt(seleccionar, 1)));
-            Facturas.txtClientes.setText(String.valueOf(tblSeleccionarClientes.getValueAt(seleccionar, 2) + " " + tblSeleccionarClientes.getValueAt(seleccionar, 3)));
-            Facturas.txtDireccion.setText(String.valueOf(tblSeleccionarClientes.getValueAt(seleccionar, 4)));
-            Facturas.txtInicioMedidor.setText(String.valueOf(tblSeleccionarClientes.getValueAt(seleccionar, 5)));
-
-            funcionfacturas.datosClientes(Integer.parseInt(tblSeleccionarClientes.getValueAt(seleccionar, 0).toString()));
-            funcionfacturas.llenarDatos(funcionfacturas.codigo);
-            
-            //Convertir java.sql.date a java.util.date y mostrar en pantalla la Fecha Inicio
-            SimpleDateFormat inicio = new SimpleDateFormat("yyyy-MM-dd");
-            //Formato inicial. 
-            try {
-                String fechaInicio = String.valueOf(funcionfacturas.modelo2.getValueAt(0, 6));
-                d = inicio.parse(fechaInicio);
-            } catch (ParseException e) {
-
-            }
-
-            //Aplica formato requerido.
-            try {
-                inicio.applyPattern("dd/MM/yyyy");
-                String nuevoFormato = inicio.format(d);
-                Date fecha = inicio.parse(nuevoFormato);
-                dchFechaInicio.setDate(fecha);
-            } catch (ParseException ex) {
-                Logger.getLogger(Facturas.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            funcionfacturas.meses();
-            funcionfacturas.vencimiento();
-            Facturas.txtCierreMedidor.setEditable(true);
-           
-
-            dispose();
-        }
-    }//GEN-LAST:event_tblSeleccionarClientesMouseClicked
-
     private void lblCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCerrarMouseClicked
         Principal.lblProceso.setText("Proceso: OFF");
         this.dispose();
     }//GEN-LAST:event_lblCerrarMouseClicked
 
     private void txtBuscarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarFocusGained
-        if(txtBuscar.getText().equals("Buscar Usuario...")){
+        if (txtBuscar.getText().equals("Buscar Usuario...")) {
             txtBuscar.setText("");
         }
     }//GEN-LAST:event_txtBuscarFocusGained
@@ -243,7 +210,7 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
     }//GEN-LAST:event_txtBuscarActionPerformed
 
     private void txtBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyPressed
-        
+
     }//GEN-LAST:event_txtBuscarKeyPressed
 
     private void txtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyTyped
@@ -252,11 +219,11 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
             evt.setKeyChar(Character.toUpperCase(c));
         }
 
-        if(!rbtnUsuario.isSelected() && !rbtnNombre.isSelected()){
+        if (!rbtnUsuario.isSelected() && !rbtnNombre.isSelected()) {
             mensaje = "Seleccione primero lo que quiere buscar";
             advertencia();
         }
-        
+
         int numerocaracteres = 29;
         if (txtBuscar.getText().length() > numerocaracteres) {
             evt.consume();
@@ -264,6 +231,53 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
             advertencia();
         }
     }//GEN-LAST:event_txtBuscarKeyTyped
+
+    private void tblSeleccionarClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSeleccionarClientesMouseClicked
+        int seleccionar = tblSeleccionarClientes.rowAtPoint(evt.getPoint());
+        if (evt.getClickCount() == 2) {
+            Facturas.txtIdclientes.setText(String.valueOf(tblSeleccionarClientes.getValueAt(seleccionar, 0)));
+            Facturas.txtNumeroUsuario.setText(String.valueOf(tblSeleccionarClientes.getValueAt(seleccionar, 1)));
+            Facturas.txtClientes.setText(String.valueOf(tblSeleccionarClientes.getValueAt(seleccionar, 2) + " " + tblSeleccionarClientes.getValueAt(seleccionar, 3)));
+            Facturas.txtDireccion.setText(String.valueOf(tblSeleccionarClientes.getValueAt(seleccionar, 4)));
+            Facturas.txtInicioMedidor.setText(String.valueOf(tblSeleccionarClientes.getValueAt(seleccionar, 5)));
+
+            funcionfacturas.datosClientes(Integer.parseInt(tblSeleccionarClientes.getValueAt(seleccionar, 0).toString()));
+
+            if (funcionfacturas.codigo == 0) {
+
+            } else {
+                funcionfacturas.llenarDatos(funcionfacturas.codigo);
+
+                //Convertir java.sql.date a java.util.date y mostrar en pantalla la Fecha Inicio
+                SimpleDateFormat inicio = new SimpleDateFormat("yyyy-MM-dd");
+                //Formato inicial.
+
+                mostrar2("");
+
+                try {
+                    fechaInicio = String.valueOf(funcionfacturas.modelo2.getValueAt(0, 6));
+
+                    d = inicio.parse(fechaInicio);
+                } catch (ParseException e) {
+
+                }
+
+                //Aplica formato requerido.
+                try {
+                    inicio.applyPattern("dd/MM/yyyy");
+                    String nuevoFormato = inicio.format(d);
+                    Date fecha = inicio.parse(nuevoFormato);
+                    dchFechaInicio.setDate(fecha);
+                } catch (ParseException ex) {
+                    Logger.getLogger(Facturas.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                funcionfacturas.meses();
+                funcionfacturas.vencimiento();
+            }
+            Facturas.txtCierreMedidor.setEditable(true);
+            dispose();
+        }
+    }//GEN-LAST:event_tblSeleccionarClientesMouseClicked
 
     Frame f = JOptionPane.getFrameForComponent(this);
     String encabezado;
@@ -313,15 +327,11 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SeleccionarClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SeleccionarClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SeleccionarClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(SeleccionarClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        
         //</editor-fold>
 
         /* Create and display the dialog */
@@ -346,7 +356,6 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
     private javax.swing.JLabel lblFondoBuscar;
     public static javax.swing.JRadioButton rbtnNombre;
     public static javax.swing.JRadioButton rbtnUsuario;
-    private javax.swing.ButtonGroup rbtngSeleccionar;
     private javax.swing.JTable tblSeleccionarClientes;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
