@@ -90,6 +90,7 @@ public class FuncionesClientes {
     }
 
     public void seleccionarClientes(String buscar) {
+        sSQL = "";
         String[] titulos = {"Id", "Usuario", "Nombre", "Apellido", "Direccion", "Medidor"};
         String[] registros = new String[6];
         totalRegistros = 0;
@@ -97,9 +98,11 @@ public class FuncionesClientes {
 
         sSQL = "SELECT * FROM clientes WHERE medidor IS NOT NULL";
         if (rbtnUsuario.isSelected()) {
-            sSQL = sSQL + " AND numerocliente LIKE '%" + buscar + "%' ORDER BY id DESC";
-        } else if (rbtnNombre.isSelected()) {
-            sSQL = sSQL + "AND nombre LIKE '%" + buscar + "%' ORDER BY id DESC";
+            sSQL = sSQL + " AND numerocliente LIKE '%" + buscar + "%' ORDER BY numerocliente";
+        }
+        
+        if (rbtnNombre.isSelected()) {
+            sSQL = sSQL + " AND nombre LIKE '%" + buscar + "%' ORDER BY nombre";
         }
 
         try {

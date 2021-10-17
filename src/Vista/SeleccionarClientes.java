@@ -55,6 +55,7 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
         this.getContentPane().setBackground(new Color(0, 0, 0, 0));
         this.setBackground(new Color(0, 0, 0, 0));
         this.setLocationRelativeTo(null);
+        lblFondo.setBackground(null);
 
         mostrar("");
     }
@@ -95,6 +96,7 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        rbtngSeleccionarClientes = new javax.swing.ButtonGroup();
         lblCerrar = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
         lblFondoBuscar = new javax.swing.JLabel();
@@ -147,13 +149,25 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
         getContentPane().add(lblFondoBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 70, 170, 30));
 
         rbtnUsuario.setBackground(new java.awt.Color(255, 255, 255));
+        rbtngSeleccionarClientes.add(rbtnUsuario);
         rbtnUsuario.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         rbtnUsuario.setText("N° Usuario");
+        rbtnUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtnUsuarioActionPerformed(evt);
+            }
+        });
         getContentPane().add(rbtnUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 100, -1, -1));
 
         rbtnNombre.setBackground(new java.awt.Color(255, 255, 255));
+        rbtngSeleccionarClientes.add(rbtnNombre);
         rbtnNombre.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         rbtnNombre.setText("Nombre");
+        rbtnNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtnNombreActionPerformed(evt);
+            }
+        });
         getContentPane().add(rbtnNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 100, -1, -1));
 
         tblSeleccionarClientes = new javax.swing.JTable(){
@@ -210,7 +224,11 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
     }//GEN-LAST:event_txtBuscarActionPerformed
 
     private void txtBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyPressed
-
+        if (!rbtnUsuario.isSelected() && !rbtnNombre.isSelected()) {
+            mensaje = "Seleccione primero lo que quiere buscar";
+            advertencia();
+            txtBuscar.setText("");
+        }
     }//GEN-LAST:event_txtBuscarKeyPressed
 
     private void txtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyTyped
@@ -219,11 +237,8 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
             evt.setKeyChar(Character.toUpperCase(c));
         }
 
-        if (!rbtnUsuario.isSelected() && !rbtnNombre.isSelected()) {
-            mensaje = "Seleccione primero lo que quiere buscar";
-            advertencia();
-        }
-
+        mostrar(txtBuscar.getText());
+        
         int numerocaracteres = 29;
         if (txtBuscar.getText().length() > numerocaracteres) {
             evt.consume();
@@ -278,6 +293,14 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
             dispose();
         }
     }//GEN-LAST:event_tblSeleccionarClientesMouseClicked
+
+    private void rbtnUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnUsuarioActionPerformed
+        txtBuscar.requestFocus();
+    }//GEN-LAST:event_rbtnUsuarioActionPerformed
+
+    private void rbtnNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnNombreActionPerformed
+        txtBuscar.requestFocus();
+    }//GEN-LAST:event_rbtnNombreActionPerformed
 
     Frame f = JOptionPane.getFrameForComponent(this);
     String encabezado;
@@ -356,6 +379,7 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
     private javax.swing.JLabel lblFondoBuscar;
     public static javax.swing.JRadioButton rbtnNombre;
     public static javax.swing.JRadioButton rbtnUsuario;
+    private javax.swing.ButtonGroup rbtngSeleccionarClientes;
     private javax.swing.JTable tblSeleccionarClientes;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
