@@ -133,41 +133,41 @@ public class FuncionesFacturas {
     //Rellena el combobox de Mes en facturas
     public void meses() {
         switch (modelo2.getValueAt(0, 2).toString()) {
-            case "Enero":
-                Facturas.cmbMes.setSelectedItem("Febrero");
+            case "ENERO":
+                Facturas.cmbMes.setSelectedItem("FEBRERO");
                 break;
-            case "Febrero":
-                Facturas.cmbMes.setSelectedItem("Marzo");
+            case "FEBRERO":
+                Facturas.cmbMes.setSelectedItem("MARZO");
                 break;
-            case "Marzo":
-                Facturas.cmbMes.setSelectedItem("Abril");
+            case "MARZO":
+                Facturas.cmbMes.setSelectedItem("ABRIL");
                 break;
-            case "Abril":
-                Facturas.cmbMes.setSelectedItem("Mayo");
+            case "ABRIL":
+                Facturas.cmbMes.setSelectedItem("MAYO");
                 break;
-            case "Mayo":
-                Facturas.cmbMes.setSelectedItem("Junio");
+            case "MAYO":
+                Facturas.cmbMes.setSelectedItem("JUNIO");
                 break;
-            case "Junio":
-                Facturas.cmbMes.setSelectedItem("Julio");
+            case "JUNIO":
+                Facturas.cmbMes.setSelectedItem("JULIO");
                 break;
-            case "Julio":
-                Facturas.cmbMes.setSelectedItem("Agosto");
+            case "JULIO":
+                Facturas.cmbMes.setSelectedItem("AGOSTO");
                 break;
-            case "Agosto":
-                Facturas.cmbMes.setSelectedItem("Septiembre");
+            case "AGOSTO":
+                Facturas.cmbMes.setSelectedItem("SEPTIEMBRE");
                 break;
-            case "Septiembre":
-                Facturas.cmbMes.setSelectedItem("Octubre");
+            case "SEPTIEMBRE":
+                Facturas.cmbMes.setSelectedItem("OCTUBRE");
                 break;
-            case "Octubre":
-                Facturas.cmbMes.setSelectedItem("Noviembre");
+            case "OCTUBRE":
+                Facturas.cmbMes.setSelectedItem("NOVIEMBRE");
                 break;
-            case "Noviembre":
-                Facturas.cmbMes.setSelectedItem("Diciembre");
+            case "NOVIEMBRE":
+                Facturas.cmbMes.setSelectedItem("DICIEMBRE");
                 break;
-            case "Diciembre":
-                Facturas.cmbMes.setSelectedItem("Enero");
+            case "DICIEMBRE":
+                Facturas.cmbMes.setSelectedItem("ENERO");
                 break;
             default:
                 break;

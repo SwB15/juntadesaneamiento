@@ -8,6 +8,8 @@ import Vista.Notificaciones.Advertencia;
 import Vista.Notificaciones.Fallo;
 import Vista.Notificaciones.Realizado;
 import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.Color;
 import java.awt.Desktop;
@@ -67,8 +69,8 @@ public final class Facturas extends javax.swing.JInternalFrame {
         boleta();
         botonesTransparentes();
         txtBoleta.setText(boleta);
-//        txtIdfacturas.setVisible(false);
-//        txtIdclientes.setVisible(false);
+        txtIdfacturas.setVisible(false);
+        txtIdclientes.setVisible(false);
     }
 
     //Obtiene los datos básicos y los muentra en la tabla tblFacturas
@@ -140,6 +142,10 @@ public final class Facturas extends javax.swing.JInternalFrame {
         btnNuevo.setEnabled(false);
         btnImprimir.setEnabled(true);
         btnSeleccionarClientes.setEnabled(true);
+
+        numeroBoleta();
+        boleta();
+        txtBoleta.setText(boleta);
     }
 
     public void inhabilitar() {
@@ -179,6 +185,10 @@ public final class Facturas extends javax.swing.JInternalFrame {
         btnNuevo.setEnabled(true);
         btnImprimir.setEnabled(false);
         btnSeleccionarClientes.setEnabled(false);
+
+        numeroBoleta();
+        boleta();
+        txtBoleta.setText(boleta);
     }
 
     public int numeroBoleta() {
@@ -292,22 +302,21 @@ public final class Facturas extends javax.swing.JInternalFrame {
         System.out.println("Entro generarFactura()");
         // Crear el documento con un tamaño personalizado de hojas para la impresion de las facturas
         // 1mm = 28.3f
-        Rectangle rectangle = new Rectangle(656.56f, 393.37f);
+        Rectangle rectangle = new Rectangle(6537.3f, 3933.7f);
         Document document = new Document(rectangle);
-        document.setMargins(53.77f, 53.77f, 53.77f, 56.6f); //(izq, der, arriba, abajo)
+        document.setMargins(537.7f, 537.7f, 537.7f, 566f); //(izq, der, arriba, abajo)
 
         try {
             FileOutputStream ficheroPdf = new FileOutputStream(ruta + "Factura " + txtBoleta.getText() + ".pdf");
             System.out.println("Fichero: " + ficheroPdf.toString());
             PdfWriter writer = PdfWriter.getInstance(document, ficheroPdf);
             document.open();
+
+            //Las fuentes de letras se miden en puntos
+            //1 punto equivale a 0,3527mm.
             Font fuente = new Font();
-            fuente.setSize(7f);
-
-            //Fuente para la tabla
-            Font fuente2 = new Font();
-            fuente2.setSize(6f);
-
+            fuente.setSize(84.9f);
+            
             //Conversión de las fechas tipo Date de los JDateChooser a String
             //Convierte a String la fecha de vencimiento de la lectura
             Date vencimiento = dchVencimiento.getDate();
@@ -322,8 +331,95 @@ public final class Facturas extends javax.swing.JInternalFrame {
             DateFormat dateFormat3 = new SimpleDateFormat("dd/MM/yyyy");
             String fechacierre1 = dateFormat3.format(fechacierre);
 
+        //Crear la tabla para imprimir los datos de la Junta
+            PdfPTable fila1 = new PdfPTable(4); //La tabla tendrá 4 columnas
+            fila1.setTotalWidth(1698f); // Asignar el ancho total de la tabla Fila1
+            fila1.setWidths(new float[]{424.5f, 424.5f, 424.5f, 424.5f}); // Asignar el ancho de cada columna
+
+            //Añadir Junta de Saneamiento
+            PdfPCell juntaCell = new PdfPCell(new Phrase(txtDireccion.getText(), fuente));
+            juntaCell.setColspan(4);
+            juntaCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            fila1.addCell(juntaCell);
+
+            //Añadir Mes
+            PdfPCell mesCell = new PdfPCell(new Phrase(cmbMes.getSelectedItem().toString(), fuente));
+            mesCell.setColspan(4);
+            mesCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            fila1.addCell(mesCell);
+
+            //Añadir Numero Usuario
+            PdfPCell numeroCell = new PdfPCell(new Phrase(txtNumeroUsuario.getText(), fuente));
+            numeroCell.setColspan(2);
+            numeroCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            fila1.addCell(numeroCell);
+
+            //Añadir Boleta Numero
+            PdfPCell boletaCell = new PdfPCell(new Phrase(txtBoleta.getText(), fuente));
+            boletaCell.setColspan(2);
+            boletaCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            fila1.addCell(boletaCell);
+
+            //Añadir Importe Minimo
+            PdfPCell minimoCell = new PdfPCell(new Phrase(txtImporteMinimo.getText(), fuente));
+            minimoCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            fila1.addCell(minimoCell);
+
+            //Añadir Importe Atrasos
+            PdfPCell atrasosCell = new PdfPCell(new Phrase(txtImporteAtrasos.getText(), fuente));
+            atrasosCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            fila1.addCell(atrasosCell);
+
+            //Añadir Importe Excedente
+            PdfPCell excedenteCell = new PdfPCell(new Phrase(txtImporteExcedentes.getText(), fuente));
+            excedenteCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            fila1.addCell(excedenteCell);
+
+            //Añadir Importe Iva
+            PdfPCell ivaCell = new PdfPCell(new Phrase(txtImporteIva.getText(), fuente));
+            ivaCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            fila1.addCell(ivaCell);
+
+            //Añadir Importe Total
+            PdfPCell totalCell = new PdfPCell(new Phrase(txtImporteTotal.getText(), fuente));
+            totalCell.setColspan(4);
+            totalCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            fila1.addCell(totalCell);
+        //Fin de Tabla de Junta    
+        
+        document.add(fila1);
+        document.add(new Paragraph(" ", fuente));
+            document.add(new Paragraph(" ", fuente));
+            
+        //Crear la tabla para imprimir los datos de la boleta del cliente
+            PdfPTable fila2 = new PdfPTable(3); //La tabla tendrá 4 columnas
+            fila2.setTotalWidth(3480.9f); // Asignar el ancho total de la tabla Fila1
+            fila2.setWidths(new float[]{1160.3f, 1160.3f, 1160.3f}); // Asignar el ancho de cada columna
+
+            //Añadir Boleta Numero
+            PdfPCell boleta1Cell = new PdfPCell(new Phrase(txtBoleta.getText(), fuente));
+            boleta1Cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            fila2.addCell(boleta1Cell);
+
+            //Añadir Mes
+            PdfPCell mes1Cell = new PdfPCell(new Phrase(cmbMes.getSelectedItem().toString(), fuente));
+            mes1Cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            fila2.addCell(mes1Cell);
+            
+            //Añadir Vencimiento
+            PdfPCell vencimientoCell = new PdfPCell(new Phrase(vencimiento1, fuente));
+            vencimientoCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            fila2.addCell(vencimientoCell);
+
+
+            
+
             System.out.println("Terminó conversion de fechas");
             //Añadir los datos al documento
+//            document.add(fila1);
+            document.add(fila2);
+            document.add(new Paragraph(" ", fuente));
+            document.add(new Paragraph(" ", fuente));
             document.add(new Paragraph(txtDireccion.getText() + "      " + txtBoleta.getText() + "      " + cmbMes.getSelectedItem() + "      " + vencimiento1, fuente));
             document.add(new Paragraph(cmbMes.getSelectedItem().toString() + "          " + txtDireccion.getText(), fuente));
             document.add(new Paragraph(txtNumeroUsuario.getText() + "       " + txtBoleta.getText() + "       " + txtNumeroUsuario.getText() + "      " + txtClientes.getText() + "        CIUDAD", fuente));
@@ -671,7 +767,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
         jPanel12.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, 90, -1));
 
         cmbMes.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        cmbMes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
+        cmbMes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE" }));
         jPanel12.add(cmbMes, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, 100, 20));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -906,7 +1002,6 @@ public final class Facturas extends javax.swing.JInternalFrame {
         jLabel26.setText("Conexion");
         jPanel14.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 100, -1, -1));
 
-        txtImporteConexion.setBackground(new java.awt.Color(255, 255, 255));
         txtImporteConexion.setText("0");
         txtImporteConexion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1076,6 +1171,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
         txtIdfacturas.setText(String.valueOf(modelo2.getValueAt(0, 0)));
         txtBoleta.setText(String.valueOf(modelo2.getValueAt(0, 1)));
         cmbMes.setSelectedItem(String.valueOf(modelo2.getValueAt(0, 2)));
+        System.out.println("Mes es: " + String.valueOf(modelo2.getValueAt(0, 2)));
 
         //Convertir java.sql.date a java.util.date y mostrar en pantalla la fecha de Vencimiento
         SimpleDateFormat vencimiento = new SimpleDateFormat("yyyy-MM-dd");
@@ -1096,6 +1192,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
         } catch (ParseException ex) {
             Logger.getLogger(Facturas.class.getName()).log(Level.SEVERE, null, ex);
         }
+        //Fin Vencimiento
 
         txtImporteAtrasos.setText(modelo2.getValueAt(0, 4).toString());
         txtImporteConexion.setText(modelo2.getValueAt(0, 5).toString());
@@ -1119,6 +1216,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
         } catch (ParseException ex) {
             Logger.getLogger(Facturas.class.getName()).log(Level.SEVERE, null, ex);
         }
+        //Fin Fecha Inicio    
 
         //Convertir java.sql.date a java.util.date y mostrar en pantalla la Fecha Cierre
         SimpleDateFormat cierre = new SimpleDateFormat("yyyy-MM-dd");
@@ -1139,13 +1237,52 @@ public final class Facturas extends javax.swing.JInternalFrame {
         } catch (ParseException ex) {
             Logger.getLogger(Facturas.class.getName()).log(Level.SEVERE, null, ex);
         }
+        //Fin Fecha Cierre
 
         txtInicioMedidor.setText(modelo2.getValueAt(0, 8).toString());
         txtCierreMedidor.setText(modelo2.getValueAt(0, 9).toString());
-        txtConsumoMinimo.setText(modelo2.getValueAt(0, 10).toString());
-        txtConsumoExcedente.setText(modelo2.getValueAt(0, 11).toString());
-        txtConsumoTotal.setText(modelo2.getValueAt(0, 12).toString());
+        txtImporteMinimo.setText(modelo2.getValueAt(0, 10).toString());
+        txtImporteExcedentes.setText(modelo2.getValueAt(0, 11).toString());
+        txtImporteTotal.setText(modelo2.getValueAt(0, 12).toString());
         txtIdclientes.setText(modelo2.getValueAt(0, 14).toString());
+        txtImporteIva.setText(String.valueOf(Integer.parseInt(txtImporteTotal.getText()) / 10));
+        consumo();
+
+        //Agrega puntos decimales
+        if (txtImporteExcedentes.getText().length() > 3) {
+            cadena = txtImporteExcedentes.getText().replace(".", "");
+            txtImporteExcedentes.setText(formateador14.format(Integer.parseInt(cadena)));
+        }
+
+        if (txtImporteMinimo.getText().length() > 3) {
+            cadena = txtImporteMinimo.getText().replace(".", "");
+            txtImporteMinimo.setText(formateador14.format(Integer.parseInt(cadena)));
+        }
+        
+        if (txtImporteIva.getText().length() > 3) {
+            cadena = txtImporteIva.getText().replace(".", "");
+            txtImporteIva.setText(formateador14.format(Integer.parseInt(cadena)));
+        }
+        
+        if (txtImporteAtrasos.getText().length() > 3) {
+            cadena = txtImporteAtrasos.getText().replace(".", "");
+            txtImporteAtrasos.setText(formateador14.format(Integer.parseInt(cadena)));
+        }
+        
+        if (txtImporteConexion.getText().length() > 3) {
+            cadena = txtImporteConexion.getText().replace(".", "");
+            txtImporteConexion.setText(formateador14.format(Integer.parseInt(cadena)));
+        }
+        
+        if (txtImporteMedidor.getText().length() > 3) {
+            cadena = txtImporteMedidor.getText().replace(".", "");
+            txtImporteMedidor.setText(formateador14.format(Integer.parseInt(cadena)));
+        }
+        
+        if (txtImporteTotal.getText().length() > 3) {
+            cadena = txtImporteTotal.getText().replace(".", "");
+            txtImporteTotal.setText(formateador14.format(Integer.parseInt(cadena)));
+        }
 
         //Envia el id del cliente para rellenar los campos correspondientes a la factura seleccionada
         clientes(Integer.parseInt(txtIdclientes.getText()));
