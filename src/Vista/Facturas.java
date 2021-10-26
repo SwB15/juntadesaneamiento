@@ -29,12 +29,21 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -298,155 +307,53 @@ public final class Facturas extends javax.swing.JInternalFrame {
         }
     }
 
-    public boolean generarFactura() {
-        System.out.println("Entro generarFactura()");
-        // Crear el documento con un tamaño personalizado de hojas para la impresion de las facturas
-        // 1mm = 28.3f
-        Rectangle rectangle = new Rectangle(6537.3f, 3933.7f);
-        Document document = new Document(rectangle);
-        document.setMargins(537.7f, 537.7f, 537.7f, 566f); //(izq, der, arriba, abajo)
+    public void generarFactura() {
 
-        try {
-            FileOutputStream ficheroPdf = new FileOutputStream(ruta + "Factura " + txtBoleta.getText() + ".pdf");
-            System.out.println("Fichero: " + ficheroPdf.toString());
-            PdfWriter writer = PdfWriter.getInstance(document, ficheroPdf);
-            document.open();
-
-            //Las fuentes de letras se miden en puntos
-            //1 punto equivale a 0,3527mm.
-            Font fuente = new Font();
-            fuente.setSize(84.9f);
-            
-            //Conversión de las fechas tipo Date de los JDateChooser a String
-            //Convierte a String la fecha de vencimiento de la lectura
-            Date vencimiento = dchVencimiento.getDate();
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            String vencimiento1 = dateFormat.format(vencimiento);
-
-            Date fechainicio = dchFechaInicio.getDate();
-            DateFormat dateFormat2 = new SimpleDateFormat("dd/MM/yyyy");
-            String fechainicio1 = dateFormat2.format(fechainicio);
-
-            Date fechacierre = dchFechaCierre.getDate();
-            DateFormat dateFormat3 = new SimpleDateFormat("dd/MM/yyyy");
-            String fechacierre1 = dateFormat3.format(fechacierre);
-
-        //Crear la tabla para imprimir los datos de la Junta
-            PdfPTable fila1 = new PdfPTable(4); //La tabla tendrá 4 columnas
-            fila1.setTotalWidth(1698f); // Asignar el ancho total de la tabla Fila1
-            fila1.setWidths(new float[]{424.5f, 424.5f, 424.5f, 424.5f}); // Asignar el ancho de cada columna
-
-            //Añadir Junta de Saneamiento
-            PdfPCell juntaCell = new PdfPCell(new Phrase(txtDireccion.getText(), fuente));
-            juntaCell.setColspan(4);
-            juntaCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            fila1.addCell(juntaCell);
-
-            //Añadir Mes
-            PdfPCell mesCell = new PdfPCell(new Phrase(cmbMes.getSelectedItem().toString(), fuente));
-            mesCell.setColspan(4);
-            mesCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            fila1.addCell(mesCell);
-
-            //Añadir Numero Usuario
-            PdfPCell numeroCell = new PdfPCell(new Phrase(txtNumeroUsuario.getText(), fuente));
-            numeroCell.setColspan(2);
-            numeroCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            fila1.addCell(numeroCell);
-
-            //Añadir Boleta Numero
-            PdfPCell boletaCell = new PdfPCell(new Phrase(txtBoleta.getText(), fuente));
-            boletaCell.setColspan(2);
-            boletaCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            fila1.addCell(boletaCell);
-
-            //Añadir Importe Minimo
-            PdfPCell minimoCell = new PdfPCell(new Phrase(txtImporteMinimo.getText(), fuente));
-            minimoCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            fila1.addCell(minimoCell);
-
-            //Añadir Importe Atrasos
-            PdfPCell atrasosCell = new PdfPCell(new Phrase(txtImporteAtrasos.getText(), fuente));
-            atrasosCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            fila1.addCell(atrasosCell);
-
-            //Añadir Importe Excedente
-            PdfPCell excedenteCell = new PdfPCell(new Phrase(txtImporteExcedentes.getText(), fuente));
-            excedenteCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            fila1.addCell(excedenteCell);
-
-            //Añadir Importe Iva
-            PdfPCell ivaCell = new PdfPCell(new Phrase(txtImporteIva.getText(), fuente));
-            ivaCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            fila1.addCell(ivaCell);
-
-            //Añadir Importe Total
-            PdfPCell totalCell = new PdfPCell(new Phrase(txtImporteTotal.getText(), fuente));
-            totalCell.setColspan(4);
-            totalCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            fila1.addCell(totalCell);
-        //Fin de Tabla de Junta    
+        Date venc = dchVencimiento.getDate();
+        DateFormat vencimiento = new SimpleDateFormat("dd/MM/yyyy");
+        String vencimiento1 = vencimiento.format(venc);
         
-        document.add(fila1);
-        document.add(new Paragraph(" ", fuente));
-            document.add(new Paragraph(" ", fuente));
-            
-        //Crear la tabla para imprimir los datos de la boleta del cliente
-            PdfPTable fila2 = new PdfPTable(3); //La tabla tendrá 4 columnas
-            fila2.setTotalWidth(3480.9f); // Asignar el ancho total de la tabla Fila1
-            fila2.setWidths(new float[]{1160.3f, 1160.3f, 1160.3f}); // Asignar el ancho de cada columna
+        Date ini = dchFechaInicio.getDate();
+        DateFormat inicio = new SimpleDateFormat("dd/MM/yyyy");
+        String inicio1 = inicio.format(ini);
+        
+        Date cie = dchFechaCierre.getDate();
+        DateFormat cierre = new SimpleDateFormat("dd/MM/yyyy");
+        String cierre1 = cierre.format(cie);
 
-            //Añadir Boleta Numero
-            PdfPCell boleta1Cell = new PdfPCell(new Phrase(txtBoleta.getText(), fuente));
-            boleta1Cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            fila2.addCell(boleta1Cell);
+        JasperReport reporte;
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("direccion", txtDireccion.getText());
+        map.put("mes", cmbMes.getSelectedItem());
+        map.put("numerousuario", txtNumeroUsuario.getText());
+        map.put("boleta", txtBoleta.getText());
+        map.put("importeminimo", txtImporteMinimo.getText());
+        map.put("importeatrasos", txtImporteAtrasos.getText());
+        map.put("importeexcedentes", txtImporteExcedentes.getText());
+        map.put("importeiva", txtImporteIva.getText());
+        map.put("importetotal", txtImporteTotal.getText());
+        map.put("vencimiento", vencimiento1);
+        map.put("cliente", txtClientes.getText());
+        map.put("fechainicio", inicio1);
+        map.put("fechacierre", cierre1);
+        map.put("estadoinicio", txtInicioMedidor.getText());
+        map.put("estadocierre", txtCierreMedidor.getText());
+        map.put("consumominimo", txtConsumoMinimo.getText());
+        map.put("consumoexcedente", txtConsumoExcedente.getText());
+        map.put("consumototal", txtConsumoTotal.getText());
+        map.put("importeconexion", txtImporteConexion.getText());
+        map.put("importemedidor", txtImporteMedidor.getText());
 
-            //Añadir Mes
-            PdfPCell mes1Cell = new PdfPCell(new Phrase(cmbMes.getSelectedItem().toString(), fuente));
-            mes1Cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            fila2.addCell(mes1Cell);
-            
-            //Añadir Vencimiento
-            PdfPCell vencimientoCell = new PdfPCell(new Phrase(vencimiento1, fuente));
-            vencimientoCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            fila2.addCell(vencimientoCell);
-
-
-            
-
-            System.out.println("Terminó conversion de fechas");
-            //Añadir los datos al documento
-//            document.add(fila1);
-            document.add(fila2);
-            document.add(new Paragraph(" ", fuente));
-            document.add(new Paragraph(" ", fuente));
-            document.add(new Paragraph(txtDireccion.getText() + "      " + txtBoleta.getText() + "      " + cmbMes.getSelectedItem() + "      " + vencimiento1, fuente));
-            document.add(new Paragraph(cmbMes.getSelectedItem().toString() + "          " + txtDireccion.getText(), fuente));
-            document.add(new Paragraph(txtNumeroUsuario.getText() + "       " + txtBoleta.getText() + "       " + txtNumeroUsuario.getText() + "      " + txtClientes.getText() + "        CIUDAD", fuente));
-            document.add(new Paragraph(txtImporteMinimo.getText() + "   " + txtImporteAtrasos.getText() + "   " + txtImporteExcedentes.getText() + "  " + txtImporteIva.getText() + "  " + fechainicio1 + "  " + fechacierre1 + "   " + txtInicioMedidor.getText() + "  " + txtCierreMedidor.getText() + "  " + txtConsumoMinimo.getText() + "  " + txtConsumoExcedente.getText() + "  " + txtConsumoTotal.getText(), fuente));
-            document.add(new Paragraph(txtImporteTotal.getText() + "  " + txtImporteMinimo.getText() + "  " + txtImporteExcedentes.getText() + "  " + txtImporteAtrasos.getText() + "  " + txtImporteConexion.getText() + "  " + txtImporteMedidor.getText() + "  " + txtImporteIva.getText() + "  " + txtImporteTotal.getText(), fuente));
-            document.add(new Paragraph(vencimiento1, fuente));
-            document.add(new Paragraph(txtClientes.getText(), fuente));
-            document.close();
-            System.out.println("Añadió los datos al documento");
-
-            return true;
-        } catch (DocumentException | HeadlessException | FileNotFoundException e) {
-            e.printStackTrace();
-            mensaje = "Error al generar el PDF";
-            fallo();
-            return false;
-        }
-    }
-
-    public void visualizar(String buscar) {
-        System.out.println("Entro visualizar");
         try {
-            File path = new File(ruta + "Factura " + buscar + ".pdf");
-            System.out.println("Pasó file: " + path);
-            Desktop.getDesktop().open(path);
-        } catch (IOException ex) {
-            Logger.getLogger(Facturas.class.getName()).log(Level.SEVERE, null, ex);
+            reporte = JasperCompileManager.compileReport("src/Reportes/Facturas.jrxml");
+            JasperPrint jp = JasperFillManager.fillReport(reporte, map, cn);
+            JasperViewer view = new JasperViewer(jp, false);
+            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            view.setVisible(true);
+        } catch (JRException e) {
+            JOptionPane.showMessageDialog(null, e);
+            mensaje = "Error al generar reporte";
+            fallo();
         }
     }
 
@@ -519,7 +426,6 @@ public final class Facturas extends javax.swing.JInternalFrame {
             //Funcion para generar una factura
             ruta = "C:\\Users\\User\\Desktop";
             generarFactura();
-            visualizar(txtBoleta.getText());
         }
     }
 
@@ -1258,27 +1164,27 @@ public final class Facturas extends javax.swing.JInternalFrame {
             cadena = txtImporteMinimo.getText().replace(".", "");
             txtImporteMinimo.setText(formateador14.format(Integer.parseInt(cadena)));
         }
-        
+
         if (txtImporteIva.getText().length() > 3) {
             cadena = txtImporteIva.getText().replace(".", "");
             txtImporteIva.setText(formateador14.format(Integer.parseInt(cadena)));
         }
-        
+
         if (txtImporteAtrasos.getText().length() > 3) {
             cadena = txtImporteAtrasos.getText().replace(".", "");
             txtImporteAtrasos.setText(formateador14.format(Integer.parseInt(cadena)));
         }
-        
+
         if (txtImporteConexion.getText().length() > 3) {
             cadena = txtImporteConexion.getText().replace(".", "");
             txtImporteConexion.setText(formateador14.format(Integer.parseInt(cadena)));
         }
-        
+
         if (txtImporteMedidor.getText().length() > 3) {
             cadena = txtImporteMedidor.getText().replace(".", "");
             txtImporteMedidor.setText(formateador14.format(Integer.parseInt(cadena)));
         }
-        
+
         if (txtImporteTotal.getText().length() > 3) {
             cadena = txtImporteTotal.getText().replace(".", "");
             txtImporteTotal.setText(formateador14.format(Integer.parseInt(cadena)));
@@ -1594,7 +1500,6 @@ public final class Facturas extends javax.swing.JInternalFrame {
                     //Funcion para generar una factura
                     ruta = "C:\\Users\\User\\Desktop\\";
                     generarFactura();
-                    visualizar(txtBoleta.getText());
                 }
                 mostrar("");
                 inhabilitar();
