@@ -65,7 +65,7 @@ public class FuncionesClientes {
         totalRegistros = 0;
         modelo = new DefaultTableModel(null, titulos);
 
-        sSQL = "SELECT id, numerocliente, nombre, apellido, direccion, medidor FROM clientes WHERE id LIKE '%" + buscar + "%' ORDER BY id DESC";
+        sSQL = "SELECT id, numerocliente, nombre, apellido, direccion, medidor FROM clientes WHERE nombre LIKE '%" + buscar + "%' ORDER BY id DESC";
 
         try {
             st = cn.createStatement();

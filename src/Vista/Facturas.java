@@ -7,18 +7,8 @@ import Vista.Notificaciones.Aceptar_Cancelar;
 import Vista.Notificaciones.Advertencia;
 import Vista.Notificaciones.Fallo;
 import Vista.Notificaciones.Realizado;
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.Color;
-import java.awt.Desktop;
 import java.awt.Frame;
-import java.awt.HeadlessException;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -345,7 +335,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
         map.put("importemedidor", txtImporteMedidor.getText());
 
         try {
-            reporte = JasperCompileManager.compileReport("src/Reportes/Facturas.jrxml");
+            reporte = JasperCompileManager.compileReport("C:\\Users\\User\\Documents\\NetBeansProjects\\JuntaDeSaneamiento\\src\\Reportes\\Facturas.jrxml");
             JasperPrint jp = JasperFillManager.fillReport(reporte, map, cn);
             JasperViewer view = new JasperViewer(jp, false);
             view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);

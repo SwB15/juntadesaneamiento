@@ -83,13 +83,13 @@ public final class Clientes extends javax.swing.JInternalFrame {
         txtApellido.setText("");
         txtDireccion.setText("");
         txtMedidor.setText("");
-        
+
         txtNumeroUsuario.setEditable(true);
         txtNombre.setEditable(true);
         txtApellido.setEditable(true);
         txtDireccion.setEditable(true);
         txtMedidor.setEditable(true);
-        
+
         btnGuardar.setEnabled(true);
         btnNuevo.setEnabled(false);
         btnEliminar.setEnabled(true);
@@ -102,7 +102,7 @@ public final class Clientes extends javax.swing.JInternalFrame {
         txtApellido.setText("");
         txtDireccion.setText("");
         txtMedidor.setText("");
-        
+
         txtNumeroUsuario.setEditable(false);
         txtNombre.setEditable(false);
         txtApellido.setEditable(false);
@@ -205,6 +205,11 @@ public final class Clientes extends javax.swing.JInternalFrame {
         });
         getContentPane().add(txtNumeroUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 110, 213, -1));
 
+        txtNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombreActionPerformed(evt);
+            }
+        });
         txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtNombreKeyTyped(evt);
@@ -217,6 +222,11 @@ public final class Clientes extends javax.swing.JInternalFrame {
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, -1, -1));
         getContentPane().add(txtIdclientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 70, 40, 20));
 
+        txtApellido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtApellidoActionPerformed(evt);
+            }
+        });
         txtApellido.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtApellidoKeyTyped(evt);
@@ -228,6 +238,11 @@ public final class Clientes extends javax.swing.JInternalFrame {
         jLabel5.setText("Direccion:");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 120, -1, -1));
 
+        txtDireccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDireccionActionPerformed(evt);
+            }
+        });
         txtDireccion.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtDireccionKeyTyped(evt);
@@ -243,6 +258,11 @@ public final class Clientes extends javax.swing.JInternalFrame {
         jLabel6.setText("Medidor:");
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 150, -1, -1));
 
+        txtMedidor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMedidorActionPerformed(evt);
+            }
+        });
         txtMedidor.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtMedidorKeyTyped(evt);
@@ -332,11 +352,11 @@ public final class Clientes extends javax.swing.JInternalFrame {
         } else {
             editar();
         }
-
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void txtNumeroUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumeroUsuarioActionPerformed
-        // TODO add your handling code here:
+        txtNumeroUsuario.transferFocus();
+        txtNombre.requestFocus();
     }//GEN-LAST:event_txtNumeroUsuarioActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -345,7 +365,7 @@ public final class Clientes extends javax.swing.JInternalFrame {
 
     private void tblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesMouseClicked
         habilitar();
-        
+
         int seleccionar = tblClientes.rowAtPoint(evt.getPoint());
 
         txtIdclientes.setText(tblClientes.getValueAt(seleccionar, 0).toString());
@@ -402,14 +422,14 @@ public final class Clientes extends javax.swing.JInternalFrame {
             evt.setKeyChar(Character.toUpperCase(c));
         }
 
-        char validar = evt.getKeyChar();
+        /*  char validar = evt.getKeyChar();
         if (Character.isDigit(validar)) {
             getToolkit().beep();
             evt.consume();
             mensaje = "Ingrese solo letras";
             advertencia();
         }
-
+         */
         int numerocaracteres = 40;
         if (txtApellido.getText().length() > numerocaracteres) {
             evt.consume();
@@ -461,20 +481,44 @@ public final class Clientes extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblFondoMouseClicked
 
     private void txtBuscarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarFocusGained
-        if(txtBuscar.getText().equals("Buscar Usuarios...")){
+        if (txtBuscar.getText().equals("Buscar Usuarios...")) {
             txtBuscar.setText("");
         }
     }//GEN-LAST:event_txtBuscarFocusGained
 
     private void txtBuscarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarFocusLost
         if (txtBuscar.getText().length() == 0) {
-            txtBuscar.setText("Buscar Usuario...");
+            txtBuscar.setText("Buscar Usuarios...");
         }
     }//GEN-LAST:event_txtBuscarFocusLost
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         habilitar();
+        txtNumeroUsuario.requestFocus();
     }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
+        txtNombre.transferFocus();
+        txtApellido.requestFocus();
+    }//GEN-LAST:event_txtNombreActionPerformed
+
+    private void txtApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApellidoActionPerformed
+        txtApellido.transferFocus();
+        txtDireccion.requestFocus();
+    }//GEN-LAST:event_txtApellidoActionPerformed
+
+    private void txtDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDireccionActionPerformed
+        txtDireccion.transferFocus();
+        txtMedidor.requestFocus();
+    }//GEN-LAST:event_txtDireccionActionPerformed
+
+    private void txtMedidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMedidorActionPerformed
+        if (txtIdclientes.getText().length() == 0) {
+            guardar();
+        } else {
+            editar();
+        }
+    }//GEN-LAST:event_txtMedidorActionPerformed
     Frame f = JOptionPane.getFrameForComponent(this);
     String encabezado;
     String mensaje;

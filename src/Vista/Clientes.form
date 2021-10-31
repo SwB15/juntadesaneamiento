@@ -94,6 +94,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txtNombre">
       <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtNombreActionPerformed"/>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNombreKeyTyped"/>
       </Events>
       <Constraints>
@@ -124,6 +125,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txtApellido">
       <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtApellidoActionPerformed"/>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtApellidoKeyTyped"/>
       </Events>
       <Constraints>
@@ -147,6 +149,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txtDireccion">
       <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtDireccionActionPerformed"/>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtDireccionKeyTyped"/>
       </Events>
       <Constraints>
@@ -183,6 +186,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txtMedidor">
       <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtMedidorActionPerformed"/>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtMedidorKeyTyped"/>
       </Events>
       <Constraints>

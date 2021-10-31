@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="600" pageHeight="400" columnWidth="300" leftMargin="10" rightMargin="20" topMargin="20" bottomMargin="0">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -24,8 +24,7 @@
 	<parameter name="consumoexcedente" class="java.lang.String"/>
 	<parameter name="consumototal" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[SELECT * FROM facturas
-]]>
+		<![CDATA[SELECT * FROM facturas]]>
 	</queryString>
 	<field name="id" class="java.lang.Integer"/>
 	<field name="boleta" class="java.lang.String"/>
@@ -42,164 +41,172 @@
 	<field name="total" class="java.lang.Integer"/>
 	<field name="idClientes" class="java.lang.Integer"/>
 	<title>
-		<band height="193" splitType="Stretch">
+		<band height="308" splitType="Stretch">
 			<textField>
-				<reportElement x="17" y="12" width="106" height="20"/>
+				<reportElement x="29" y="40" width="106" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{direccion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="164" y="12" width="100" height="20"/>
+				<reportElement x="196" y="39" width="100" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{boleta}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="264" y="12" width="100" height="20"/>
+				<reportElement x="309" y="39" width="100" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{mes}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="364" y="12" width="100" height="20"/>
+				<reportElement x="435" y="39" width="100" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{vencimiento}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="164" y="32" width="300" height="20"/>
+				<reportElement x="207" y="76" width="300" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{direccion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="17" y="32" width="106" height="20"/>
+				<reportElement x="29" y="73" width="106" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{mes}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="17" y="52" width="53" height="20"/>
+				<reportElement x="20" y="114" width="53" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{numerousuario}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="70" y="52" width="53" height="20"/>
+				<reportElement x="92" y="114" width="53" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{boleta}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="17" y="72" width="23" height="20"/>
-				<textElement/>
+				<reportElement x="1" y="158" width="36" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$P{importeminimo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="40" y="72" width="30" height="20"/>
+				<reportElement x="37" y="158" width="30" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{importeatrasos}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="70" y="72" width="26" height="20"/>
+				<reportElement x="73" y="158" width="26" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{importeexcedentes}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="96" y="72" width="27" height="20"/>
+				<reportElement x="119" y="158" width="27" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{importeiva}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="17" y="92" width="106" height="20"/>
+				<reportElement x="38" y="196" width="106" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{importetotal}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="17" y="115" width="106" height="20"/>
+				<reportElement x="95" y="241" width="83" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{vencimiento}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="164" y="52" width="39" height="20"/>
+				<reportElement x="187" y="112" width="39" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{numerousuario}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="203" y="52" width="133" height="20"/>
+				<reportElement x="257" y="112" width="133" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{cliente}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="336" y="52" width="128" height="20"/>
+				<reportElement x="408" y="112" width="128" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{direccion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="164" y="72" width="39" height="20"/>
-				<textElement/>
+				<reportElement x="178" y="159" width="39" height="20"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$P{fechainicio}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="203" y="72" width="42" height="20"/>
-				<textElement/>
+				<reportElement x="224" y="159" width="42" height="20"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$P{fechacierre}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="245" y="72" width="39" height="20"/>
+				<reportElement x="291" y="159" width="39" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{estadoinicio}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="284" y="72" width="36" height="20"/>
+				<reportElement x="330" y="159" width="36" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{estadocierre}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="320" y="72" width="34" height="20"/>
+				<reportElement x="415" y="157" width="34" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{consumominimo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="354" y="72" width="41" height="20"/>
+				<reportElement x="459" y="157" width="41" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{consumoexcedente}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="395" y="72" width="69" height="20"/>
+				<reportElement x="500" y="157" width="48" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{consumototal}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="164" y="102" width="29" height="20"/>
-				<textElement/>
+				<reportElement x="186" y="205" width="38" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$P{importeminimo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="193" y="102" width="31" height="20"/>
+				<reportElement x="226" y="205" width="31" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{importeexcedentes}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="224" y="102" width="40" height="20"/>
+				<reportElement x="274" y="205" width="40" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{importeatrasos}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="264" y="102" width="34" height="20"/>
+				<reportElement x="327" y="205" width="34" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{importeconexion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="298" y="102" width="38" height="20"/>
+				<reportElement x="365" y="205" width="38" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{importemedidor}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="336" y="102" width="28" height="20"/>
+				<reportElement x="410" y="205" width="28" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{importeiva}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="364" y="102" width="100" height="20"/>
+				<reportElement x="450" y="205" width="78" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{importetotal}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="17" y="138" width="106" height="20"/>
+				<reportElement x="29" y="273" width="106" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{cliente}]]></textFieldExpression>
 			</textField>
