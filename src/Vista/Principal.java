@@ -73,7 +73,6 @@ public final class Principal extends javax.swing.JFrame {
         mnuFacturas = new javax.swing.JMenu();
         mnuClientes = new javax.swing.JMenu();
         mnuReportes = new javax.swing.JMenu();
-        mnuHerramientas = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -149,17 +148,6 @@ public final class Principal extends javax.swing.JFrame {
             }
         });
         jMenuBar1.add(mnuReportes);
-
-        mnuHerramientas.setForeground(new java.awt.Color(0, 102, 255));
-        mnuHerramientas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Herramientas32.png"))); // NOI18N
-        mnuHerramientas.setText("Herramientas");
-        mnuHerramientas.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        mnuHerramientas.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                mnuHerramientasMouseClicked(evt);
-            }
-        });
-        jMenuBar1.add(mnuHerramientas);
 
         setJMenuBar(jMenuBar1);
 
@@ -240,27 +228,6 @@ public final class Principal extends javax.swing.JFrame {
         this.setExtendedState(MAXIMIZED_BOTH);
     }//GEN-LAST:event_mnuReportesMouseClicked
 
-    private void mnuHerramientasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnuHerramientasMouseClicked
-        Herramientas form = new Herramientas();
-        jDesktopPane1.add(form);
-        lblProceso.setText("Proceso: ON");
-
-        form.setClosable(true);
-        form.setIconifiable(true);
-        try {
-            Dimension desktopSize = jDesktopPane1.getSize();
-            Dimension FrameSize = form.getSize();
-            form.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
-            form.show();
-        } catch (Exception e) {
-        }
-
-        form.toFront();
-        form.setVisible(true);
-        this.setLocationRelativeTo(null);
-        this.setExtendedState(MAXIMIZED_BOTH);
-    }//GEN-LAST:event_mnuHerramientasMouseClicked
-
     //Metodos para llamar al JDialog Aceptar_Cancelar
     //Se le añade un Fondo diferente al de Eliminar (Se diferencian en el sombreado)
     Frame f = JOptionPane.getFrameForComponent(this);
@@ -313,7 +280,6 @@ public final class Principal extends javax.swing.JFrame {
     public static javax.swing.JLabel lblProceso;
     private javax.swing.JMenu mnuClientes;
     private javax.swing.JMenu mnuFacturas;
-    private javax.swing.JMenu mnuHerramientas;
     private javax.swing.JMenu mnuReportes;
     public static javax.swing.JTextField txtAceptarCancelar;
     // End of variables declaration//GEN-END:variables

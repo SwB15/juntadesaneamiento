@@ -1,4 +1,3 @@
-
 package Vista;
 
 import Controlador.Conexion;
@@ -8,6 +7,8 @@ import Vista.Notificaciones.Fallo;
 import Vista.Notificaciones.Realizado;
 import java.awt.Color;
 import java.awt.Frame;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +28,7 @@ import net.sf.jasperreports.view.JasperViewer;
  * @author SwichBlade15
  */
 public final class Reportes extends javax.swing.JInternalFrame {
-    
+
     private final Conexion mysql = new Conexion();
     private final Connection cn = Conexion.getConnection();
 
@@ -37,10 +38,10 @@ public final class Reportes extends javax.swing.JInternalFrame {
         this.setBackground(new Color(0, 0, 0, 0));
         this.setIconifiable(false);
         this.setBorder(null);
-        
+
         botonesTransparentes();
     }
-    
+
     public void botonesTransparentes() {
         btnReportes.setOpaque(false);
         btnReportes.setContentAreaFilled(false);
@@ -102,13 +103,22 @@ public final class Reportes extends javax.swing.JInternalFrame {
         JasperReport reporte;
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("", "");
-        try{
-            reporte = JasperCompileManager.compileReport("C:\\Users\\User\\Documents\\NetBeansProjects\\JuntaDeSaneamiento\\src\\Reportes\\Clientes.jrxml");
+
+        final String ruta = "src/Reportes/Clientes.jrxml";
+        Path rutarelativa = Paths.get(ruta);
+        System.out.println("Ruta relativa: " + rutarelativa);
+
+        Path rutaabsoluta = rutarelativa.toAbsolutePath();
+        System.out.println("Ruta Absoluta: " + rutaabsoluta);
+        String ruta1 = rutaabsoluta.toString();
+
+        try {
+            reporte = JasperCompileManager.compileReport(ruta1);
             JasperPrint jp = JasperFillManager.fillReport(reporte, map, cn);
             JasperViewer view = new JasperViewer(jp, false);
             view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             view.setVisible(true);
-        }catch(JRException e){
+        } catch (JRException e) {
             JOptionPane.showMessageDialog(null, e);
             mensaje = "Error al generar reporte";
             fallo();
