@@ -13,7 +13,7 @@
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{E344E2D7-F077-43B8-BB38-991AB6D29F03}
+AppId={{062E3684-1950-4F65-9A2F-6A638B00918F}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
@@ -41,8 +41,8 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "C:\Users\User\Documents\NetBeansProjects\JuntaDeSaneamiento\dist\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\NetBeansProjects\JuntaDeSaneamiento\dist\Junta.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\User\Documents\NetBeansProjects\JuntaDeSaneamiento\dist\JuntaDeSaneamiento.jar"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\User\Documents\NetBeansProjects\JuntaDeSaneamiento\Gota.ico"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\User\Documents\NetBeansProjects\JuntaDeSaneamiento\dist\lib\*"; DestDir: "{app}\lib\"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Users\User\Documents\NetBeansProjects\JuntaDeSaneamiento\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files

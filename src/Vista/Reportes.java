@@ -1,12 +1,15 @@
 package Vista;
 
 import Controlador.Conexion;
+import Controlador.ExportarExcel;
+import Funciones.FuncionesClientes;
 import Vista.Notificaciones.Aceptar_Cancelar;
 import Vista.Notificaciones.Advertencia;
 import Vista.Notificaciones.Fallo;
 import Vista.Notificaciones.Realizado;
 import java.awt.Color;
 import java.awt.Frame;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
@@ -15,7 +18,9 @@ import java.util.Map;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -31,6 +36,10 @@ public final class Reportes extends javax.swing.JInternalFrame {
 
     private final Conexion mysql = new Conexion();
     private final Connection cn = Conexion.getConnection();
+    ExportarExcel export = new ExportarExcel();
+    FuncionesClientes funcion = new FuncionesClientes();
+    DefaultTableModel modelo;
+    JTable tabla = new JTable();
 
     public Reportes() {
         initComponents();
@@ -38,8 +47,17 @@ public final class Reportes extends javax.swing.JInternalFrame {
         this.setBackground(new Color(0, 0, 0, 0));
         this.setIconifiable(false);
         this.setBorder(null);
-
+        mostrar("");
         botonesTransparentes();
+    }
+    
+    public void mostrar(String buscar) {
+        try {
+            modelo = funcion.mostrar(buscar);
+            tabla.setModel(modelo);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
     }
 
     public void botonesTransparentes() {
@@ -61,6 +79,7 @@ public final class Reportes extends javax.swing.JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         lblCerrar = new javax.swing.JLabel();
         btnReportes = new javax.swing.JButton();
+        btnExprotar = new javax.swing.JButton();
         lblFondo = new javax.swing.JLabel();
 
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -87,6 +106,14 @@ public final class Reportes extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(btnReportes, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 140, 141, -1));
+
+        btnExprotar.setText("Exportar a Excel");
+        btnExprotar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExprotarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnExprotar, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 150, -1, -1));
 
         lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoReporte.png"))); // NOI18N
         getContentPane().add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 330));
@@ -125,6 +152,14 @@ public final class Reportes extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnReportesActionPerformed
 
+    private void btnExprotarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExprotarActionPerformed
+        try{
+            export.exportarExcel(tabla);
+        }catch(IOException e){
+            
+        }
+    }//GEN-LAST:event_btnExprotarActionPerformed
+
     //Metodos para llamar a los JDialog de Advertencia, Fallo y Realizado
     Frame f = JOptionPane.getFrameForComponent(this);
     String encabezado;
@@ -159,6 +194,7 @@ public final class Reportes extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnExprotar;
     private javax.swing.JButton btnReportes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel6;

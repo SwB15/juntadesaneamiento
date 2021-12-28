@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="600" pageHeight="594" columnWidth="300" leftMargin="10" rightMargin="20" topMargin="20" bottomMargin="0">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="63"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="direccion" class="java.lang.String"/>
 	<parameter name="mes" class="java.lang.String"/>
 	<parameter name="numerousuario" class="java.lang.String"/>
@@ -41,226 +41,226 @@
 	<field name="total" class="java.lang.Integer"/>
 	<field name="idClientes" class="java.lang.Integer"/>
 	<title>
-		<band height="574" splitType="Stretch">
+		<band height="510" splitType="Stretch">
 			<textField>
-				<reportElement x="29" y="87" width="106" height="20"/>
+				<reportElement x="29" y="33" width="106" height="20"/>
 				<textElement>
 					<font fontName="SimSun" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{direccion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="196" y="87" width="100" height="20"/>
+				<reportElement x="196" y="33" width="100" height="20"/>
 				<textElement>
 					<font fontName="SimSun" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{boleta}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="309" y="87" width="100" height="20"/>
+				<reportElement x="309" y="33" width="100" height="20"/>
 				<textElement>
 					<font fontName="SimSun" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{mes}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="435" y="85" width="113" height="20"/>
+				<reportElement x="425" y="31" width="145" height="22"/>
 				<textElement>
-					<font fontName="SimSun" size="14"/>
+					<font fontName="SimSun" size="13"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{vencimiento}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="207" y="141" width="300" height="20"/>
+				<reportElement x="207" y="75" width="300" height="20"/>
 				<textElement>
 					<font fontName="SimSun" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{direccion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="29" y="141" width="106" height="20"/>
+				<reportElement x="29" y="75" width="106" height="20"/>
 				<textElement>
 					<font fontName="SimSun" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{mes}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="20" y="195" width="53" height="20"/>
+				<reportElement x="20" y="108" width="53" height="20"/>
 				<textElement>
 					<font fontName="SimSun" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{numerousuario}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="92" y="195" width="53" height="20"/>
+				<reportElement x="92" y="108" width="53" height="20"/>
 				<textElement>
 					<font fontName="SimSun" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{boleta}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="278" width="36" height="20"/>
+				<reportElement x="0" y="149" width="36" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SimSun" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{importeminimo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="47" y="278" width="26" height="20"/>
+				<reportElement x="47" y="149" width="26" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SimSun" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{importeatrasos}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="73" y="278" width="46" height="20"/>
+				<reportElement x="73" y="149" width="46" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SimSun" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{importeexcedentes}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="119" y="278" width="41" height="20"/>
+				<reportElement x="119" y="149" width="41" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SimSun" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{importeiva}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="37" y="330" width="106" height="20"/>
+				<reportElement x="36" y="188" width="124" height="20"/>
 				<textElement>
-					<font fontName="SimSun" size="12"/>
+					<font fontName="SimSun" size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{importetotal}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="95" y="413" width="83" height="20"/>
+				<reportElement x="87" y="241" width="83" height="20"/>
 				<textElement>
-					<font fontName="SimSun" size="12"/>
+					<font fontName="SimSun" size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{vencimiento}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="187" y="195" width="39" height="20"/>
+				<reportElement x="187" y="108" width="39" height="20"/>
 				<textElement>
-					<font fontName="SimSun" size="12"/>
+					<font fontName="SimSun" size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{numerousuario}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="257" y="195" width="133" height="20"/>
+				<reportElement x="257" y="108" width="133" height="20"/>
 				<textElement>
 					<font fontName="SimSun" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{cliente}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="408" y="195" width="128" height="20"/>
+				<reportElement x="408" y="108" width="128" height="20"/>
 				<textElement>
 					<font fontName="SimSun" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{direccion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="178" y="278" width="46" height="20"/>
+				<reportElement x="178" y="164" width="46" height="20"/>
 				<textElement>
-					<font fontName="SimSun" size="10"/>
+					<font fontName="Arial Narrow" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fechainicio}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="224" y="278" width="42" height="20"/>
+				<reportElement x="224" y="164" width="42" height="20"/>
 				<textElement>
-					<font fontName="SimSun" size="10"/>
+					<font fontName="Arial Narrow" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fechacierre}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="291" y="278" width="39" height="20"/>
+				<reportElement x="291" y="158" width="39" height="20"/>
 				<textElement>
 					<font fontName="SimSun" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{estadoinicio}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="330" y="278" width="36" height="20"/>
+				<reportElement x="330" y="158" width="36" height="20"/>
 				<textElement>
 					<font fontName="SimSun" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{estadocierre}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="415" y="278" width="34" height="20"/>
+				<reportElement x="415" y="158" width="34" height="20"/>
 				<textElement>
 					<font fontName="SimSun" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{consumominimo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="459" y="278" width="41" height="20"/>
+				<reportElement x="459" y="158" width="41" height="20"/>
 				<textElement>
 					<font fontName="SimSun" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{consumoexcedente}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="500" y="278" width="48" height="20"/>
+				<reportElement x="500" y="158" width="48" height="20"/>
 				<textElement>
 					<font fontName="SimSun" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{consumototal}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="182" y="348" width="38" height="20"/>
+				<reportElement x="182" y="204" width="38" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SimSun" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{importeminimo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="229" y="348" width="48" height="20"/>
+				<reportElement x="229" y="204" width="48" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SimSun" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{importeexcedentes}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="277" y="348" width="40" height="20"/>
+				<reportElement x="277" y="204" width="40" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SimSun" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{importeatrasos}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="330" y="348" width="34" height="20"/>
+				<reportElement x="330" y="204" width="34" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SimSun" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{importeconexion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="368" y="348" width="38" height="20"/>
+				<reportElement x="368" y="204" width="38" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SimSun" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{importemedidor}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="412" y="348" width="37" height="20"/>
+				<reportElement x="412" y="203" width="37" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SimSun" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{importeiva}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="452" y="348" width="78" height="20"/>
+				<reportElement x="463" y="200" width="85" height="26"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="SimSun" size="14"/>
+					<font fontName="SimSun" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{importetotal}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="29" y="460" width="106" height="20"/>
+				<reportElement x="29" y="293" width="106" height="20"/>
 				<textElement>
 					<font fontName="SimSun" size="12"/>
 				</textElement>

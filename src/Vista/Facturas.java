@@ -269,8 +269,8 @@ public final class Facturas extends javax.swing.JInternalFrame {
 
     private void calculo() {
         if (!txtConsumoExcedente.getText().equals("0")) {
-            int suma = Integer.parseInt(txtConsumoExcedente.getText()) + Integer.parseInt(txtConsumoMinimo.getText());
-            int excedente = suma * 2000;
+            //int suma = Integer.parseInt(txtConsumoExcedente.getText()) + Integer.parseInt(txtConsumoMinimo.getText());
+            int excedente = Integer.parseInt(txtConsumoExcedente.getText()) * 2000;
             txtImporteExcedentes.setText(String.valueOf(excedente));
 
             //Agrega puntos decimales
