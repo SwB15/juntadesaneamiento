@@ -137,6 +137,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
         dchFechaCierre.setEnabled(true);
         txtImporteAtrasos.setEditable(true);
         txtImporteConexion.setEditable(true);
+        txtImporteMedidor.setEditable(true);
 
         btnGuardar.setEnabled(true);
         btnEliminar.setEnabled(true);
@@ -170,6 +171,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
         txtCierreMedidor.setEditable(false);
         txtImporteAtrasos.setEditable(false);
         txtImporteConexion.setEditable(false);
+        txtImporteMedidor.setEditable(false);
 
         cmbMes.setSelectedIndex(0);
         dchVencimiento.setCalendar(null);
@@ -228,16 +230,16 @@ public final class Facturas extends javax.swing.JInternalFrame {
     }
 
     private void consumo() {
-        int consumoTotal = Integer.parseInt(txtConsumoMinimo.getText()) + Integer.parseInt(txtConsumoExcedente.getText());
-        txtConsumoTotal.setText(String.valueOf(consumoTotal));
-
         int cierre = Integer.parseInt(txtCierreMedidor.getText()) - Integer.parseInt(txtInicioMedidor.getText());
         if (cierre > 10) {
-            int cierre2 = cierre - 10;
+            int cierre2 = cierre-10;
             txtConsumoExcedente.setText(String.valueOf(cierre2));
         } else {
             txtConsumoExcedente.setText("0");
         }
+        
+        int consumoTotal = Integer.parseInt(txtConsumoMinimo.getText()) + Integer.parseInt(txtConsumoExcedente.getText());
+        txtConsumoTotal.setText(String.valueOf(consumoTotal));
     }
 
     private void llamarCliente() {
@@ -285,7 +287,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
         int iva = suma / 10;
 
         txtImporteIva.setText(String.valueOf(iva));
-        txtImporteTotal.setText(String.valueOf(suma + iva + Integer.parseInt(txtImporteAtrasos.getText().replace(".", "")) + Integer.parseInt(txtImporteConexion.getText().replace(".", ""))));
+        txtImporteTotal.setText(String.valueOf(suma + iva + Integer.parseInt(txtImporteAtrasos.getText().replace(".", "")) + Integer.parseInt(txtImporteMedidor.getText().replace(".", "")) + Integer.parseInt(txtImporteConexion.getText().replace(".", ""))));
 
         //Agrega puntos decimales al txtImporteIva
         if (txtImporteIva.getText().length() > 3) {
@@ -294,6 +296,44 @@ public final class Facturas extends javax.swing.JInternalFrame {
         }
 
         //Agrega puntos decimales al txtImporteTotal
+        if (txtImporteTotal.getText().length() > 3) {
+            cadena = txtImporteTotal.getText().replace(".", "");
+            txtImporteTotal.setText(formateador14.format(Integer.parseInt(cadena)));
+        }
+    }
+
+    public void puntosDecimales() {
+        //Agrega puntos decimales
+        if (txtImporteExcedentes.getText().length() > 3) {
+            cadena = txtImporteExcedentes.getText().replace(".", "");
+            txtImporteExcedentes.setText(formateador14.format(Integer.parseInt(cadena)));
+        }
+
+        if (txtImporteMinimo.getText().length() > 3) {
+            cadena = txtImporteMinimo.getText().replace(".", "");
+            txtImporteMinimo.setText(formateador14.format(Integer.parseInt(cadena)));
+        }
+
+        if (txtImporteIva.getText().length() > 3) {
+            cadena = txtImporteIva.getText().replace(".", "");
+            txtImporteIva.setText(formateador14.format(Integer.parseInt(cadena)));
+        }
+
+        if (txtImporteAtrasos.getText().length() > 3) {
+            cadena = txtImporteAtrasos.getText().replace(".", "");
+            txtImporteAtrasos.setText(formateador14.format(Integer.parseInt(cadena)));
+        }
+
+        if (txtImporteConexion.getText().length() > 3) {
+            cadena = txtImporteConexion.getText().replace(".", "");
+            txtImporteConexion.setText(formateador14.format(Integer.parseInt(cadena)));
+        }
+
+        if (txtImporteMedidor.getText().length() > 3) {
+            cadena = txtImporteMedidor.getText().replace(".", "");
+            txtImporteMedidor.setText(formateador14.format(Integer.parseInt(cadena)));
+        }
+
         if (txtImporteTotal.getText().length() > 3) {
             cadena = txtImporteTotal.getText().replace(".", "");
             txtImporteTotal.setText(formateador14.format(Integer.parseInt(cadena)));
@@ -659,7 +699,6 @@ public final class Facturas extends javax.swing.JInternalFrame {
         jLabel4.setText("Boleta N°:");
         jPanel12.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 70, -1));
 
-        txtBoleta.setBackground(new java.awt.Color(255, 255, 255));
         txtBoleta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtBoletaActionPerformed(evt);
@@ -939,9 +978,22 @@ public final class Facturas extends javax.swing.JInternalFrame {
         txtImporteMedidor.setEditable(false);
         txtImporteMedidor.setBackground(new java.awt.Color(255, 255, 255));
         txtImporteMedidor.setText("0");
+        txtImporteMedidor.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtImporteMedidorFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtImporteMedidorFocusLost(evt);
+            }
+        });
         txtImporteMedidor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtImporteMedidorActionPerformed(evt);
+            }
+        });
+        txtImporteMedidor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtImporteMedidorKeyReleased(evt);
             }
         });
         jPanel14.add(txtImporteMedidor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 75, -1));
@@ -1157,46 +1209,13 @@ public final class Facturas extends javax.swing.JInternalFrame {
         txtCierreMedidor.setText(modelo2.getValueAt(0, 9).toString());
         txtImporteMinimo.setText(modelo2.getValueAt(0, 10).toString());
         txtImporteExcedentes.setText(modelo2.getValueAt(0, 11).toString());
-        txtImporteTotal.setText(modelo2.getValueAt(0, 12).toString());
-        txtIdclientes.setText(modelo2.getValueAt(0, 14).toString());
+        txtImporteMedidor.setText(modelo2.getValueAt(0, 12).toString());
+        txtImporteTotal.setText(modelo2.getValueAt(0, 13).toString());
+        txtIdclientes.setText(modelo2.getValueAt(0, 15).toString());
         txtImporteIva.setText(String.valueOf(Integer.parseInt(txtImporteTotal.getText()) / 10));
         consumo();
 
-        //Agrega puntos decimales
-        if (txtImporteExcedentes.getText().length() > 3) {
-            cadena = txtImporteExcedentes.getText().replace(".", "");
-            txtImporteExcedentes.setText(formateador14.format(Integer.parseInt(cadena)));
-        }
-
-        if (txtImporteMinimo.getText().length() > 3) {
-            cadena = txtImporteMinimo.getText().replace(".", "");
-            txtImporteMinimo.setText(formateador14.format(Integer.parseInt(cadena)));
-        }
-
-        if (txtImporteIva.getText().length() > 3) {
-            cadena = txtImporteIva.getText().replace(".", "");
-            txtImporteIva.setText(formateador14.format(Integer.parseInt(cadena)));
-        }
-
-        if (txtImporteAtrasos.getText().length() > 3) {
-            cadena = txtImporteAtrasos.getText().replace(".", "");
-            txtImporteAtrasos.setText(formateador14.format(Integer.parseInt(cadena)));
-        }
-
-        if (txtImporteConexion.getText().length() > 3) {
-            cadena = txtImporteConexion.getText().replace(".", "");
-            txtImporteConexion.setText(formateador14.format(Integer.parseInt(cadena)));
-        }
-
-        if (txtImporteMedidor.getText().length() > 3) {
-            cadena = txtImporteMedidor.getText().replace(".", "");
-            txtImporteMedidor.setText(formateador14.format(Integer.parseInt(cadena)));
-        }
-
-        if (txtImporteTotal.getText().length() > 3) {
-            cadena = txtImporteTotal.getText().replace(".", "");
-            txtImporteTotal.setText(formateador14.format(Integer.parseInt(cadena)));
-        }
+        puntosDecimales();
 
         //Envia el id del cliente para rellenar los campos correspondientes a la factura seleccionada
         clientes(Integer.parseInt(txtIdclientes.getText()));
@@ -1293,15 +1312,15 @@ public final class Facturas extends javax.swing.JInternalFrame {
     private void txtImporteAtrasosFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtImporteAtrasosFocusGained
         if (txtImporteAtrasos.getText().length() == 0) {
             txtImporteAtrasos.setText("");
-        }else{
-              calculo();
+        } else {
+            calculo();
         }
     }//GEN-LAST:event_txtImporteAtrasosFocusGained
 
     private void txtImporteAtrasosFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtImporteAtrasosFocusLost
         if (txtImporteAtrasos.getText().length() == 0) {
             txtImporteAtrasos.setText("0");
-        }else{
+        } else {
             calculo();
         }
     }//GEN-LAST:event_txtImporteAtrasosFocusLost
@@ -1358,7 +1377,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
     private void txtImporteConexionFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtImporteConexionFocusLost
         if (txtImporteConexion.getText().length() == 0) {
             txtImporteConexion.setText("0");
-        }else{
+        } else {
             calculo();
         }
     }//GEN-LAST:event_txtImporteConexionFocusLost
@@ -1366,8 +1385,33 @@ public final class Facturas extends javax.swing.JInternalFrame {
     private void txtImporteConexionFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtImporteConexionFocusGained
         if (txtImporteConexion.getText().length() == 0) {
             txtImporteConexion.setText("");
+        } else {
+            calculo();
         }
     }//GEN-LAST:event_txtImporteConexionFocusGained
+
+    private void txtImporteMedidorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtImporteMedidorKeyReleased
+        if (txtImporteMedidor.getText().length() > 3) {
+            cadena = txtImporteMedidor.getText().replace(".", "");
+            txtImporteMedidor.setText(formateador14.format(Integer.parseInt(cadena)));
+        }
+    }//GEN-LAST:event_txtImporteMedidorKeyReleased
+
+    private void txtImporteMedidorFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtImporteMedidorFocusGained
+        if (txtImporteMedidor.getText().length() == 0) {
+            txtImporteMedidor.setText("");
+        } else {
+            calculo();
+        }
+    }//GEN-LAST:event_txtImporteMedidorFocusGained
+
+    private void txtImporteMedidorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtImporteMedidorFocusLost
+        if (txtImporteMedidor.getText().length() == 0) {
+            txtImporteMedidor.setText("0");
+        } else {
+            calculo();
+        }
+    }//GEN-LAST:event_txtImporteMedidorFocusLost
 
     //Metodos para llamar a los JDialog de Advertencia, Fallo y Realizado
     Frame f = JOptionPane.getFrameForComponent(this);
@@ -1507,6 +1551,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
         datos.setEstadoInicio(Integer.parseInt(txtInicioMedidor.getText()));
         datos.setEstadoCierre(Integer.parseInt(txtCierreMedidor.getText()));
         datos.setConsumoMinimo(Integer.parseInt(txtImporteMinimo.getText().replace(".", "")));
+        datos.setMedidor(Integer.parseInt(txtImporteMedidor.getText().replace(".", "")));
         datos.setExcedente(Integer.parseInt(txtImporteExcedentes.getText().replace(".", "")));
         datos.setTotal(Integer.parseInt(txtImporteTotal.getText().replace(".", "")));
 
@@ -1538,6 +1583,8 @@ public final class Facturas extends javax.swing.JInternalFrame {
     }
 
     public void editar() {
+        validarCampos();
+
         Date vencimiento = dchVencimiento.getDate();
         java.sql.Date vencimiento1 = new java.sql.Date(vencimiento.getTime());
 
@@ -1553,15 +1600,16 @@ public final class Facturas extends javax.swing.JInternalFrame {
         datos.setBoleta(txtBoleta.getText());
         datos.setMes(mes2);
         datos.setVencimiento(vencimiento1);
-        datos.setAtraso(Integer.parseInt(txtImporteAtrasos.getText()));
-        datos.setConexion(Integer.parseInt(txtImporteConexion.getText()));
+        datos.setAtraso(Integer.parseInt(txtImporteAtrasos.getText().replace(".", "")));
+        datos.setConexion(Integer.parseInt(txtImporteConexion.getText().replace(".", "")));
         datos.setFechaInicio(inicio1);
         datos.setFechaCierre(cierre1);
         datos.setEstadoInicio(Integer.parseInt(txtInicioMedidor.getText()));
         datos.setEstadoCierre(Integer.parseInt(txtCierreMedidor.getText()));
-        datos.setConsumoMinimo(Integer.parseInt(txtImporteMinimo.getText()));
-        datos.setExcedente(Integer.parseInt(txtImporteExcedentes.getText()));
-        datos.setTotal(Integer.parseInt(txtImporteTotal.getText()));
+        datos.setConsumoMinimo(Integer.parseInt(txtImporteMinimo.getText().replace(".", "")));
+        datos.setExcedente(Integer.parseInt(txtImporteExcedentes.getText().replace(".", "")));
+        datos.setMedidor(Integer.parseInt(txtImporteMedidor.getText().replace(".", "")));
+        datos.setTotal(Integer.parseInt(txtImporteTotal.getText().replace(".", "")));
         datos.setId(Integer.parseInt(txtIdfacturas.getText()));
 
         if (funcion.editar(datos, Integer.parseInt(txtIdclientes.getText()))) {
@@ -1569,7 +1617,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
                 mensaje = "Factura guardada correctamente";
                 realizado();
                 mostrar("");
-//            inhabilitar();
+                inhabilitar();
             } else {
                 mensaje = "Factura no guardada";
                 fallo();

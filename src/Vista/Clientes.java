@@ -620,7 +620,7 @@ public final class Clientes extends javax.swing.JInternalFrame {
         datos.setDireccion(txtDireccion.getText());
         datos.setMedidor(Integer.parseInt(txtMedidor.getText()));
         if (funcion.insertar(datos)) {
-            mensaje = "Cliente guardado correctamente";
+            mensaje = "Usuario guardado correctamente";
             realizado();
             mostrar("");
             inhabilitar();
@@ -642,7 +642,7 @@ public final class Clientes extends javax.swing.JInternalFrame {
         datos.setId(Integer.parseInt(txtIdclientes.getText()));
 
         if (funcion.editar(datos)) {
-            mensaje = "Cliente editado correctamente";
+            mensaje = "Usuario editado correctamente";
             realizado();
             mostrar("");
             inhabilitar();
@@ -655,7 +655,7 @@ public final class Clientes extends javax.swing.JInternalFrame {
 
     public void eliminar() {
         if (txtIdclientes.getText().length() == 0) {
-            mensaje = "Debes seleccionar primero un cliente a eliminar.";
+            mensaje = "Debes seleccionar primero un usuario a eliminar.";
             advertencia();
         } else {
             encabezado = "Eliminar permanentemente";
@@ -667,7 +667,7 @@ public final class Clientes extends javax.swing.JInternalFrame {
                 datos.setId(Integer.parseInt(txtIdclientes.getText()));
 
                 if (funcion.eliminar(datos)) {
-                    mensaje = "Cliente eliminado correctamente";
+                    mensaje = "Usuario eliminado correctamente";
                     realizado();
                     txtIdclientes.setText("");
                     mostrar("");

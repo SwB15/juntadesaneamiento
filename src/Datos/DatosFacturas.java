@@ -20,10 +20,11 @@ public class DatosFacturas {
     private int estadoCierre;
     private int consumoMinimo;
     private int excedente;
+    private int medidor;
     private int total;
     private int idclientes;
 
-    public DatosFacturas(int id, String boleta, String mes, Date vencimiento, int atraso, int conexion, Date fechaInicio, Date fechaCierre, int estadoInicio, int estadoCierre, int consumoMinimo, int excedente, int total, int idclientes) {
+    public DatosFacturas(int id, String boleta, String mes, Date vencimiento, int atraso, int conexion, Date fechaInicio, Date fechaCierre, int estadoInicio, int estadoCierre, int consumoMinimo, int excedente, int medidor, int total, int idclientes) {
         this.id = id;
         this.boleta = boleta;
         this.mes = mes;
@@ -36,11 +37,11 @@ public class DatosFacturas {
         this.estadoCierre = estadoCierre;
         this.consumoMinimo = consumoMinimo;
         this.excedente = excedente;
+        this.medidor = medidor;
         this.total = total;
         this.idclientes = idclientes;
     }
 
-    
     public DatosFacturas() {
     }
 
@@ -138,6 +139,14 @@ public class DatosFacturas {
 
     public void setExcedente(int excedente) {
         this.excedente = excedente;
+    }
+
+    public int getMedidor() {
+        return medidor;
+    }
+
+    public void setMedidor(int medidor) {
+        this.medidor = medidor;
     }
 
     public int getTotal() {
