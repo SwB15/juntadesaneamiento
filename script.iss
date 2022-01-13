@@ -3,9 +3,7 @@
 
 #define MyAppName "JuntaDeSaneamiento"
 #define MyAppVersion "1.0"
-#define MyAppPublisher "My Company, Inc."
-#define MyAppURL "https://www.example.com/"
-#define MyAppExeName "Junta.exe"
+#define MyAppExeName "JuntaDeSaneamiento.exe"
 #define MyAppAssocName MyAppName + ""
 #define MyAppAssocExt ".exe"
 #define MyAppAssocKey StringChange(MyAppAssocName, " ", "") + MyAppAssocExt
@@ -13,14 +11,10 @@
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{062E3684-1950-4F65-9A2F-6A638B00918F}
+AppId={{E7C0B3C7-6E92-4FCE-AEC6-114FA076CA9C}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
-AppPublisher={#MyAppPublisher}
-AppPublisherURL={#MyAppURL}
-AppSupportURL={#MyAppURL}
-AppUpdatesURL={#MyAppURL}
 DefaultDirName={autopf}\{#MyAppName}
 ChangesAssociations=yes
 DisableProgramGroupPage=yes
@@ -43,7 +37,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Source: "C:\Users\User\Documents\NetBeansProjects\JuntaDeSaneamiento\dist\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\User\Documents\NetBeansProjects\JuntaDeSaneamiento\dist\JuntaDeSaneamiento.jar"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\User\Documents\NetBeansProjects\JuntaDeSaneamiento\Gota.ico"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\NetBeansProjects\JuntaDeSaneamiento\dist\lib\*"; DestDir: "{app}\lib\"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\User\Documents\NetBeansProjects\JuntaDeSaneamiento\dist\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Users\User\Documents\NetBeansProjects\JuntaDeSaneamiento\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 

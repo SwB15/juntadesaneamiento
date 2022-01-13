@@ -53,24 +53,6 @@ public class ExportarExcel {
                                 fuente.setFontName(HSSFFont.FONT_ARIAL);
                                 fuente.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 
-                                // Luego creamos el objeto que se encargará de aplicar el estilo a la celda
-                                HSSFCellStyle estiloCelda = libro.createCellStyle();
-                                estiloCelda.setWrapText(true);
-                                estiloCelda.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-                                estiloCelda.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-                                estiloCelda.setFont(fuente);
-
-                                // También, podemos establecer bordes...
-                                estiloCelda.setBorderBottom(HSSFCellStyle.BORDER_MEDIUM);
-                                estiloCelda.setBottomBorderColor((short) 8);
-                                estiloCelda.setBorderLeft(HSSFCellStyle.BORDER_MEDIUM);
-                                estiloCelda.setLeftBorderColor((short) 8);
-                                estiloCelda.setBorderRight(HSSFCellStyle.BORDER_MEDIUM);
-                                estiloCelda.setRightBorderColor((short) 8);
-                                estiloCelda.setBorderTop(HSSFCellStyle.BORDER_MEDIUM);
-                                estiloCelda.setTopBorderColor((short) 8);
-
-                                celda.setCellStyle(estiloCelda);
                                 celda.setCellType(HSSFCell.CELL_TYPE_STRING);
                                 // Finalmente, establecemos el valor
                                 celda.setCellValue(t.getColumnName(c));
@@ -91,24 +73,6 @@ public class ExportarExcel {
                                 fuente.setFontHeightInPoints((short) 11);
                                 fuente.setFontName(HSSFFont.FONT_ARIAL);
 
-                                // Luego creamos el objeto que se encargará de aplicar el estilo a la celda
-                                HSSFCellStyle estiloCelda = libro.createCellStyle();
-                                estiloCelda.setWrapText(true);
-                                estiloCelda.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-                                estiloCelda.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-                                estiloCelda.setFont(fuente);
-
-                                // También, podemos establecer bordes...
-                                estiloCelda.setBorderBottom(HSSFCellStyle.BORDER_MEDIUM);
-                                estiloCelda.setBottomBorderColor((short) 8);
-                                estiloCelda.setBorderLeft(HSSFCellStyle.BORDER_MEDIUM);
-                                estiloCelda.setLeftBorderColor((short) 8);
-                                estiloCelda.setBorderRight(HSSFCellStyle.BORDER_MEDIUM);
-                                estiloCelda.setRightBorderColor((short) 8);
-                                estiloCelda.setBorderTop(HSSFCellStyle.BORDER_MEDIUM);
-                                estiloCelda.setTopBorderColor((short) 8);
-
-                                celda.setCellStyle(estiloCelda);
                                 celda.setCellType(HSSFCell.CELL_TYPE_STRING);
 
                                 // Finalmente, establecemos el valor
@@ -120,24 +84,6 @@ public class ExportarExcel {
                                 fuente.setFontHeightInPoints((short) 11);
                                 fuente.setFontName(HSSFFont.FONT_ARIAL);
 
-                                // Luego creamos el objeto que se encargará de aplicar el estilo a la celda
-                                HSSFCellStyle estiloCelda = libro.createCellStyle();
-                                estiloCelda.setWrapText(true);
-                                estiloCelda.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-                                estiloCelda.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-                                estiloCelda.setFont(fuente);
-
-                                // También, podemos establecer bordes...
-                                estiloCelda.setBorderBottom(HSSFCellStyle.BORDER_MEDIUM);
-                                estiloCelda.setBottomBorderColor((short) 8);
-                                estiloCelda.setBorderLeft(HSSFCellStyle.BORDER_MEDIUM);
-                                estiloCelda.setLeftBorderColor((short) 8);
-                                estiloCelda.setBorderRight(HSSFCellStyle.BORDER_MEDIUM);
-                                estiloCelda.setRightBorderColor((short) 8);
-                                estiloCelda.setBorderTop(HSSFCellStyle.BORDER_MEDIUM);
-                                estiloCelda.setTopBorderColor((short) 8);
-
-                                celda.setCellStyle(estiloCelda);
                                 celda.setCellType(HSSFCell.CELL_TYPE_STRING);
 
                                 // Finalmente, establecemos el valor
@@ -149,31 +95,13 @@ public class ExportarExcel {
                                 fuente.setFontHeightInPoints((short) 11);
                                 fuente.setFontName(HSSFFont.FONT_ARIAL);
 
-                                // Luego creamos el objeto que se encargará de aplicar el estilo a la celda
-                                HSSFCellStyle estiloCelda = libro.createCellStyle();
-                                estiloCelda.setWrapText(true);
-                                estiloCelda.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-                                estiloCelda.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-                                estiloCelda.setFont(fuente);
-
-                                // También, podemos establecer bordes...
-                                estiloCelda.setBorderBottom(HSSFCellStyle.BORDER_DASHED);
-                                estiloCelda.setBottomBorderColor((short) 8);
-                                estiloCelda.setBorderLeft(HSSFCellStyle.BORDER_MEDIUM);
-                                estiloCelda.setLeftBorderColor((short) 8);
-                                estiloCelda.setBorderRight(HSSFCellStyle.BORDER_MEDIUM);
-                                estiloCelda.setRightBorderColor((short) 8);
-                                estiloCelda.setBorderTop(HSSFCellStyle.BORDER_MEDIUM);
-                                estiloCelda.setTopBorderColor((short) 8);
-
-                                celda.setCellStyle(estiloCelda);
                                 celda.setCellType(HSSFCell.CELL_TYPE_STRING);
 
                                 // Finalmente, establecemos el valor
                                 celda.setCellValue(String.valueOf(t.getValueAt(f, c)));
                             }
                         }
-                        
+
                         for (int i = 0; i < 6; i++) {
                             hoja.autoSizeColumn(i);
                         }

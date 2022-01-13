@@ -79,7 +79,6 @@ public final class Reportes extends javax.swing.JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         lblCerrar = new javax.swing.JLabel();
         btnReportes = new javax.swing.JButton();
-        btnExprotar = new javax.swing.JButton();
         lblFondo = new javax.swing.JLabel();
 
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -107,14 +106,6 @@ public final class Reportes extends javax.swing.JInternalFrame {
         });
         getContentPane().add(btnReportes, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 140, 141, -1));
 
-        btnExprotar.setText("Exportar a Excel");
-        btnExprotar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExprotarActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnExprotar, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 150, -1, -1));
-
         lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoReporte.png"))); // NOI18N
         getContentPane().add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 330));
 
@@ -127,38 +118,13 @@ public final class Reportes extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblCerrarMouseClicked
 
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
-        JasperReport reporte;
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("", "");
-
-        final String ruta = "src/Reportes/Clientes.jrxml";
-        Path rutarelativa = Paths.get(ruta);
-        System.out.println("Ruta relativa: " + rutarelativa);
-
-        Path rutaabsoluta = rutarelativa.toAbsolutePath();
-        System.out.println("Ruta Absoluta: " + rutaabsoluta);
-        String ruta1 = rutaabsoluta.toString();
-
-        try {
-            reporte = JasperCompileManager.compileReport(ruta1);
-            JasperPrint jp = JasperFillManager.fillReport(reporte, map, cn);
-            JasperViewer view = new JasperViewer(jp, false);
-            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            view.setVisible(true);
-        } catch (JRException e) {
-            JOptionPane.showMessageDialog(null, e);
-            mensaje = "Error al generar reporte";
-            fallo();
-        }
-    }//GEN-LAST:event_btnReportesActionPerformed
-
-    private void btnExprotarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExprotarActionPerformed
         try{
             export.exportarExcel(tabla);
         }catch(IOException e){
-            
+            mensaje = "Error al exportar a Excel";
+            fallo();
         }
-    }//GEN-LAST:event_btnExprotarActionPerformed
+    }//GEN-LAST:event_btnReportesActionPerformed
 
     //Metodos para llamar a los JDialog de Advertencia, Fallo y Realizado
     Frame f = JOptionPane.getFrameForComponent(this);
@@ -194,7 +160,6 @@ public final class Reportes extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnExprotar;
     private javax.swing.JButton btnReportes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel6;
