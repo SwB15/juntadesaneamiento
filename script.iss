@@ -2,8 +2,8 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "JuntaDeSaneamiento"
-#define MyAppVersion "1.0"
-#define MyAppExeName "JuntaDeSaneamiento.exe"
+#define MyAppVersion "1.5"
+#define MyAppExeName "Junta.exe"
 #define MyAppAssocName MyAppName + ""
 #define MyAppAssocExt ".exe"
 #define MyAppAssocKey StringChange(MyAppAssocName, " ", "") + MyAppAssocExt
@@ -11,7 +11,7 @@
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{E7C0B3C7-6E92-4FCE-AEC6-114FA076CA9C}
+AppId={{40FE3260-51D2-42C6-B7B8-EEE00C909114}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
@@ -35,10 +35,11 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "C:\Users\User\Documents\NetBeansProjects\JuntaDeSaneamiento\dist\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\User\Documents\NetBeansProjects\JuntaDeSaneamiento\dist\Junta.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\User\Documents\NetBeansProjects\JuntaDeSaneamiento\dist\JuntaDeSaneamiento.jar"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\NetBeansProjects\JuntaDeSaneamiento\Gota.ico"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\User\Documents\NetBeansProjects\JuntaDeSaneamiento\dist\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Users\User\Documents\NetBeansProjects\JuntaDeSaneamiento\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\User\Documents\NetBeansProjects\JuntaDeSaneamiento\dist\lib\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Registry]
