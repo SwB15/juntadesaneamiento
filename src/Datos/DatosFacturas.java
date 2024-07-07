@@ -1,4 +1,3 @@
-
 package Datos;
 
 import java.sql.Date;
@@ -8,12 +7,14 @@ import java.sql.Date;
  * @author SwichBlade15
  */
 public class DatosFacturas {
+
     private int id;
     private String boleta;
     private String mes;
     private Date vencimiento;
     private int atraso;
     private int conexion;
+    private int medidor;
     private Date fechaInicio;
     private Date fechaCierre;
     private int estadoInicio;
@@ -23,13 +24,14 @@ public class DatosFacturas {
     private int total;
     private int idclientes;
 
-    public DatosFacturas(int id, String boleta, String mes, Date vencimiento, int atraso, int conexion, Date fechaInicio, Date fechaCierre, int estadoInicio, int estadoCierre, int consumoMinimo, int excedente, int total, int idclientes) {
+    public DatosFacturas(int id, String boleta, String mes, Date vencimiento, int atraso, int conexion, int medidor, Date fechaInicio, Date fechaCierre, int estadoInicio, int estadoCierre, int consumoMinimo, int excedente, int total, int idclientes) {
         this.id = id;
         this.boleta = boleta;
         this.mes = mes;
         this.vencimiento = vencimiento;
         this.atraso = atraso;
         this.conexion = conexion;
+        this.medidor = medidor;
         this.fechaInicio = fechaInicio;
         this.fechaCierre = fechaCierre;
         this.estadoInicio = estadoInicio;
@@ -40,7 +42,6 @@ public class DatosFacturas {
         this.idclientes = idclientes;
     }
 
-    
     public DatosFacturas() {
     }
 
@@ -90,6 +91,14 @@ public class DatosFacturas {
 
     public void setConexion(int conexion) {
         this.conexion = conexion;
+    }
+
+    public int getMedidor() {
+        return medidor;
+    }
+
+    public void setMedidor(int medidor) {
+        this.medidor = medidor;
     }
 
     public Date getFechaInicio() {
@@ -155,6 +164,4 @@ public class DatosFacturas {
     public void setIdclientes(int idclientes) {
         this.idclientes = idclientes;
     }
-
-    
 }

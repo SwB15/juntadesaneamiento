@@ -837,11 +837,6 @@ public final class Facturas extends javax.swing.JInternalFrame {
         txtConsumoTotal.setEditable(false);
         txtConsumoTotal.setBackground(new java.awt.Color(255, 255, 255));
         txtConsumoTotal.setText("0");
-        txtConsumoTotal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtConsumoTotalActionPerformed(evt);
-            }
-        });
         jPanel9.add(txtConsumoTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 60, 75, -1));
 
         lblFondoInterno3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoInterno2.png"))); // NOI18N
@@ -1024,10 +1019,6 @@ public final class Facturas extends javax.swing.JInternalFrame {
     private void txtConsumoExcedenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtConsumoExcedenteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtConsumoExcedenteActionPerformed
-
-    private void txtConsumoTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtConsumoTotalActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtConsumoTotalActionPerformed
 
     private void txtNumeroUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumeroUsuarioActionPerformed
         // TODO add your handling code here:

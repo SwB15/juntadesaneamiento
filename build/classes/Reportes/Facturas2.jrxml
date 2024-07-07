@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="421" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="421" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -23,7 +23,6 @@
 	<parameter name="consumototal" class="java.lang.String"/>
 	<parameter name="importeconexion" class="java.lang.String"/>
 	<parameter name="importemedidor" class="java.lang.String"/>
-	<parameter name="logo" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -935,14 +934,6 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{consumototal}]]></textFieldExpression>
 			</textField>
-			<image>
-				<reportElement x="177" y="0" width="40" height="40"/>
-				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
-			</image>
-			<image>
-				<reportElement x="0" y="0" width="40" height="40"/>
-				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
-			</image>
 		</band>
 	</detail>
 	<columnFooter>
