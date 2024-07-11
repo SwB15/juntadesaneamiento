@@ -72,7 +72,7 @@
 				<text><![CDATA[RUC: 80033372-1]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="50" width="152" height="20"/>
+				<reportElement x="1" y="50" width="152" height="20"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>

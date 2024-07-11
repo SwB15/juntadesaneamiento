@@ -269,7 +269,7 @@ public class ListaFacturas extends javax.swing.JInternalFrame {
 //        }
         try {
             // Ruta del reporte JRXML
-            final String rutaReporte = "src/Reportes/MultipleFacturas.jrxml";
+            final String rutaReporte = "src/Reportes/Facturas.jrxml";
             Path rutaRelativaReporte = Paths.get(rutaReporte);
             String rutaAbsolutaReporte = rutaRelativaReporte.toAbsolutePath().toString();
             
