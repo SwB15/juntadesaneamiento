@@ -1087,6 +1087,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
         cmbMes.setSelectedItem(String.valueOf(modelo2.getValueAt(0, 2)));
         System.out.println("Mes es: " + String.valueOf(modelo2.getValueAt(0, 2)));
 
+        //Inicio Vencimiento
         //Convertir java.sql.date a java.util.date y mostrar en pantalla la fecha de Vencimiento
         SimpleDateFormat vencimiento = new SimpleDateFormat("yyyy-MM-dd");
         //Formato inicial. 

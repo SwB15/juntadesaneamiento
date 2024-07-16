@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="535" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["C:/Users/jorge/OneDrive/Documentos/NetBeansProjects/JuntaDeSaneamiento/src/Reportes/"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["C:\\Users\\jorge\\OneDrive\\Documentos\\NetBeansProjects\\JuntaDeSaneamiento\\src\\Reportes\\"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="direccion" class="java.lang.String"/>
 	<parameter name="mes" class="java.lang.String"/>
@@ -26,6 +26,26 @@
 	<parameter name="consumototal" class="java.lang.String"/>
 	<parameter name="importeconexion" class="java.lang.String"/>
 	<parameter name="importemedidor" class="java.lang.String"/>
+	<parameter name="direccion2" class="java.lang.String"/>
+	<parameter name="mes2" class="java.lang.String"/>
+	<parameter name="numerousuario2" class="java.lang.String"/>
+	<parameter name="boleta2" class="java.lang.String"/>
+	<parameter name="importeminimo2" class="java.lang.String"/>
+	<parameter name="importeatrasos2" class="java.lang.String"/>
+	<parameter name="importeexcedentes2" class="java.lang.String"/>
+	<parameter name="importeiva2" class="java.lang.String"/>
+	<parameter name="importetotal2" class="java.lang.String"/>
+	<parameter name="vencimiento2" class="java.lang.String"/>
+	<parameter name="cliente2" class="java.lang.String"/>
+	<parameter name="fechainicio2" class="java.lang.String"/>
+	<parameter name="fechacierre2" class="java.lang.String"/>
+	<parameter name="estadoinicio2" class="java.lang.String"/>
+	<parameter name="estadocierre2" class="java.lang.String"/>
+	<parameter name="consumominimo2" class="java.lang.String"/>
+	<parameter name="consumoexcedente2" class="java.lang.String"/>
+	<parameter name="consumototal2" class="java.lang.String"/>
+	<parameter name="importeconexion2" class="java.lang.String"/>
+	<parameter name="importemedidor2" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -104,6 +124,71 @@
 				</subreportParameter>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Facturas.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="421" width="595" height="421"/>
+				<subreportParameter name="direccion">
+					<subreportParameterExpression><![CDATA[$P{direccion2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="mes">
+					<subreportParameterExpression><![CDATA[$P{mes2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="numerousuario">
+					<subreportParameterExpression><![CDATA[$P{numerousuario2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="boleta">
+					<subreportParameterExpression><![CDATA[$P{boleta2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="importeminimo">
+					<subreportParameterExpression><![CDATA[$P{importeminimo2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="importeatrasos">
+					<subreportParameterExpression><![CDATA[$P{importeatrasos2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="importeexcedentes">
+					<subreportParameterExpression><![CDATA[$P{importeexcedentes2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="importeiva">
+					<subreportParameterExpression><![CDATA[$P{importeiva2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="importetotal">
+					<subreportParameterExpression><![CDATA[$P{importetotal2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="vencimiento">
+					<subreportParameterExpression><![CDATA[$P{vencimiento2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="cliente">
+					<subreportParameterExpression><![CDATA[$P{cliente2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="fechainicio">
+					<subreportParameterExpression><![CDATA[$P{fechainicio2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="fechacierre">
+					<subreportParameterExpression><![CDATA[$P{fechacierre2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="estadoinicio">
+					<subreportParameterExpression><![CDATA[$P{estadoinicio2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="estadocierre">
+					<subreportParameterExpression><![CDATA[$P{estadocierre2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="consumominimo">
+					<subreportParameterExpression><![CDATA[$P{consumominimo2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="consumoexcedente">
+					<subreportParameterExpression><![CDATA[$P{consumoexcedente2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="consumototal">
+					<subreportParameterExpression><![CDATA[$P{consumototal2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="importeconexion">
+					<subreportParameterExpression><![CDATA[$P{importeconexion2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="importemedidor">
+					<subreportParameterExpression><![CDATA[$P{importemedidor2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Facturas2.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>

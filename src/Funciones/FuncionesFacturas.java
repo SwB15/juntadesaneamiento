@@ -39,13 +39,13 @@ public class FuncionesFacturas {
 
     //Aqui se cargan los datos a ser utilizados dentro del sistema
     public DefaultTableModel registros(int buscar) {
-        String[] titulos = {"Codigo", "Boleta", "Mes", "Vencimiento", "Atraso", "Conexion", "Medidor", "F. Inicio", "F. Cierre", "E. Inicio", "E. Cierre", "Cons. Minimo", "Excedente", "Total", "Cliente", "idClientes"};
-        String[] registros = new String[16];
+        String[] titulos = {"Codigo", "Boleta", "Mes", "Vencimiento", "Atraso", "Conexion", "Medidor", "F. Inicio", "F. Cierre", "E. Inicio", "E. Cierre", "Cons. Minimo", "Excedente", "Total", "Cliente", "idClientes", "Direccion", "N° Cliente"};
+        String[] registros = new String[18];
         totalRegistros = 0;
         modelo = new DefaultTableModel(null, titulos);
 
         try {
-            ps = cn.prepareStatement("SELECT id, boleta, mes, vencimiento, atraso, conexion, medidor, fechainicio, fechacierre, estadoinicio, estadocierre, consumominimo, excedente, total, (SELECT nombre FROM clientes WHERE id = idclientes) AS nombre, (SELECT apellido FROM clientes WHERE id = idclientes) AS apellido, (SELECT id FROM clientes WHERE id = idclientes) AS idClientes FROM facturas WHERE id = ? ORDER BY id DESC");
+            ps = cn.prepareStatement("SELECT id, boleta, mes, vencimiento, atraso, conexion, medidor, fechainicio, fechacierre, estadoinicio, estadocierre, consumominimo, excedente, total, (SELECT nombre FROM clientes WHERE id = idclientes) AS nombre, (SELECT apellido FROM clientes WHERE id = idclientes) AS apellido, (SELECT id FROM clientes WHERE id = idclientes) AS idClientes, (SELECT direccion FROM clientes WHERE id = idclientes) AS direccion, (SELECT numerocliente FROM clientes WHERE id = idclientes) AS numerocliente FROM facturas WHERE id = ? ORDER BY id DESC");
             ps.setInt(1, buscar);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -65,6 +65,8 @@ public class FuncionesFacturas {
                 registros[13] = rs.getString("total");
                 registros[14] = rs.getString("nombre") + " " + rs.getString("apellido");
                 registros[15] = rs.getString("idClientes");
+                registros[16] = rs.getString("direccion");
+                registros[17] = rs.getString("numerocliente");
 
                 totalRegistros = totalRegistros + 1;
                 modelo.addRow(registros);
