@@ -23,6 +23,7 @@
 	<parameter name="consumototal" class="java.lang.String"/>
 	<parameter name="importeconexion" class="java.lang.String"/>
 	<parameter name="importemedidor" class="java.lang.String"/>
+	<parameter name="logo" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -72,7 +73,7 @@
 				<text><![CDATA[RUC: 80033372-1]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="50" width="152" height="20"/>
+				<reportElement x="0" y="50" width="152" height="20"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -112,7 +113,7 @@
 				<text><![CDATA[N° Usuario]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="77" y="150" width="76" height="20"/>
+				<reportElement x="76" y="150" width="76" height="20"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -182,7 +183,7 @@
 				<text><![CDATA[Exced.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="270" width="152" height="20"/>
+				<reportElement x="0" y="270" width="153" height="20"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -250,7 +251,7 @@
 				<textFieldExpression><![CDATA[$P{numerousuario}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="77" y="170" width="76" height="20"/>
+				<reportElement x="76" y="170" width="76" height="20"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -304,7 +305,7 @@
 				<textFieldExpression><![CDATA[$P{importeexcedentes}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="290" width="152" height="20"/>
+				<reportElement x="0" y="290" width="153" height="20"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -344,7 +345,7 @@
 				<textFieldExpression><![CDATA[$P{importeiva}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="77" y="320" width="75" height="20"/>
+				<reportElement x="77" y="320" width="76" height="20"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -1001,6 +1002,14 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{consumototal}]]></textFieldExpression>
 			</textField>
+			<image>
+				<reportElement x="177" y="0" width="40" height="40"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="0" y="0" width="40" height="40"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
 		</band>
 	</detail>
 	<columnFooter>

@@ -3,22 +3,19 @@ package Vista;
 import Controlador.Conexion;
 import Funciones.Calculos.Calculo;
 import Funciones.FuncionesFacturas;
-import static Vista.Facturas.dchVencimiento;
 import Vista.Notificaciones.Aceptar_Cancelar;
 import Vista.Notificaciones.Advertencia;
 import Vista.Notificaciones.Fallo;
 import Vista.Notificaciones.Realizado;
-import java.awt.Color;
 import java.awt.Frame;
-import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -34,7 +31,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintPage;
@@ -42,7 +38,6 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
 
 /**
@@ -58,6 +53,7 @@ public class ListaFacturas extends javax.swing.JInternalFrame {
     boolean keyShift = false;
     int seleccionar = -1;
     String idFacturas, fecha = "";
+    DecimalFormat formateador14 = new DecimalFormat("#,###.###");
     Date date;
     boolean shiftPressed = false;
     private final Connection cn = Conexion.getConnection();
@@ -107,8 +103,25 @@ public class ListaFacturas extends javax.swing.JInternalFrame {
         return fecha;
     }
 
+    private String separadorDeMiles(String cantidad) {
+        String resultado;
+        if (cantidad.length() > 3) {
+            resultado = cantidad.replace(".", "");
+        } else {
+            resultado = cantidad;
+        }
+
+        return formateador14.format(Integer.parseInt(resultado));
+    }
+
     private void datosFacturas() {
         datosFacturas = new ArrayList<>();
+
+        // Ruta y configuración del logo
+        final String rutaLogo = "src/Imagenes/Icono.png";
+        Path rutaLogo2 = Paths.get(rutaLogo);
+        String rutaLogo4 = rutaLogo2.toAbsolutePath().toString();
+
         for (int i = 0; i < modelo3.getRowCount(); i++) {
             Map<String, Object> map = new HashMap<>();
 
@@ -118,22 +131,24 @@ public class ListaFacturas extends javax.swing.JInternalFrame {
             map.put("mes" + sufijo, modelo3.getValueAt(i, 2));
             map.put("numerousuario" + sufijo, modelo3.getValueAt(i, 17));
             map.put("boleta" + sufijo, modelo3.getValueAt(i, 1));
-            map.put("importeminimo" + sufijo, "10.000");
-            map.put("importeatrasos" + sufijo, modelo3.getValueAt(i, 4));
-            map.put("importeexcedentes" + sufijo, modelo3.getValueAt(i, 12));
-            map.put("importeiva" + sufijo, "COMPLETAR");
-            map.put("importetotal" + sufijo, modelo3.getValueAt(i, 13));
+            map.put("importeminimo" + sufijo, separadorDeMiles("10000"));
+            map.put("importeatrasos" + sufijo, separadorDeMiles(modelo3.getValueAt(i, 4).toString()));
+            map.put("importeexcedentes" + sufijo, separadorDeMiles(modelo3.getValueAt(i, 12).toString()));
+            map.put("importeiva" + sufijo, separadorDeMiles(String.valueOf((Integer.parseInt("10000") + Integer.parseInt(modelo3.getValueAt(i, 12).toString()) / 10))));
+            map.put("importetotal" + sufijo, separadorDeMiles(modelo3.getValueAt(i, 13).toString()));
             map.put("vencimiento" + sufijo, formatearFechas(String.valueOf(modelo3.getValueAt(0, 3))));
             map.put("cliente" + sufijo, modelo3.getValueAt(i, 14));
             map.put("fechainicio" + sufijo, formatearFechas(String.valueOf(modelo3.getValueAt(0, 7))));
             map.put("fechacierre" + sufijo, formatearFechas(String.valueOf(modelo3.getValueAt(0, 8))));
-            map.put("estadoinicio" + sufijo, modelo3.getValueAt(i, 9));
-            map.put("estadocierre" + sufijo, modelo3.getValueAt(i, 10));
+            map.put("estadoinicio" + sufijo, separadorDeMiles(modelo3.getValueAt(i, 9).toString()));
+            map.put("estadocierre" + sufijo, separadorDeMiles(modelo3.getValueAt(i, 10).toString()));
             map.put("consumominimo" + sufijo, "10");
             map.put("consumoexcedente" + sufijo, String.valueOf(calculo.calculoConsumo(Integer.parseInt(modelo3.getValueAt(i, 9).toString()), Integer.parseInt(modelo3.getValueAt(i, 10).toString()))));
-            map.put("consumototal" + sufijo, String.valueOf(Integer.parseInt(modelo3.getValueAt(i, 10).toString()) - Integer.parseInt(modelo3.getValueAt(i, 9).toString())));
-            map.put("importeconexion" + sufijo, modelo3.getValueAt(i, 5));
+            map.put("consumototal" + sufijo, separadorDeMiles(String.valueOf(Integer.parseInt(modelo3.getValueAt(i, 10).toString()) - Integer.parseInt(modelo3.getValueAt(i, 9).toString()))));
+            map.put("importeconexion" + sufijo, separadorDeMiles(modelo3.getValueAt(i, 5).toString()));
             map.put("importemedidor" + sufijo, "COMPLETAR");
+            map.put("logo", rutaLogo4);
+            System.out.println("logo: " + rutaLogo4);
 
             datosFacturas.add(map);
         }
@@ -153,9 +168,6 @@ public class ListaFacturas extends javax.swing.JInternalFrame {
                 for (int col = 0; col < modelo2.getColumnCount(); col++) {
                     modelo3.addColumn(modelo2.getColumnName(col));
                 }
-                // Añadir columnas adicionales para "Consumo Total (C.T.)" y "Cierre"
-                modelo3.addColumn("Cons. T.");
-                modelo3.addColumn("Est. C.");
             }
 
             // Asegurarse de que modelo2 tiene datos antes de procesar
@@ -168,39 +180,6 @@ public class ListaFacturas extends javax.swing.JInternalFrame {
                     for (int j = 0; j < modelo2.getColumnCount(); j++) {
                         filaData.add(modelo2.getValueAt(i, j));
                     }
-
-//                    String medidor = modelo2.getValueAt(i, 6).toString();
-//                    int medidor2;
-//                    if (medidor == null) {
-//                        medidor2 = 0;
-//                    } else {
-//                        medidor2 = Integer.parseInt(medidor);
-//                    }
-//                    int consumoExcedente = calculo.calculoConsumo(Integer.parseInt(modelo2.getValueAt(i, 9).toString()), Integer.parseInt(modelo2.getValueAt(i, 10).toString()));
-//                    int importeExcedente = calculo.importeExcedente(consumoExcedente, Integer.parseInt(modelo2.getValueAt(i, 4).toString()), Integer.parseInt(modelo2.getValueAt(i, 5).toString()), medidor2);
-                    //filaData.add()
-//                    
-//                    // Obtener los valores necesarios para los cálculos
-//                    int consumoMinimo = Integer.parseInt(modelo2.getValueAt(i, 10).toString()); // Ajusta el índice según tu tabla
-//                    //int consumoExcedente = Integer.parseInt(modelo2.getValueAt(i, 11).toString()); // Ajusta el índice según tu tabla
-//                    int estadoInicio = Integer.parseInt(modelo2.getValueAt(i, 9).toString()); // Ajusta el índice según tu tabla
-//                    int estadoCierre = Integer.parseInt(modelo2.getValueAt(i, 8).toString()); // Ajusta el índice según tu tabla
-//
-//                    // Calcular el Consumo Total
-//                    int consumoTotal = consumoMinimo + consumoExcedente;
-//
-//                    // Calcular el Cierre
-//                    int cierre = estadoCierre - estadoInicio;
-//                    if (cierre > 10) {
-//                        cierre = cierre - 10; // Ajuste basado en tu lógica
-//                    } else {
-//                        cierre = 0;
-//                    }
-//
-//                    // Añadir los valores calculados al vector de datos de la fila
-//                    filaData.add(consumoTotal); // Añadir "Consumo Total (C.T.)"
-//                    filaData.add(cierre); // Añadir "Cierre"
-                    // Añadir la fila completa (con datos calculados) a modelo3
                     modelo3.addRow(filaData);
                 }
                 datosFacturas();
@@ -266,12 +245,6 @@ public class ListaFacturas extends javax.swing.JInternalFrame {
     }
 
     public void generarFacturas() {
-
-        // Ruta y configuración del logo
-        final String rutaLogo = "src/Imagenes/Icono.png";
-        Path rutaLogo2 = Paths.get(rutaLogo);
-        String rutaLogo4 = rutaLogo2.toAbsolutePath().toString();
-
         try {
             final String rutaReporte = "src/Reportes/MultipleFacturas.jrxml";
             Path rutaRelativaReporte = Paths.get(rutaReporte);
@@ -279,19 +252,22 @@ public class ListaFacturas extends javax.swing.JInternalFrame {
 
             JasperReport reporte = JasperCompileManager.compileReport(rutaAbsolutaReporte);
 
-            JasperPrint jp = null;
             List<JasperPrint> pages = new ArrayList<>();
             for (int i = 0; i < datosFacturas.size(); i += 2) {
                 Map<String, Object> datos1 = datosFacturas.get(i);
                 Map<String, Object> datos2 = (i + 1 < datosFacturas.size()) ? datosFacturas.get(i + 1) : null;
 
-                JasperPrint jp1 = JasperFillManager.fillReport(reporte, datos1, new JREmptyDataSource());
-                pages.add(jp1);
-
+                Map<String, Object> combinedData = new HashMap<>();
+                combinedData.putAll(datos1);
                 if (datos2 != null) {
-                    JasperPrint jp2 = JasperFillManager.fillReport(reporte, datos2, new JREmptyDataSource());
-                    pages.add(jp2);
+                    combinedData.putAll(datos2);
+                } else {
+                    // Agregar un valor booleano para controlar la visibilidad del segundo subreporte
+                    combinedData.put("showSecondSubreport", Boolean.FALSE);
                 }
+
+                JasperPrint jp = JasperFillManager.fillReport(reporte, combinedData, new JREmptyDataSource());
+                pages.add(jp);
             }
 
             JasperPrint finalReport = pages.get(0);
