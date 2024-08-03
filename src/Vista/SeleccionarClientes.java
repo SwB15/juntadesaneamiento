@@ -270,7 +270,7 @@ public final class SeleccionarClientes extends javax.swing.JDialog {
                 mostrar2("");
 
                 try {
-                    fechaInicio = String.valueOf(funcionfacturas.modelo2.getValueAt(0, 6));
+                    fechaInicio = String.valueOf(funcionfacturas.modelo2.getValueAt(0, 7));
 
                     d = inicio.parse(fechaInicio);
                 } catch (ParseException e) {

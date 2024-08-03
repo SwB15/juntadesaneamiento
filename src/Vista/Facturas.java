@@ -30,6 +30,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -137,6 +138,8 @@ public final class Facturas extends javax.swing.JInternalFrame {
         dchFechaCierre.setEnabled(true);
         txtImporteAtrasos.setEditable(true);
         txtImporteConexion.setEditable(true);
+        txtImporteMedidor.setEditable(true);
+        txtCierreMedidor.setEditable(true);
 
         btnGuardar.setEnabled(true);
         btnEliminar.setEnabled(true);
@@ -170,6 +173,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
         txtCierreMedidor.setEditable(false);
         txtImporteAtrasos.setEditable(false);
         txtImporteConexion.setEditable(false);
+        txtImporteMedidor.setEditable(false);
 
         cmbMes.setSelectedIndex(0);
         dchVencimiento.setCalendar(null);
@@ -312,12 +316,12 @@ public final class Facturas extends javax.swing.JInternalFrame {
         Date cie = dchFechaCierre.getDate();
         DateFormat cierre = new SimpleDateFormat("dd/MM/yyyy");
         String cierre1 = cierre.format(cie);
-        
+
         final String rutaLogo = "src/Imagenes/Icono.png";
         Path rutaLogo2 = Paths.get(rutaLogo);
         String rutaLogo3 = String.valueOf(rutaLogo2);
         System.out.println("Ruta relativa logo: " + rutaLogo3);
-        
+
         Path rutaabsolutaLogo = rutaLogo2.toAbsolutePath();
         System.out.println("Ruta Absoluta logo: " + rutaabsolutaLogo);
         String rutaLogo4 = rutaabsolutaLogo.toString();
@@ -356,7 +360,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
 
         try {
             reporte = JasperCompileManager.compileReport(ruta1);
-            JasperPrint jp = JasperFillManager.fillReport(reporte, map, cn);
+            JasperPrint jp = JasperFillManager.fillReport(reporte, map, new JREmptyDataSource());
             JasperViewer view = new JasperViewer(jp, false);
             view.setIconImage(new ImageIcon(getClass().getResource("/Imagenes/Icono.png")).getImage());
             view.setTitle("Facturas");
@@ -521,7 +525,6 @@ public final class Facturas extends javax.swing.JInternalFrame {
         lblFondo = new javax.swing.JLabel();
 
         setBorder(null);
-        setOpaque(true);
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 formMouseClicked(evt);
@@ -837,6 +840,11 @@ public final class Facturas extends javax.swing.JInternalFrame {
         txtConsumoTotal.setEditable(false);
         txtConsumoTotal.setBackground(new java.awt.Color(255, 255, 255));
         txtConsumoTotal.setText("0");
+        txtConsumoTotal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtConsumoTotalActionPerformed(evt);
+            }
+        });
         jPanel9.add(txtConsumoTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 60, 75, -1));
 
         lblFondoInterno3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoInterno2.png"))); // NOI18N
@@ -893,11 +901,6 @@ public final class Facturas extends javax.swing.JInternalFrame {
                 txtImporteAtrasosFocusLost(evt);
             }
         });
-        txtImporteAtrasos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtImporteAtrasosActionPerformed(evt);
-            }
-        });
         txtImporteAtrasos.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtImporteAtrasosKeyReleased(evt);
@@ -940,12 +943,16 @@ public final class Facturas extends javax.swing.JInternalFrame {
         jLabel27.setText("Medidor");
         jPanel14.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, -1, -1));
 
-        txtImporteMedidor.setEditable(false);
         txtImporteMedidor.setBackground(new java.awt.Color(255, 255, 255));
         txtImporteMedidor.setText("0");
         txtImporteMedidor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtImporteMedidorActionPerformed(evt);
+            }
+        });
+        txtImporteMedidor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtImporteMedidorKeyTyped(evt);
             }
         });
         jPanel14.add(txtImporteMedidor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 75, -1));
@@ -1020,6 +1027,10 @@ public final class Facturas extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtConsumoExcedenteActionPerformed
 
+    private void txtConsumoTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtConsumoTotalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtConsumoTotalActionPerformed
+
     private void txtNumeroUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumeroUsuarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNumeroUsuarioActionPerformed
@@ -1035,10 +1046,6 @@ public final class Facturas extends javax.swing.JInternalFrame {
     private void txtImporteExcedentesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImporteExcedentesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtImporteExcedentesActionPerformed
-
-    private void txtImporteAtrasosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImporteAtrasosActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtImporteAtrasosActionPerformed
 
     private void txtImporteConexionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImporteConexionActionPerformed
         // TODO add your handling code here:
@@ -1087,7 +1094,6 @@ public final class Facturas extends javax.swing.JInternalFrame {
         cmbMes.setSelectedItem(String.valueOf(modelo2.getValueAt(0, 2)));
         System.out.println("Mes es: " + String.valueOf(modelo2.getValueAt(0, 2)));
 
-        //Inicio Vencimiento
         //Convertir java.sql.date a java.util.date y mostrar en pantalla la fecha de Vencimiento
         SimpleDateFormat vencimiento = new SimpleDateFormat("yyyy-MM-dd");
         //Formato inicial. 
@@ -1108,6 +1114,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
             Logger.getLogger(Facturas.class.getName()).log(Level.SEVERE, null, ex);
         }
         //Fin Vencimiento
+        //Fin Vencimiento
 
         txtImporteAtrasos.setText(modelo2.getValueAt(0, 4).toString());
         txtImporteConexion.setText(modelo2.getValueAt(0, 5).toString());
@@ -1116,7 +1123,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
         SimpleDateFormat inicio = new SimpleDateFormat("yyyy-MM-dd");
         //Formato inicial. 
         try {
-            String fechaInicio = String.valueOf(modelo2.getValueAt(0, 6));
+            String fechaInicio = String.valueOf(modelo2.getValueAt(0, 7));
             d = inicio.parse(fechaInicio);
         } catch (ParseException e) {
 
@@ -1132,12 +1139,13 @@ public final class Facturas extends javax.swing.JInternalFrame {
             Logger.getLogger(Facturas.class.getName()).log(Level.SEVERE, null, ex);
         }
         //Fin Fecha Inicio    
+        //Fin Fecha Inicio    
 
         //Convertir java.sql.date a java.util.date y mostrar en pantalla la Fecha Cierre
         SimpleDateFormat cierre = new SimpleDateFormat("yyyy-MM-dd");
         //Formato inicial. 
         try {
-            String fechaInicio = String.valueOf(modelo2.getValueAt(0, 7));
+            String fechaInicio = String.valueOf(modelo2.getValueAt(0, 8));
             d = cierre.parse(fechaInicio);
         } catch (ParseException e) {
 
@@ -1153,14 +1161,17 @@ public final class Facturas extends javax.swing.JInternalFrame {
             Logger.getLogger(Facturas.class.getName()).log(Level.SEVERE, null, ex);
         }
         //Fin Fecha Cierre
+        //Fin Fecha Cierre
 
-        txtInicioMedidor.setText(modelo2.getValueAt(0, 8).toString());
-        txtCierreMedidor.setText(modelo2.getValueAt(0, 9).toString());
-        txtImporteMinimo.setText(modelo2.getValueAt(0, 10).toString());
-        txtImporteExcedentes.setText(modelo2.getValueAt(0, 11).toString());
-        txtImporteTotal.setText(modelo2.getValueAt(0, 12).toString());
-        txtIdclientes.setText(modelo2.getValueAt(0, 14).toString());
-        txtImporteIva.setText(String.valueOf(Integer.parseInt(txtImporteTotal.getText()) / 10));
+        txtInicioMedidor.setText(modelo2.getValueAt(0, 9).toString());
+        txtCierreMedidor.setText(modelo2.getValueAt(0, 10).toString());
+        txtImporteMinimo.setText(modelo2.getValueAt(0, 11).toString());
+        txtImporteExcedentes.setText(modelo2.getValueAt(0, 12).toString());
+        txtImporteTotal.setText(modelo2.getValueAt(0, 13).toString());
+        txtIdclientes.setText(modelo2.getValueAt(0, 15).toString());
+        int suma = Integer.parseInt(txtImporteMinimo.getText().replace(".", "")) + Integer.parseInt(txtImporteExcedentes.getText().replace(".", ""));
+        int iva = suma / 10;
+        txtImporteIva.setText(String.valueOf(iva));
         consumo();
 
         //Agrega puntos decimales
@@ -1294,15 +1305,15 @@ public final class Facturas extends javax.swing.JInternalFrame {
     private void txtImporteAtrasosFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtImporteAtrasosFocusGained
         if (txtImporteAtrasos.getText().length() == 0) {
             txtImporteAtrasos.setText("");
-        }else{
-              calculo();
+        } else {
+            calculo();
         }
     }//GEN-LAST:event_txtImporteAtrasosFocusGained
 
     private void txtImporteAtrasosFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtImporteAtrasosFocusLost
         if (txtImporteAtrasos.getText().length() == 0) {
             txtImporteAtrasos.setText("0");
-        }else{
+        } else {
             calculo();
         }
     }//GEN-LAST:event_txtImporteAtrasosFocusLost
@@ -1359,7 +1370,7 @@ public final class Facturas extends javax.swing.JInternalFrame {
     private void txtImporteConexionFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtImporteConexionFocusLost
         if (txtImporteConexion.getText().length() == 0) {
             txtImporteConexion.setText("0");
-        }else{
+        } else {
             calculo();
         }
     }//GEN-LAST:event_txtImporteConexionFocusLost
@@ -1369,6 +1380,24 @@ public final class Facturas extends javax.swing.JInternalFrame {
             txtImporteConexion.setText("");
         }
     }//GEN-LAST:event_txtImporteConexionFocusGained
+
+    private void txtImporteMedidorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtImporteMedidorKeyTyped
+        char validar = evt.getKeyChar();
+        if (Character.isLetter(validar)) {
+            getToolkit().beep();
+            evt.consume();
+            mensaje = "Ingrese solo números";
+            advertencia();
+        }
+
+        int numerocaracteres = 10;
+        if (txtImporteAtrasos.getText().length() > numerocaracteres) {
+            evt.consume();
+            mensaje = "No ingrese tantos números";
+            caracteres = "Superado";
+            advertencia();
+        }
+    }//GEN-LAST:event_txtImporteMedidorKeyTyped
 
     //Metodos para llamar a los JDialog de Advertencia, Fallo y Realizado
     Frame f = JOptionPane.getFrameForComponent(this);
@@ -1554,15 +1583,15 @@ public final class Facturas extends javax.swing.JInternalFrame {
         datos.setBoleta(txtBoleta.getText());
         datos.setMes(mes2);
         datos.setVencimiento(vencimiento1);
-        datos.setAtraso(Integer.parseInt(txtImporteAtrasos.getText()));
-        datos.setConexion(Integer.parseInt(txtImporteConexion.getText()));
+        datos.setAtraso(Integer.parseInt(txtImporteAtrasos.getText().replace(".", "")));
+        datos.setConexion(Integer.parseInt(txtImporteConexion.getText().replace(".", "")));
         datos.setFechaInicio(inicio1);
         datos.setFechaCierre(cierre1);
         datos.setEstadoInicio(Integer.parseInt(txtInicioMedidor.getText()));
         datos.setEstadoCierre(Integer.parseInt(txtCierreMedidor.getText()));
-        datos.setConsumoMinimo(Integer.parseInt(txtImporteMinimo.getText()));
-        datos.setExcedente(Integer.parseInt(txtImporteExcedentes.getText()));
-        datos.setTotal(Integer.parseInt(txtImporteTotal.getText()));
+        datos.setConsumoMinimo(Integer.parseInt(txtImporteMinimo.getText().replace(".", "")));
+        datos.setExcedente(Integer.parseInt(txtImporteExcedentes.getText().replace(".", "")));
+        datos.setTotal(Integer.parseInt(txtImporteTotal.getText().replace(".", "")));
         datos.setId(Integer.parseInt(txtIdfacturas.getText()));
 
         if (funcion.editar(datos, Integer.parseInt(txtIdclientes.getText()))) {

@@ -116,6 +116,8 @@ public final class Reportes extends javax.swing.JInternalFrame {
             reporte = JasperCompileManager.compileReport(ruta1);
             JasperPrint jp = JasperFillManager.fillReport(reporte, map, cn);
             JasperViewer view = new JasperViewer(jp, false);
+            view.setIconImage(new ImageIcon(getClass().getResource("/Imagenes/Icono.png")).getImage());
+            view.setTitle("Lista de Clientes");
             view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             view.setVisible(true);
         } catch (JRException e) {

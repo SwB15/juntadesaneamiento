@@ -3,9 +3,7 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["C:\\Users\\jorge\\OneDrive\\Documentos\\NetBeansProjects\\JuntaDeSaneamiento\\src\\Reportes\\"]]></defaultValueExpression>
-	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String"/>
 	<parameter name="direccion" class="java.lang.String"/>
 	<parameter name="mes" class="java.lang.String"/>
 	<parameter name="numerousuario" class="java.lang.String"/>

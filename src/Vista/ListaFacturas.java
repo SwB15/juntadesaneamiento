@@ -7,6 +7,7 @@ import Vista.Notificaciones.Aceptar_Cancelar;
 import Vista.Notificaciones.Advertencia;
 import Vista.Notificaciones.Fallo;
 import Vista.Notificaciones.Realizado;
+import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.KeyEvent;
 import java.nio.file.Path;
@@ -64,15 +65,15 @@ public class ListaFacturas extends javax.swing.JInternalFrame {
 
     public ListaFacturas() {
         initComponents();
-//        ((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
-//        this.setBackground(new Color(0, 0, 0, 0));
-//        this.setBorder(null);
-//        this.setOpaque(false);
+        ((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
+        this.setBackground(new Color(0, 0, 0, 0));
+        this.setBorder(null);
+        this.setOpaque(false);
         mostrar("");
         botonesTransparentes();
     }
 
-    public void mostrar(String buscar) {
+    public final void mostrar(String buscar) {
         try {
             modelo = funcion.mostrarListaFacturas(buscar);
             tblListaFacturas.setModel(modelo);
@@ -122,6 +123,10 @@ public class ListaFacturas extends javax.swing.JInternalFrame {
         Path rutaLogo2 = Paths.get(rutaLogo);
         String rutaLogo4 = rutaLogo2.toAbsolutePath().toString();
 
+        final String rutaFactura = "src/Reportes/";
+        Path rutaFactura2 = Paths.get(rutaFactura);
+        String rutaFactura4 = rutaFactura2.toAbsolutePath().toString() + "/";
+
         for (int i = 0; i < modelo3.getRowCount(); i++) {
             Map<String, Object> map = new HashMap<>();
 
@@ -134,7 +139,7 @@ public class ListaFacturas extends javax.swing.JInternalFrame {
             map.put("importeminimo" + sufijo, separadorDeMiles("10000"));
             map.put("importeatrasos" + sufijo, separadorDeMiles(modelo3.getValueAt(i, 4).toString()));
             map.put("importeexcedentes" + sufijo, separadorDeMiles(modelo3.getValueAt(i, 12).toString()));
-            map.put("importeiva" + sufijo, separadorDeMiles(String.valueOf((Integer.parseInt("10000") + Integer.parseInt(modelo3.getValueAt(i, 12).toString()) / 10))));
+            map.put("importeiva" + sufijo, separadorDeMiles(String.valueOf(((Integer.parseInt("10000") + Integer.parseInt(modelo3.getValueAt(i, 12).toString())) / 10))));
             map.put("importetotal" + sufijo, separadorDeMiles(modelo3.getValueAt(i, 13).toString()));
             map.put("vencimiento" + sufijo, formatearFechas(String.valueOf(modelo3.getValueAt(0, 3))));
             map.put("cliente" + sufijo, modelo3.getValueAt(i, 14));
@@ -145,8 +150,11 @@ public class ListaFacturas extends javax.swing.JInternalFrame {
             map.put("consumominimo" + sufijo, "10");
             map.put("consumoexcedente" + sufijo, String.valueOf(calculo.calculoConsumo(Integer.parseInt(modelo3.getValueAt(i, 9).toString()), Integer.parseInt(modelo3.getValueAt(i, 10).toString()))));
             map.put("consumototal" + sufijo, separadorDeMiles(String.valueOf(Integer.parseInt(modelo3.getValueAt(i, 10).toString()) - Integer.parseInt(modelo3.getValueAt(i, 9).toString()))));
+            System.out.println("cierre: " + modelo3.getValueAt(i, 10).toString());
+            System.out.println("inicio: " + modelo3.getValueAt(i, 9).toString());
             map.put("importeconexion" + sufijo, separadorDeMiles(modelo3.getValueAt(i, 5).toString()));
-            map.put("importemedidor" + sufijo, "COMPLETAR");
+            map.put("importemedidor" + sufijo, separadorDeMiles(modelo3.getValueAt(i, 6).toString()));
+            map.put("SUBREPORT_DIR", rutaFactura4);
             map.put("logo", rutaLogo4);
             System.out.println("logo: " + rutaLogo4);
 
@@ -186,7 +194,6 @@ public class ListaFacturas extends javax.swing.JInternalFrame {
             } else {
                 JOptionPane.showMessageDialog(null, "No se encontraron datos para el código: " + buscar);
             }
-
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al cargar los registros: " + e.getMessage());
         }
@@ -228,20 +235,14 @@ public class ListaFacturas extends javax.swing.JInternalFrame {
 
         for (int i = 0; i < codigo.size(); i++) {
             int codigo2 = Integer.parseInt(codigo.get(i));
-            System.out.println("códigos: " + codigo2);
             registros(codigo2);
         }
 
         // Imprimir contenido de modelo3 para depuración
         for (int i = 0; i < modelo3.getRowCount(); i++) {
             for (int j = 0; j < modelo3.getColumnCount(); j++) {
-                System.out.print(modelo3.getValueAt(i, j) + " ");
             }
-            System.out.println();
         }
-
-        tbl2.setModel(modelo3);
-        //generarFacturas();
     }
 
     public void generarFacturas() {
@@ -297,22 +298,38 @@ public class ListaFacturas extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         internalPanel1 = new Componentes.InternalPanel();
+        btnImprimir = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        lblCerrar = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblListaFacturas = new javax.swing.JTable();
         txtBuscar = new javax.swing.JTextField();
         lblFondoBuscador = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tbl2 = new javax.swing.JTable();
-        panelGris1 = new Componentes.panelGris();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        txtDesde = new javax.swing.JTextField();
-        txtHasta = new javax.swing.JTextField();
-        btnImprimir = new javax.swing.JButton();
-        btnFactura = new javax.swing.JButton();
-        btnMostrar = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Imprimir32.png"))); // NOI18N
+        btnImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimirActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnImprimir, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 40, -1));
+
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 30)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Lista de Facturas");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 310, -1));
+
+        lblCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Cerrar32.png"))); // NOI18N
+        lblCerrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCerrarMouseClicked(evt);
+            }
+        });
+        getContentPane().add(lblCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 14, -1, -1));
 
         tblListaFacturas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -337,7 +354,7 @@ public class ListaFacturas extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(tblListaFacturas);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 157, 970, 240));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 167, 970, 420));
 
         txtBuscar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtBuscar.setForeground(new java.awt.Color(0, 102, 255));
@@ -364,82 +381,8 @@ public class ListaFacturas extends javax.swing.JInternalFrame {
         lblFondoBuscador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoBuscador.png"))); // NOI18N
         getContentPane().add(lblFondoBuscador, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 70, -1, -1));
 
-        tbl2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane2.setViewportView(tbl2);
-
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 417, 1290, 170));
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel1.setText("Desde:");
-
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel2.setText("Hasta:");
-
-        btnImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Imprimir32.png"))); // NOI18N
-        btnImprimir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnImprimirActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout panelGris1Layout = new javax.swing.GroupLayout(panelGris1);
-        panelGris1.setLayout(panelGris1Layout);
-        panelGris1Layout.setHorizontalGroup(
-            panelGris1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelGris1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelGris1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelGris1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(31, Short.MAX_VALUE))
-        );
-        panelGris1Layout.setVerticalGroup(
-            panelGris1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelGris1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelGris1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnImprimir)
-                    .addGroup(panelGris1Layout.createSequentialGroup()
-                        .addGroup(panelGris1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(txtDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelGris1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))))
-                .addContainerGap(13, Short.MAX_VALUE))
-        );
-
-        getContentPane().add(panelGris1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 250, 70));
-
-        btnFactura.setText("Factura");
-        btnFactura.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFacturaActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnFactura, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 80, -1, -1));
-
-        btnMostrar.setText("Datos");
-        btnMostrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMostrarActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnMostrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 80, -1, -1));
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoFacturas.png"))); // NOI18N
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -471,7 +414,20 @@ public class ListaFacturas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tblListaFacturasMouseClicked
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
-//        imprimir();
+        if (seleccionados(0)) {
+            for (int i = 0; i < tblListaFacturas.getRowCount(); i++) {
+                boolean sel = (boolean) tblListaFacturas.getValueAt(i, 0);
+                if (sel) {
+                    codigo.add(tblListaFacturas.getValueAt(i, 1).toString());
+                    Collections.sort(codigo, Comparator.reverseOrder());
+                }
+            }
+            datos();
+            generarFacturas();
+        } else {
+            mensaje = "Seleccione al menos 1";
+            advertencia();
+        }
     }//GEN-LAST:event_btnImprimirActionPerformed
 
     private void txtBuscarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarFocusGained
@@ -494,33 +450,16 @@ public class ListaFacturas extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBuscarKeyTyped
 
-    private void btnMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarActionPerformed
-        if (seleccionados(0)) {
-            for (int i = 0; i < tblListaFacturas.getRowCount(); i++) {
-                boolean sel = (boolean) tblListaFacturas.getValueAt(i, 0);
-                if (sel) {
-                    codigo.add(tblListaFacturas.getValueAt(i, 1).toString());
-                    Collections.sort(codigo, Comparator.reverseOrder());
-                }
-            }
-            System.out.println("boletas: " + codigo);
-            datos();
-
-        } else {
-            mensaje = "Seleccione al menos 1";
-            advertencia();
-        }
-    }//GEN-LAST:event_btnMostrarActionPerformed
-
     private void tblListaFacturasKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblListaFacturasKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_SHIFT) {
             shiftPressed = false; // Marcar que Shift ya no está presionado
         }
     }//GEN-LAST:event_tblListaFacturasKeyReleased
 
-    private void btnFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacturaActionPerformed
-        generarFacturas();
-    }//GEN-LAST:event_btnFacturaActionPerformed
+    private void lblCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCerrarMouseClicked
+        Principal.lblProceso.setText("Proceso: OFF");
+        this.dispose();
+    }//GEN-LAST:event_lblCerrarMouseClicked
 
     //Metodos para llamar a los JDialog de Advertencia, Fallo y Realizado
     Frame f = JOptionPane.getFrameForComponent(this);
@@ -555,33 +494,16 @@ public class ListaFacturas extends javax.swing.JInternalFrame {
         dialog.setVisible(true);
     }
 
-    private void validarCampos() {
-        if (txtDesde.getText().length() == 0) {
-            mensaje = "Ingrese un numero de boleta en Desde";
-            advertencia();
-        }
-
-        if (txtHasta.getText().length() == 0) {
-            mensaje = "Ingrese un numero de boleta en Hasta";
-            advertencia();
-        }
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnFactura;
     private javax.swing.JButton btnImprimir;
-    private javax.swing.JButton btnMostrar;
     private Componentes.InternalPanel internalPanel1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblCerrar;
     private javax.swing.JLabel lblFondoBuscador;
-    private Componentes.panelGris panelGris1;
-    private javax.swing.JTable tbl2;
     private javax.swing.JTable tblListaFacturas;
     private javax.swing.JTextField txtBuscar;
-    private javax.swing.JTextField txtDesde;
-    private javax.swing.JTextField txtHasta;
     // End of variables declaration//GEN-END:variables
 }

@@ -323,7 +323,7 @@ public class FuncionesFacturas {
     }
 
     public boolean insertar(DatosFacturas datos, int idclientes) {
-        sSQL = "INSERT INTO facturas(boleta, mes, vencimiento, atraso, conexion, medidor,fechainicio, fechacierre, estadoinicio, estadocierre, consumominimo, excedente, total, idclientes) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        sSQL = "INSERT INTO facturas(boleta, mes, vencimiento, atraso, conexion, medidor,fechainicio, fechacierre, estadoinicio, estadocierre, consumominimo, excedente, total, idclientes) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
         try {
             PreparedStatement pst = cn.prepareStatement(sSQL);
